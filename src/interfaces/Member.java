@@ -41,4 +41,52 @@ public interface Member {
 	 * @return list of bicycles
 	 */
 	List<Bicycle> getBicycles();
+	
+	/**
+	 * Sets the members address.
+	 * @param addr
+	 */
+	void setAddress(String addr);
+	
+	/**
+	 * Sets the members phone number.
+	 * @param phone
+	 */
+	void setPhone(String phone);
+	
+	/**
+	 * Sets the members SSN
+	 * @param ssn
+	 */
+	void setSSN(String ssn);
+	
+	/**
+	 * Sets the members name.
+	 * @param name
+	 */
+	void setName(String name);
+	
+	/**
+	 * Gets the members address.
+	 * @return addr
+	 */
+	String getAddress();
+	
+	/**
+	 * Get the members phone number.
+	 * @return phone
+	 */
+	String getPhone();
+	
+	/**
+	 * Get the members SSN.
+	 * @return
+	 */
+	String getSSN();
+	
+	/**
+	 * Get the members name.
+	 * @return
+	 */
+	String getName();
 }

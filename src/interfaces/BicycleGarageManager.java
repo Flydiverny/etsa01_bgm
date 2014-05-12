@@ -1,5 +1,6 @@
 package interfaces;
 import java.util.List;
+import java.util.Map;
 
 import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
@@ -75,6 +76,13 @@ public interface BicycleGarageManager {
 	void setGarageSize(int size);
 	
 	/**
+	 * Logins the operator, if the password matches the operator password.
+	 * @param password
+	 * @return true if success, else false
+	 */
+	boolean loginOperator(String password);
+	
+	/**
 	 * Returns a list of checked in bicycles.
 	 * @return List of Bicycles
 	 */
@@ -85,4 +93,43 @@ public interface BicycleGarageManager {
 	 * @return count
 	 */
 	int getAmountOfCheckedInBicycles();
+	
+	/**
+	 * Checks in a bicycle by using its barcode as entry data.
+	 * @param barcode
+	 * @return false if failed.
+	 */
+	boolean checkInBicycleByBarcode(String barcode);
+	
+	/**
+	 * Sets the monthly fee.
+	 * @param fee
+	 */
+	void setMonthlyFee(int fee);
+	
+	/**
+	 * Sets the fee per bike per month.
+	 * @param fee
+	 */
+	void setBikeFee(int fee);
+	
+	/**
+	 * Gets the monthly fee.
+	 * @return fee
+	 */
+	int getMonthlyFee();
+	
+	/**
+	 * Gets the bike fee.
+	 * @return fee
+	 */
+	int getBikeFee();
+	
+	/**
+	 * Returns a map containing all members paired with their calculated fee.
+	 * Key = Member
+	 * Value = Fee
+	 * @return Map<Member, Integer>
+	 */
+	Map<Member, Integer> getPaymentInfo();
 }

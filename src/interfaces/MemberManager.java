@@ -74,4 +74,18 @@ public interface MemberManager {
 	 * @return int amount of members
 	 */
 	int amountOfMembers();
+	
+	/**
+	 * Returns a member which has the specified PIN 
+	 * @param pin
+	 * @return null if not found.
+	 */
+	Member getMemberByPin(String pin);
+	
+	/**
+	 * Finds a bicycle by its barcode.
+	 * @param barcode
+	 * @return null if not found.
+	 */
+	Bicycle getBicycle(String barcode);
 }
