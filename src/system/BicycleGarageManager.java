@@ -47,7 +47,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	
 	public BicycleGarageManager() {
 		//mm = new MemberManager();
-		led = new TerminalNotifier();
+		led = new TerminalNotifier(this);
 	}
 	
 	@Override
@@ -84,6 +84,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		case AWAITING_OPERATOR:
 			break;
 		case AWAITING_PIN:
+			checkPIN();
 			break;
 		case AWAITING_SCAN:
 			break;
@@ -93,20 +94,35 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		}
 	}
 	
+	private void checkPIN() {
+		if(!bufferIsFull(entryBuffer))
+			return;
+	}
+	
+	private boolean bufferIsFull(char[] buffer) {
+		for(int i = 0; i < buffer.length; i++) {
+			if(buffer[i] == '\u0000') //null character
+				return false;
+		}
+		
+		return true;
+	}
+	
 	private void checkOpCode() {
+		System.out.println(entryBuffer);
 		if(entryBuffer[0] != '*')
 			return;
 		
 		switch(entryBuffer[1]) {
-		case 1: // op code 1
+		case '1': // op code 1
 			entryState = State.AWAITING_SCAN;
 			led.NF5(entryTerm);
 			break;
-		case 2:
+		case '2':
 			entryState = State.AWAITING_PIN;
 			led.NF5(entryTerm);
 			break;
-		case 9:
+		case '9':
 			entryState = State.AWAITING_OPERATOR;
 			led.NF5(entryTerm);
 			break;
@@ -116,15 +132,19 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 			break;
 		}
 		
-		clearBuffer(entryBuffer);
+		clearEntryBuffer();
 	}
 	
-	private void clearBuffer(char[] buffer) {
-		buffer = new char[buffer.length];
+	private void clearEntryBuffer() {
+		entryBuffer = new char[entryBuffer.length];
+	}
+	
+	private void clearExitBuffer() {
+		exitBuffer = new char[exitBuffer.length];
 	}
 	
 	private void bufferInput(char c, char[] buffer) {
-		for(int i = buffer.length-1; i > 1; i--) {
+		for(int i = buffer.length-1; i > 0; i--) {
 			char t = buffer[i];
 			buffer[i] = buffer[i-1];
 			buffer[i-1] = t;
