@@ -7,6 +7,8 @@ import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
 
 public interface BicycleGarageManager {
+	
+	
 	/**
 	 * Register hardware so that BicycleGarageManager
 	 * knows which drivers to access. 
