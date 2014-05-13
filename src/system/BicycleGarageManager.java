@@ -97,6 +97,23 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private void checkPIN() {
 		if(!bufferIsFull(entryBuffer))
 			return;
+		
+		StringBuilder pin = new StringBuilder();
+		
+		for(int i = entryBuffer.length; i > 0; i++) {
+			pin.append(entryBuffer[i-1]);
+		}
+		
+		Member m = mm.getMemberByPin(pin.toString());
+		
+		if(m == null) {
+			// NF Fail :D
+			// Clear buffer, reset state.
+			return;
+		}
+		
+		// Check if user has checked in bicycles -> open door.
+		// as in use case 9 
 	}
 	
 	private boolean bufferIsFull(char[] buffer) {
