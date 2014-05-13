@@ -13,12 +13,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.activity.InvalidActivityException;
+
 public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private BarcodePrinter printer;
 	private ElectronicLock entryLock, exitLock;
 	private PinCodeTerminal entryTerm, exitTerm;
 	
 	private MemberManager mm;
+	private interfaces.TerminalNotifier led;
 	
 	private String operatorPassword;
 	private String operatorPIN;
@@ -29,10 +32,22 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private int unlockDuration; // Duration door remains unlocked
 	private int garageSize; // Limit max amount of checked in bicycles.
 	
+	enum State {
+		AWAITING_PIN,
+		AWAITING_SCAN,
+		AWAITING_OP,
+		AWAITING_OPERATOR
+	}
 	
+	private char[] entryBuffer = new char[8];
+	private char[] exitBuffer = new char[8];
+	
+	private State entryState = State.AWAITING_OP;
+	private State exitState = State.AWAITING_OP;
 	
 	public BicycleGarageManager() {
 		//mm = new MemberManager();
+		led = new TerminalNotifier();
 	}
 	
 	@Override
@@ -60,7 +75,62 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 
 	@Override
 	public void entryCharacter(char c) {
-		entryTerm.lightLED(1, 1);
+		bufferInput(c, entryBuffer);
+		
+		switch(entryState) {
+		case AWAITING_OP:
+			checkOpCode();
+			break;
+		case AWAITING_OPERATOR:
+			break;
+		case AWAITING_PIN:
+			break;
+		case AWAITING_SCAN:
+			break;
+		default:
+			break;
+//			throw new InvalidActivityException("Invalid state of entry terminal, please investigate.");
+		}
+	}
+	
+	private void checkOpCode() {
+		if(entryBuffer[0] != '*')
+			return;
+		
+		switch(entryBuffer[1]) {
+		case 1: // op code 1
+			entryState = State.AWAITING_SCAN;
+			led.NF5(entryTerm);
+			break;
+		case 2:
+			entryState = State.AWAITING_PIN;
+			led.NF5(entryTerm);
+			break;
+		case 9:
+			entryState = State.AWAITING_OPERATOR;
+			led.NF5(entryTerm);
+			break;
+		default:
+			// State remains the same.
+			led.NF3(entryTerm);
+			break;
+		}
+		
+		clearBuffer(entryBuffer);
+	}
+	
+	private void clearBuffer(char[] buffer) {
+		buffer = new char[buffer.length];
+	}
+	
+	private void bufferInput(char c, char[] buffer) {
+		for(int i = buffer.length-1; i > 1; i--) {
+			char t = buffer[i];
+			buffer[i] = buffer[i-1];
+			buffer[i-1] = t;
+		}
+		
+		buffer[0] = c;
 	}
 
 	@Override
@@ -119,9 +189,10 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		List<Member> members = mm.listMembers();
 		
 		for(Member m : members) {
-			for(Bicycle b : m.getBicycles())
-				if(b.isCheckedIn())
-					checkedIn.add(b);
+			for(Bicycle b : m.getBicycles()) {
+				//if(b.isCheckedIn())
+				//	checkedIn.add(b);
+			}
 		}
 		
 		return checkedIn;
@@ -139,7 +210,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		for(Member m : members) {
 			for(Bicycle b : m.getBicycles())
 				if(b.getBarcode().equals(barcode)) {
-					b.setCheckedIn(true);
+					//b.setCheckedIn(true);
 					return true;
 				}
 		}
