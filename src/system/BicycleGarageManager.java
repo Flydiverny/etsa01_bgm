@@ -1,6 +1,7 @@
 package system;
 
 import interfaces.Bicycle;
+import interfaces.ITerminal;
 import interfaces.Member;
 import interfaces.MemberManager;
 import interfaces.hardware.BarcodePrinter;
@@ -32,22 +33,16 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private int unlockDuration; // Duration door remains unlocked
 	private int garageSize; // Limit max amount of checked in bicycles.
 	
-	enum State {
-		AWAITING_PIN,
-		AWAITING_SCAN,
-		AWAITING_OP,
-		AWAITING_OPERATOR
-	}
+	private ITerminal entryTerminalHandler, exitTerminalHandler;
 	
-	private char[] entryBuffer = new char[8];
 	private char[] exitBuffer = new char[8];
 	
-	private State entryState = State.AWAITING_OP;
-	private State exitState = State.AWAITING_OP;
+	private ITerminal.State exitState = State.AWAITING_OP;
 	
 	public BicycleGarageManager() {
 		//mm = new MemberManager();
 		led = new TerminalNotifier(this);
+		entryTerminalHandler = new EntryTerminal(this);
 	}
 	
 	@Override
@@ -75,101 +70,13 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 
 	@Override
 	public void entryCharacter(char c) {
-		bufferInput(c, entryBuffer);
-		
-		switch(entryState) {
-		case AWAITING_OP:
-			checkOpCode();
-			break;
-		case AWAITING_OPERATOR:
-			break;
-		case AWAITING_PIN:
-			checkPIN();
-			break;
-		case AWAITING_SCAN:
-			break;
-		default:
-			break;
-//			throw new InvalidActivityException("Invalid state of entry terminal, please investigate.");
-		}
+		entryTerminalHandler.input(c);
 	}
-	
-	private void checkPIN() {
-		if(!bufferIsFull(entryBuffer))
-			return;
 		
-		StringBuilder pin = new StringBuilder();
-		
-		for(int i = entryBuffer.length; i > 0; i++) {
-			pin.append(entryBuffer[i-1]);
-		}
-		
-		Member m = mm.getMemberByPin(pin.toString());
-		
-		if(m == null) {
-			// NF Fail :D
-			// Clear buffer, reset state.
-			return;
-		}
-		
-		// Check if user has checked in bicycles -> open door.
-		// as in use case 9 
-	}
-	
-	private boolean bufferIsFull(char[] buffer) {
-		for(int i = 0; i < buffer.length; i++) {
-			if(buffer[i] == '\u0000') //null character
-				return false;
-		}
-		
-		return true;
-	}
-	
-	private void checkOpCode() {
-		System.out.println(entryBuffer);
-		if(entryBuffer[0] != '*')
-			return;
-		
-		switch(entryBuffer[1]) {
-		case '1': // op code 1
-			entryState = State.AWAITING_SCAN;
-			led.NF5(entryTerm);
-			break;
-		case '2':
-			entryState = State.AWAITING_PIN;
-			led.NF5(entryTerm);
-			break;
-		case '9':
-			entryState = State.AWAITING_OPERATOR;
-			led.NF5(entryTerm);
-			break;
-		default:
-			// State remains the same.
-			led.NF3(entryTerm);
-			break;
-		}
-		
-		clearEntryBuffer();
-	}
-	
-	private void clearEntryBuffer() {
-		entryBuffer = new char[entryBuffer.length];
-	}
-	
 	private void clearExitBuffer() {
 		exitBuffer = new char[exitBuffer.length];
 	}
 	
-	private void bufferInput(char c, char[] buffer) {
-		for(int i = buffer.length-1; i > 0; i--) {
-			char t = buffer[i];
-			buffer[i] = buffer[i-1];
-			buffer[i-1] = t;
-		}
-		
-		buffer[0] = c;
-	}
-
 	@Override
 	public void exitCharacter(char c) {
 		exitTerm.lightLED(0,1);
