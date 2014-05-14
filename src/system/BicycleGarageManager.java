@@ -64,6 +64,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	@Override
 	public void entryBarcode(String bicycleId) {
 		// TODO Auto-generated method stub
+		//kameler har sjuka röda mular
 		
 	}
 
