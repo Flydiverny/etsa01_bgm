@@ -89,6 +89,8 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 
 	@Override
 	public void exitBarcode(String bicycleId) {
+		checkExitResetTime();
+		
 		if(exitState != State.AWAITING_SCAN) //TODO Perhaps a LED NF3 or something
 			return;
 		
@@ -239,6 +241,8 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 
 	@Override
 	public void exitCharacter(char c) {
+		checkExitResetTime();
+		
 		// TODO Check for OP Code 9* (operator wants to leave the building)
 		
 		if(exitState != State.AWAITING_PIN) // TODO Perhaps a LED NF 3 or something
