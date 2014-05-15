@@ -32,7 +32,7 @@ public class TerminalNotifier implements interfaces.TerminalNotifier {
 
 	@Override
 	public void NF2(PinCodeTerminal terminal) {
-		terminal.lightLED(PinCodeTerminal.GREEN_LED, 5); //bgm.getUnlockedDuration());
+		terminal.lightLED(PinCodeTerminal.GREEN_LED, bgm.getUnlockDuration());
 	}
 
 	@Override

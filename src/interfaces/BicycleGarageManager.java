@@ -134,4 +134,10 @@ public interface BicycleGarageManager {
 	 * @return Map<Member, Integer>
 	 */
 	Map<Member, Integer> getPaymentInfo();
+	
+	/**
+	 * Returns the duration for which the doors should remain unlocked.
+	 * @return duration
+	 */
+	int getUnlockDuration();
 }

@@ -80,13 +80,19 @@ public interface Member {
 	
 	/**
 	 * Get the members SSN.
-	 * @return
+	 * @return ssn
 	 */
 	String getSSN();
 	
 	/**
 	 * Get the members name.
-	 * @return
+	 * @return name
 	 */
 	String getName();
+	
+	/**
+	 * Returns the users PIN
+	 * @return PIN
+	 */
+	String getPIN();
 }

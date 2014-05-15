@@ -63,4 +63,16 @@ public interface Bicycle {
 	 * @return
 	 */
 	Member getOwner();
+	
+	/**
+	 * Returns true if the bicycle is flagged as checked in.
+	 * @return true if checked in.
+	 */
+	boolean isCheckedIn();
+	
+	/**
+	 * Sets the checked in flag.
+	 * @param checkedIn true if checked in, else false.
+	 */
+	void setCheckedIn(boolean checkedIn);
 }

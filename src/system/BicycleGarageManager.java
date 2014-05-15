@@ -32,6 +32,11 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private int unlockDuration; // Duration door remains unlocked
 	private int garageSize; // Limit max amount of checked in bicycles.
 	
+	private Bicycle exitingBicycle = null;
+	
+	private long entryResetTime = 0;
+	private long exitResetTime = 0;
+	
 	enum State {
 		AWAITING_PIN,
 		AWAITING_SCAN,
@@ -63,19 +68,46 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 
 	@Override
 	public void entryBarcode(String bicycleId) {
-		// TODO Auto-generated method stub
-		//kameler har sjuka röda mular
+		checkEntryResetTime();
 		
+		if(entryState != State.AWAITING_SCAN) //TODO Perhaps a LED NF3 or something
+			return;
+		
+		Bicycle b = mm.getBicycle(bicycleId);
+		
+		if(b == null) {
+			led.NF3(entryTerm);
+			return;
+		}
+		b.setCheckedIn(true);
+		
+		entryLock.open(this.getUnlockDuration());
+		led.NF2(entryTerm);
+		
+		entryState = State.AWAITING_OP;
 	}
 
 	@Override
 	public void exitBarcode(String bicycleId) {
-		// TODO Auto-generated method stub
+		if(exitState != State.AWAITING_SCAN) //TODO Perhaps a LED NF3 or something
+			return;
 		
+		Bicycle b = mm.getBicycle(bicycleId);
+		if(!b.isCheckedIn()) {
+			led.NF4(exitTerm);
+			return;
+		}
+		
+		exitingBicycle = b;
+		
+		led.NF5(exitTerm);
+		exitState = State.AWAITING_PIN;
 	}
 
 	@Override
 	public void entryCharacter(char c) {
+		checkEntryResetTime();	
+		
 		bufferInput(c, entryBuffer);
 		
 		switch(entryState) {
@@ -95,7 +127,30 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		}
 	}
 	
+	private void checkEntryResetTime() {
+		if(System.currentTimeMillis() > entryResetTime) {
+			entryState = State.AWAITING_OP;
+			clearEntryBuffer();
+		}
+		
+		entryResetTime = System.currentTimeMillis() + 5000;
+	}
+	
+	private void checkExitResetTime() {
+		if(System.currentTimeMillis() > exitResetTime) {
+			exitState = State.AWAITING_SCAN;
+			clearExitBuffer();
+		}
+		
+		exitResetTime = System.currentTimeMillis() + 5000;
+	}
+	
 	private void checkPIN() {
+		if(entryBuffer[0] == '#') {
+			clearEntryBuffer();
+			return;
+		}
+		
 		if(!bufferIsFull(entryBuffer))
 			return;
 		
@@ -106,15 +161,26 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		}
 		
 		Member m = mm.getMemberByPin(pin.toString());
-		
+
 		if(m == null) {
-			// NF Fail :D
-			// Clear buffer, reset state.
+			led.NF3(entryTerm);
+			clearEntryBuffer();
+			entryState = State.AWAITING_OP;
 			return;
 		}
 		
-		// Check if user has checked in bicycles -> open door.
-		// as in use case 9 
+		for(Bicycle b : m.getBicycles()) {
+			//TODO if(b.isCheckedIn()) {
+				led.NF2(entryTerm);
+				entryLock.open(this.getUnlockDuration());
+				entryState = State.AWAITING_OP;
+				return;
+			//TODO }
+		}
+		
+		// No checked in bicycle
+		led.NF4(entryTerm);
+		entryState = State.AWAITING_OP;
 	}
 	
 	private boolean bufferIsFull(char[] buffer) {
@@ -173,7 +239,38 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 
 	@Override
 	public void exitCharacter(char c) {
-		exitTerm.lightLED(0,1);
+		// TODO Check for OP Code 9* (operator wants to leave the building)
+		
+		if(exitState != State.AWAITING_PIN) // TODO Perhaps a LED NF 3 or something
+			return;
+		
+		if(exitBuffer[0] == '#') {
+			clearExitBuffer();
+			return;
+		}
+		
+		if(!bufferIsFull(exitBuffer))
+			return;
+		
+		StringBuilder pin = new StringBuilder();
+		
+		for(int i = exitBuffer.length; i > 0; i++) {
+			pin.append(exitBuffer[i-1]);
+		}
+		
+		Member m = exitingBicycle.getOwner();
+		
+		if(m.getPIN().equals(pin.toString())) {
+			exitingBicycle.setCheckedIn(false);
+			exitLock.open(this.getUnlockDuration());
+			led.NF2(exitTerm);
+			exitState = State.AWAITING_SCAN;
+			return;
+		}
+		
+		// Entered PIN doesnt match the bicycle owners PIN		
+		led.NF4(exitTerm);
+		exitState = State.AWAITING_SCAN;
 	}
 
 	@Override
@@ -288,4 +385,8 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		return map;
 	}
 
+	@Override
+	public int getUnlockDuration() {
+		return this.unlockDuration;
+	}
 }
