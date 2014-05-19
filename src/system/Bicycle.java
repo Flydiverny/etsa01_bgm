@@ -1,13 +1,8 @@
-/**
- * 
- */
 package system;
-
-import interfaces.Log;
-import interfaces.Member;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Bicycle implements Serializable, interfaces.Bicycle {
@@ -24,6 +19,15 @@ public class Bicycle implements Serializable, interfaces.Bicycle {
 		this.owner = owner;
 		this.description = description;
 		this.registrationDate = new Date();
+		assignBarcode();
+		logEntries = new LinkedList<Log>();		
+	}
+	
+	/**
+	 * Assigns a barcode to the bicycle
+	 */
+	private void assignBarcode(){
+		//TODO implement assignBarcode
 	}
 	
 	@Override
@@ -65,8 +69,9 @@ public class Bicycle implements Serializable, interfaces.Bicycle {
 	@Override
 	public void setCheckedIn(boolean checkedIn) {
 		this.checkedIn = checkedIn;		
-		
+		logEntries.add(0, new Log(new Date(),"grejs"));
 		//TODO add logentry for checkins/checkouts
+		//add at start of list
 	}
 
 }
