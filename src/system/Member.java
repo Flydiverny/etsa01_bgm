@@ -1,13 +1,14 @@
 package system;
 
 import interfaces.IBicycle;
+import interfaces.IMember;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Member implements Serializable, interfaces.IMember {
+public class Member implements Serializable, IMember {
 	private static final long serialVersionUID = 1015358464126121453L;
 
 	private String name, adderss, phone, ssn, pin;

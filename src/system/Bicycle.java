@@ -1,5 +1,6 @@
 package system;
 
+import interfaces.IBicycle;
 import interfaces.ILog;
 import interfaces.IMember;
 
@@ -8,7 +9,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Bicycle implements Serializable, interfaces.IBicycle {
+public class Bicycle implements Serializable, IBicycle {
 
 	private static final long serialVersionUID = 7848377332727864003L;
 	private String barcode;

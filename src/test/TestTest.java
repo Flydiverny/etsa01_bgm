@@ -2,9 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import interfaces.Bicycle;
-import interfaces.Member;
-import interfaces.MemberManager;
+import interfaces.*;
 import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
