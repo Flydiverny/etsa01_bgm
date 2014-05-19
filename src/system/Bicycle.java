@@ -5,10 +5,12 @@ import interfaces.ILog;
 import interfaces.IMember;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Bicycle implements Serializable, IBicycle {
 
@@ -19,6 +21,8 @@ public class Bicycle implements Serializable, IBicycle {
 	private IMember owner;
 	private String description;
 	private Date registrationDate;
+	
+	private static List<String> USED_BARCODES = new ArrayList<String>();
 	
 	public Bicycle (IMember owner, String description){
 		this.owner = owner;
@@ -32,7 +36,35 @@ public class Bicycle implements Serializable, IBicycle {
 	 * Assigns a barcode to the bicycle
 	 */
 	private void assignBarcode(){
-		//TODO implement assignBarcode
+		Random rng = new Random();
+		boolean barcodeGenerated = false;
+		
+		StringBuilder sb;
+		
+		do {
+			sb = new StringBuilder();
+			
+			for(int i = 0; i < 5; i++) {
+				sb.append(rng.nextInt(10));
+			}
+			
+			String generatedCode = sb.toString();
+			boolean unique = true;
+			
+			for(String code : Bicycle.USED_BARCODES) {
+				if(code.equals(generatedCode)) {
+					unique = false;
+					break;
+				}
+			}
+			
+			if(unique) {
+				this.barcode = generatedCode;
+				barcodeGenerated = true;
+			} else {
+				continue;
+			}
+		} while(!barcodeGenerated);
 	}
 	
 	@Override
