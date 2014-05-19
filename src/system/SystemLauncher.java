@@ -13,10 +13,11 @@ import java.util.TimerTask;
 import javax.swing.JOptionPane;
 
 import test.drivers.*;
+import interfaces.IBicycleGarageManager;
 import interfaces.hardware.*;
 
 public class SystemLauncher {
-	private BicycleGarageManager manager;
+	private IBicycleGarageManager manager;
 	private boolean isInstalled = false;
 	
 	private final String SAVE_PATH = "bgm_database.out";
@@ -35,7 +36,7 @@ public class SystemLauncher {
 		//Launching of GUI below.
 		if(isInstalled) {
 			//GUI g = new GUI();
-		} else {//hej jag är snygg
+		} else {//hej jag ï¿½r snygg
 			//GUI inst = new InstallGUI();
 			//perhaps just send isInstalled as parameter to GUI and GUI has to take care of it.
 		}
@@ -90,15 +91,15 @@ public class SystemLauncher {
 	      }, 0, 1000*60*15); // Every 15 minutes.
 	}
 	
-	private BicycleGarageManager loadSystem() {
-		BicycleGarageManager mgr = null;
+	private IBicycleGarageManager loadSystem() {
+		IBicycleGarageManager mgr = null;
 		
 		FileInputStream fis;
 		try {
 			fis = new FileInputStream(SAVE_PATH);
 			ObjectInputStream oin = new ObjectInputStream(fis);
 			
-			mgr = (BicycleGarageManager) oin.readObject();
+			mgr = (IBicycleGarageManager) oin.readObject();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Failed to load system database, please restart the program. If the problem persists, please remove/rename/move the file named:\n" + SAVE_PATH);

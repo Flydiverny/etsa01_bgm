@@ -5,7 +5,7 @@ package system;
 
 import java.util.Date;
 
-public class Log implements interfaces.Log {
+public class Log implements interfaces.ILog {
 	
 	private Date date;
 	private String description;

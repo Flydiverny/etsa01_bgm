@@ -2,12 +2,12 @@ package interfaces;
 import java.util.List;
 
 
-public interface MemberManager {
+public interface IMemberManager {
 	/**
 	 * Returns a list of all registered members.
 	 * @return List of Members
 	 */
-	List<Member> listMembers();
+	List<IMember> listMembers();
 	
 	/**
 	 * Returns the member with the specified SSN.
@@ -15,21 +15,21 @@ public interface MemberManager {
 	 * @param ssn
 	 * @return member
 	 */
-	Member getMember(String ssn);
+	IMember getMember(String ssn);
 	
 	/**
 	 * Returns a list of all members whose name matches the search string.
 	 * @param name
 	 * @return List of Members
 	 */
-	List<Member> findMembers(String name);
+	List<IMember> findMembers(String name);
 	
 	/**
 	 * Flags a member as enabled/disabled.
 	 * @param member
 	 * @param enabled
 	 */
-	void enableMember(Member member, boolean enabled);
+	void enableMember(IMember member, boolean enabled);
 	
 	/**
 	 * Creates a new Member and registers it in the system.
@@ -67,7 +67,7 @@ public interface MemberManager {
 	 * @param member
 	 * @return new PIN
 	 */
-	String createNewPIN(Member member);
+	String createNewPIN(IMember member);
 	
 	/**
 	 * Returns the amount of members.
@@ -80,12 +80,12 @@ public interface MemberManager {
 	 * @param pin
 	 * @return null if not found.
 	 */
-	Member getMemberByPin(String pin);
+	IMember getMemberByPin(String pin);
 	
 	/**
 	 * Finds a bicycle by its barcode.
 	 * @param barcode
 	 * @return null if not found.
 	 */
-	Bicycle getBicycle(String barcode);
+	IBicycle getBicycle(String barcode);
 }

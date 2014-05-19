@@ -3,24 +3,24 @@
  */
 package system;
 
-import interfaces.Log;
-import interfaces.Member;
+import interfaces.ILog;
+import interfaces.IMember;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Bicycle implements Serializable, interfaces.Bicycle {
+public class Bicycle implements Serializable, interfaces.IBicycle {
 
 	private static final long serialVersionUID = 7848377332727864003L;
 	private String barcode;
 	private boolean checkedIn;
-	private List<Log> logEntries;
-	private Member owner;
+	private List<ILog> logEntries;
+	private IMember owner;
 	private String description;
 	private Date registrationDate;
 	
-	public Bicycle (Member owner, String description){
+	public Bicycle (IMember owner, String description){
 		this.owner = owner;
 		this.description = description;
 		this.registrationDate = new Date();
@@ -32,7 +32,7 @@ public class Bicycle implements Serializable, interfaces.Bicycle {
 	}
 
 	@Override
-	public List<Log> getLogEntries() {
+	public List<ILog> getLogEntries() {
 		// TODO go through the list and remove all logs that do not match 5.1.2.19 (as of SRS1.0)
 		return logEntries;
 	}
@@ -53,7 +53,7 @@ public class Bicycle implements Serializable, interfaces.Bicycle {
 	}
 
 	@Override
-	public Member getOwner() {
+	public IMember getOwner() {
 		return owner;
 	}
 

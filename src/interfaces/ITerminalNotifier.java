@@ -2,7 +2,7 @@ package interfaces;
 
 import interfaces.hardware.PinCodeTerminal;
 
-public interface TerminalNotifier {
+public interface ITerminalNotifier {
 	/**
 	 * Green light blinks three times.
 	 * @param terminal - terminal to blink at.

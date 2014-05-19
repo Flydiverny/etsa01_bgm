@@ -3,9 +3,10 @@ package system;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import interfaces.ITerminalNotifier;
 import interfaces.hardware.PinCodeTerminal;
 
-public class TerminalNotifier implements interfaces.TerminalNotifier {
+public class TerminalNotifier implements ITerminalNotifier {
 	private BicycleGarageManager bgm;
 	
 	public TerminalNotifier(BicycleGarageManager bgm) {

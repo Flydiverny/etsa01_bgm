@@ -3,7 +3,7 @@ package interfaces;
 import java.util.Date;
 import java.util.List;
 
-public interface Bicycle {
+public interface IBicycle {
 	/**
 	 * Returns the barcode.
 	 * @return barcodeId
@@ -14,7 +14,7 @@ public interface Bicycle {
 	 * Returns a list of log entries.
 	 * @return List of Log
 	 */
-	List<Log> getLogEntries();
+	List<ILog> getLogEntries();
 	
 	/**
 	 * Returns the registration date.
@@ -38,7 +38,7 @@ public interface Bicycle {
 	 * Returns the owner of the bicycle.
 	 * @return
 	 */
-	Member getOwner();
+	IMember getOwner();
 	
 	/**
 	 * Returns true if the bicycle is flagged as checked in.
