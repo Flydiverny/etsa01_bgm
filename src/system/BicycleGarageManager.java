@@ -285,7 +285,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		Random rng = new Random();
 		StringBuilder newPIN = new StringBuilder();
 		
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 10; i++) {
 			newPIN.append(rng.nextInt(10));
 		}	
 		
