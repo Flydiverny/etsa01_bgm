@@ -3,8 +3,10 @@ package system;
 import interfaces.IBicycle;
 import interfaces.ILog;
 import interfaces.IMember;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Bicycle implements Serializable, IBicycle {
 	private static final long serialVersionUID = 7848377332727864003L;
 	private String barcode;
 	private boolean checkedIn;
-	private List<ILog> logEntries;
+	private LinkedList<ILog> logEntries;
 	private IMember owner;
 	private String description;
 	private Date registrationDate;
@@ -40,7 +42,17 @@ public class Bicycle implements Serializable, IBicycle {
 
 	@Override
 	public List<ILog> getLogEntries() {
-		// TODO go through the list and remove all logs that do not match 5.1.2.19 (as of SRS1.0)
+		Iterator<ILog> itr = logEntries.iterator();
+		int index = 0;
+		Date ayearago = new Date();
+		//31536000000L is the amount of milliseconds in a year
+		ayearago.setTime(ayearago.getTime() - 31536000000L);
+		while(itr.hasNext()){
+			ILog logentry = itr.next();
+			if(index>=30 && logentry.getDate().before(ayearago))
+				itr.remove();
+			index++;
+		}
 		return logEntries;
 	}
 
@@ -71,10 +83,11 @@ public class Bicycle implements Serializable, IBicycle {
 
 	@Override
 	public void setCheckedIn(boolean checkedIn) {
-		this.checkedIn = checkedIn;		
-		logEntries.add(0, new Log(new Date(),"grejs"));
-		//TODO add logentry for checkins/checkouts
-		//add at start of list
+		this.checkedIn = checkedIn;	
+		if(checkedIn)
+			logEntries.push(new Log(new Date(),"Bicycle " + barcode + " checked in"));
+		else
+			logEntries.push(new Log(new Date(),"Bicycle " + barcode + " checked out"));
 	}
 
 }
