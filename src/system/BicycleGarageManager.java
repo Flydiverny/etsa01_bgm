@@ -23,7 +23,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private transient ElectronicLock entryLock, exitLock;
 	private transient PinCodeTerminal entryTerm, exitTerm;
 	
-	private transient IMemberManager mm;
+	private IMemberManager mm;
 	private transient ITerminalNotifier led;
 	
 	private String operatorPassword;
@@ -54,7 +54,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private State exitState = State.AWAITING_OP;
 	
 	public BicycleGarageManager() {
-		//mm = new MemberManager();
+		mm = new MemberManager();
 		led = new TerminalNotifier(this);
 	}
 	

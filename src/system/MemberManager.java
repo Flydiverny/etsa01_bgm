@@ -1,5 +1,7 @@
 package system;
 
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -8,8 +10,9 @@ import interfaces.IBicycle;
 import interfaces.IMember;
 import interfaces.IMemberManager;
 
-public class MemberManager implements IMemberManager {
-
+public class MemberManager implements Serializable, IMemberManager {
+	private static final long serialVersionUID = -2454050190313135909L;
+	
 	private LinkedList<IMember> members;
 	
 	public MemberManager() {
@@ -57,21 +60,30 @@ public class MemberManager implements IMemberManager {
 				return false;
 		}
 		
-		IMember m = new Member(name, addr, phone, ssn, this.createNewPIN(ssn));
-		this.members.add(m);
+		this.members.add(new Member(name, addr, phone, ssn, this.createNewPIN(ssn)));
 						
 		return true;
 	}
 
 	@Override
 	public boolean removeMember(String ssn) {
-		// TODO Auto-generated method stub
+		Iterator<IMember> itr = members.iterator();
+		
+		while(itr.hasNext()) {
+			IMember m = itr.next();
+			if(m.getSSN().equals(ssn)) {
+				itr.remove();
+				
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean validateSSN(String ssn) {
-		// TODO Auto-generated method stub
+		//TODO Implement FML
 		return false;
 	}
 
@@ -94,20 +106,28 @@ public class MemberManager implements IMemberManager {
 
 	@Override
 	public int amountOfMembers() {
-		// TODO Auto-generated method stub
-		return 0;
+		return members.size();
 	}
 
 	@Override
 	public IMember getMemberByPin(String pin) {
-		// TODO Auto-generated method stub
+		for(IMember m : members) {
+			if(m.getPIN().equals(pin))
+				return m;
+		}
+		
 		return null;
 	}
 
 	@Override
 	public IBicycle getBicycle(String barcode) {
-		// TODO Auto-generated method stub
+		for(IMember m : members) {
+			for(IBicycle b : m.getBicycles()) {
+				if(b.getBarcode().equals(barcode))
+					return b;
+			}
+		}
+		
 		return null;
 	}
-
 }

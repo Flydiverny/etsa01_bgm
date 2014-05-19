@@ -7,6 +7,7 @@ import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
 import system.BicycleGarageManager;
+import system.MemberManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import org.junit.Test;
 
 public class TestTest {
 
+	IMemberManager mm;
+	
 	@Before
 	public void setUp() throws Exception {
 		String operatorPassword = null;
@@ -27,6 +30,7 @@ public class TestTest {
 		int operatorPIN = 0;
 		boolean userStatus = false;
 		boolean userRegistered = false;
+		mm = new MemberManager();
 	}
 	
 
@@ -36,8 +40,8 @@ public class TestTest {
 	 */
 	public void userReg() {
 		//insert code to press "create new member" button
-		createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
-		assertEquals(getAddress()
+		mm.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
+		//assertEquals(mm.getAddress()
 		fail("Not yet implemented");
 	}
 
