@@ -46,6 +46,7 @@ public interface Bicycle {
 	 */
 	boolean isCheckedIn();
 	
+	
 	/**
 	 * Sets the checked in flag.
 	 * @param checkedIn true if checked in, else false.
