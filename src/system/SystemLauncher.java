@@ -15,13 +15,13 @@ import javax.swing.JOptionPane;
 import test.drivers.*;
 import interfaces.hardware.*;
 
-public class BicycleGarage {
+public class SystemLauncher {
 	private BicycleGarageManager manager;
 	private boolean isInstalled = false;
 	
 	private final String SAVE_PATH = "bgm_database.out";
 	
-	public BicycleGarage() {
+	public SystemLauncher() {
 		if(systemInstalled()) {
 			manager = loadSystem();
 			isInstalled = true;
@@ -108,6 +108,6 @@ public class BicycleGarage {
 	}
 	 
     public static void main(String[] args) {
-        new BicycleGarage();
+        new SystemLauncher();
     }
 }
