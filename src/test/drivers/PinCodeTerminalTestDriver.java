@@ -1,6 +1,6 @@
 package test.drivers;
 
-import interfaces.BicycleGarageManager;
+import interfaces.IBicycleGarageManager;
 import interfaces.hardware.PinCodeTerminal;
 
 import javax.swing.*;
@@ -17,11 +17,11 @@ import javax.swing.Timer;
  * It can be used when BicycleGarageManager is tested.
  * 
  * @version 1.0
- * @author Martin Höst 
+ * @author Martin Hï¿½st 
  */
 public class PinCodeTerminalTestDriver implements PinCodeTerminal, ActionListener {
 	
-	private BicycleGarageManager manager = null;
+	private IBicycleGarageManager manager = null;
 	private static final String[] KEYS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "#", "0", "*"}; 
 	private JLabel redLabel, greenLabel;
 	private Timer redTimer, greenTimer;
@@ -33,7 +33,7 @@ public class PinCodeTerminalTestDriver implements PinCodeTerminal, ActionListene
 	 * pressed a key.
 	 * @param manager The bicycle garage manager
 	 */
-	public void register(BicycleGarageManager manager) {
+	public void register(IBicycleGarageManager manager) {
 		this.manager = manager;
 		
 	}

@@ -2,7 +2,7 @@ package interfaces;
 
 import java.util.Date;
 
-public interface Log {
+public interface ILog {
 	/**
 	 * Returns the description of the log entry.
 	 * @return description

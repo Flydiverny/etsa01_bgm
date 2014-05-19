@@ -6,7 +6,7 @@ import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
 
-public interface BicycleGarageManager {
+public interface IBicycleGarageManager {
 	
 	
 	/**
@@ -48,7 +48,7 @@ public interface BicycleGarageManager {
 	 * Prints the barcode for the specified bicycle.
 	 * @param bicycle
 	 */
-	void printBarcode(Bicycle bicycle);
+	void printBarcode(IBicycle bicycle);
 	
 	/**
 	 * Generates a new random PIN for the operator.
@@ -94,7 +94,7 @@ public interface BicycleGarageManager {
 	 * Returns a list of checked in bicycles.
 	 * @return List of Bicycles
 	 */
-	List<Bicycle> getCheckedInBicycles();
+	List<IBicycle> getCheckedInBicycles();
 	
 	/**
 	 * Returns the amount of checked in bicycles.
@@ -139,7 +139,7 @@ public interface BicycleGarageManager {
 	 * Value = Fee
 	 * @return Map<Member, Integer>
 	 */
-	Map<Member, Integer> getPaymentInfo();
+	Map<IMember, Integer> getPaymentInfo();
 	
 	/**
 	 * Returns the cost the specified member should pay on a monthly basis.
@@ -147,7 +147,7 @@ public interface BicycleGarageManager {
 	 * @param m
 	 * @return
 	 */
-	int getPaymentInfo(Member m);
+	int getPaymentInfo(IMember m);
 	
 	/**
 	 * Returns the duration for which the doors should remain unlocked.

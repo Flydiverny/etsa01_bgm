@@ -1,8 +1,8 @@
 package system;
 
-import interfaces.Bicycle;
-import interfaces.Member;
-import interfaces.MemberManager;
+import interfaces.IBicycle;
+import interfaces.IMember;
+import interfaces.IMemberManager;
 import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
@@ -14,18 +14,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class BicycleGarageManager implements Serializable, interfaces.BicycleGarageManager {
-	/**
-	 * 
-	 */
+public class BicycleGarageManager implements Serializable, interfaces.IBicycleGarageManager {
 	private static final long serialVersionUID = 6325212317583026360L;
 	
 	private transient BarcodePrinter printer;
 	private transient ElectronicLock entryLock, exitLock;
 	private transient PinCodeTerminal entryTerm, exitTerm;
 	
-	private transient MemberManager mm;
-	private transient interfaces.TerminalNotifier led;
+	private transient IMemberManager mm;
+	private transient interfaces.ITerminalNotifier led;
 	
 	private String operatorPassword;
 	private String operatorPIN;
@@ -36,7 +33,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 	private int unlockDuration; // Duration door remains unlocked
 	private int garageSize = 0; // Limit max amount of checked in bicycles, value set at installation.
 	
-	private transient Bicycle exitingBicycle = null;
+	private transient IBicycle exitingBicycle = null;
 	
 	private long entryResetTime = 0;
 	private long exitResetTime = 0;
@@ -77,7 +74,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 		if(entryState != State.AWAITING_SCAN) //TODO Perhaps a LED NF3 or something
 			return;
 		
-		Bicycle b = mm.getBicycle(bicycleId);
+		IBicycle b = mm.getBicycle(bicycleId);
 		
 		if(b == null) {
 			led.NF3(entryTerm);
@@ -98,7 +95,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 		if(exitState != State.AWAITING_SCAN) //TODO Perhaps a LED NF3 or something
 			return;
 		
-		Bicycle b = mm.getBicycle(bicycleId);
+		IBicycle b = mm.getBicycle(bicycleId);
 		if(!b.isCheckedIn()) {
 			led.NF4(exitTerm);
 			return;
@@ -166,7 +163,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 			pin.append(entryBuffer[i-1]);
 		}
 		
-		Member m = mm.getMemberByPin(pin.toString());
+		IMember m = mm.getMemberByPin(pin.toString());
 
 		if(m == null) {
 			led.NF3(entryTerm);
@@ -175,7 +172,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 			return;
 		}
 		
-		for(Bicycle b : m.getBicycles()) {
+		for(IBicycle b : m.getBicycles()) {
 			if(b.isCheckedIn()) {
 				led.NF2(entryTerm);
 				entryLock.open(this.getUnlockDuration());
@@ -266,7 +263,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 			pin.append(exitBuffer[i-1]);
 		}
 		
-		Member m = exitingBicycle.getOwner();
+		IMember m = exitingBicycle.getOwner();
 		
 		if(m.getPIN().equals(pin.toString())) {
 			exitingBicycle.setCheckedIn(false);
@@ -282,7 +279,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 	}
 
 	@Override
-	public void printBarcode(Bicycle bicycle) {
+	public void printBarcode(IBicycle bicycle) {
 		printer.printBarcode(bicycle.getBarcode());
 	}
 
@@ -327,12 +324,12 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 	}
 
 	@Override
-	public List<Bicycle> getCheckedInBicycles() {
-		List<Bicycle> checkedIn = new ArrayList<Bicycle>();
-		List<Member> members = mm.listMembers();
+	public List<IBicycle> getCheckedInBicycles() {
+		List<IBicycle> checkedIn = new ArrayList<IBicycle>();
+		List<IMember> members = mm.listMembers();
 		
-		for(Member m : members) {
-			for(Bicycle b : m.getBicycles()) {
+		for(IMember m : members) {
+			for(IBicycle b : m.getBicycles()) {
 				if(b.isCheckedIn())
 					checkedIn.add(b);
 			}
@@ -348,10 +345,10 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 
 	@Override
 	public boolean checkInBicycleByBarcode(String barcode) {
-		List<Member> members = mm.listMembers();
+		List<IMember> members = mm.listMembers();
 		
-		for(Member m : members) {
-			for(Bicycle b : m.getBicycles())
+		for(IMember m : members) {
+			for(IBicycle b : m.getBicycles())
 				if(b.getBarcode().equals(barcode)) {
 					//b.setCheckedIn(true);
 					return true;
@@ -382,11 +379,11 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 	}
 
 	@Override
-	public Map<Member, Integer> getPaymentInfo() {
-		Map<Member,Integer> map = new HashMap<Member, Integer>();
-		List<Member> members = mm.listMembers();
+	public Map<IMember, Integer> getPaymentInfo() {
+		Map<IMember,Integer> map = new HashMap<IMember, Integer>();
+		List<IMember> members = mm.listMembers();
 		
-		for(Member m : members) {
+		for(IMember m : members) {
 			map.put(m, this.getPaymentInfo(m));
 		}
 		
@@ -397,7 +394,7 @@ public class BicycleGarageManager implements Serializable, interfaces.BicycleGar
 		return this.unlockDuration;
 	}
 
-	public int getPaymentInfo(Member m) {
+	public int getPaymentInfo(IMember m) {
 		return this.getMonthlyFee() + m.getBicycles().size() * this.getBikeFee();
 	}
 

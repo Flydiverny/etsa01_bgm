@@ -2,12 +2,18 @@ package interfaces;
 
 import java.util.List;
 
-public interface Member {
+public interface IMember {
 	/**
-	 * 
+	 * Sets whether the member is flagged as enabled or disabled.
 	 * @param enabled
 	 */
 	void enable(boolean enabled);
+	
+	/**
+	 * Returns true if member is disabled.
+	 * @return
+	 */
+	boolean isDisabled();
 	
 	/**
 	 * Sets the specified PIN as PIN
@@ -23,12 +29,9 @@ public interface Member {
 	
 	/**
 	 * Registers a new bicycle for this member.
-	 * @param model
-	 * @param color
-	 * @param gears
 	 * @param desc
 	 */
-	void registerBicycle(String model, String color, String gears, String desc);
+	void registerBicycle(String desc);
 	
 	/**
 	 * Removes the specified bicycle from this member.
@@ -40,7 +43,7 @@ public interface Member {
 	 * Returns a list of the users bicycles.
 	 * @return list of bicycles
 	 */
-	List<Bicycle> getBicycles();
+	List<IBicycle> getBicycles();
 	
 	/**
 	 * Sets the members address.

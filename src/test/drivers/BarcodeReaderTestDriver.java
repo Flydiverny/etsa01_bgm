@@ -1,6 +1,6 @@
 package test.drivers;
 
-import interfaces.BicycleGarageManager;
+import interfaces.IBicycleGarageManager;
 import interfaces.hardware.BarcodeReader;
 
 import javax.swing.JFrame;
@@ -17,13 +17,13 @@ import java.awt.event.*;
  * barcode readers. 
  * 
  * @version 1.0
- * @author Martin Höst 
+ * @author Martin Hï¿½st 
  */
 abstract public class BarcodeReaderTestDriver implements BarcodeReader, ActionListener {
 	
 	private JFrame frame;
 	private JTextField scannedCode;
-	protected BicycleGarageManager manager;
+	protected IBicycleGarageManager manager;
 	private JButton scanButton;
 	
 	/**
@@ -32,7 +32,7 @@ abstract public class BarcodeReaderTestDriver implements BarcodeReader, ActionLi
 	* the reader. 
 	* @param manager The bicycle garage manager 
 	*/
-	public void register(BicycleGarageManager manager) {
+	public void register(IBicycleGarageManager manager) {
 		this.manager = manager;
 	}
 	
@@ -62,7 +62,7 @@ abstract public class BarcodeReaderTestDriver implements BarcodeReader, ActionLi
 	
 	/**
 	 * This abstract method is implemented by subclasses. 
-	 * Subclasses either call the manager´s entryBarcode 
+	 * Subclasses either call the managerï¿½s entryBarcode 
 	 * or exitBarcode.   
 	 * @param code the scanned code. 
 	 */
