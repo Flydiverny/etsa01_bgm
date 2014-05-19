@@ -35,7 +35,7 @@ public class SystemLauncher {
 		//Launching of GUI below.
 		if(isInstalled) {
 			//GUI g = new GUI();
-		} else {
+		} else {//hej jag är snygg
 			//GUI inst = new InstallGUI();
 			//perhaps just send isInstalled as parameter to GUI and GUI has to take care of it.
 		}
