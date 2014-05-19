@@ -7,19 +7,25 @@ import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class BicycleGarageManager implements interfaces.BicycleGarageManager {
-	private BarcodePrinter printer;
-	private ElectronicLock entryLock, exitLock;
-	private PinCodeTerminal entryTerm, exitTerm;
+public class BicycleGarageManager implements Serializable, interfaces.BicycleGarageManager {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6325212317583026360L;
 	
-	private MemberManager mm;
-	private interfaces.TerminalNotifier led;
+	private transient BarcodePrinter printer;
+	private transient ElectronicLock entryLock, exitLock;
+	private transient PinCodeTerminal entryTerm, exitTerm;
+	
+	private transient MemberManager mm;
+	private transient interfaces.TerminalNotifier led;
 	
 	private String operatorPassword;
 	private String operatorPIN;
@@ -30,7 +36,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private int unlockDuration; // Duration door remains unlocked
 	private int garageSize = 0; // Limit max amount of checked in bicycles, value set at installation.
 	
-	private Bicycle exitingBicycle = null;
+	private transient Bicycle exitingBicycle = null;
 	
 	private long entryResetTime = 0;
 	private long exitResetTime = 0;
@@ -270,7 +276,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 			return;
 		}
 		
-		// Entered PIN doesnt match the bicycle owners PIN		
+		// Entered PIN doesn't match the bicycle owners PIN		
 		led.NF4(exitTerm);
 		exitState = State.AWAITING_SCAN;
 	}
@@ -387,17 +393,14 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		return map;
 	}
 
-	@Override
 	public int getUnlockDuration() {
 		return this.unlockDuration;
 	}
 
-	@Override
 	public int getPaymentInfo(Member m) {
 		return this.getMonthlyFee() + m.getBicycles().size() * this.getBikeFee();
 	}
 
-	@Override
 	public int getGarageSize() {
 		return this.garageSize;
 	}
