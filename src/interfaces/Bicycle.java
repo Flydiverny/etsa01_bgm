@@ -33,31 +33,7 @@ public interface Bicycle {
 	 * @return desc
 	 */
 	String getDescription();
-	
-	/**
-	 * Sets the amount of bicycle gears
-	 * @param gears
-	 */
-	void setGears(String gears);
-	
-	/**
-	 * Gets the amount of bicycle gears.
-	 * @return gears
-	 */
-	String getGears();
-	
-	/**
-	 * Sets the bicycle model
-	 * @param model
-	 */
-	void setModel(String model);
-	
-	/**
-	 * Gets the bicycle model.
-	 * @return model
-	 */
-	String getModel();
-	
+		
 	/**
 	 * Returns the owner of the bicycle.
 	 * @return

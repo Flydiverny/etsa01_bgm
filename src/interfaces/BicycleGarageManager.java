@@ -61,7 +61,7 @@ public interface BicycleGarageManager {
 	 * @param oldPasswd
 	 * @param newpasswd
 	 * @param newpasswd2
-	 * @return
+	 * @return true if success, else false. (new passwd mismatch)
 	 */
 	boolean setOperatorPassword(String oldPasswd, String newpasswd, String newpasswd2);
 	
@@ -76,6 +76,12 @@ public interface BicycleGarageManager {
 	 * @param size
 	 */
 	void setGarageSize(int size);
+	
+	/**
+	 * Gets the garage size.
+	 * @return size
+	 */
+	int getGarageSize();
 	
 	/**
 	 * Logins the operator, if the password matches the operator password.
@@ -134,6 +140,14 @@ public interface BicycleGarageManager {
 	 * @return Map<Member, Integer>
 	 */
 	Map<Member, Integer> getPaymentInfo();
+	
+	/**
+	 * Returns the cost the specified member should pay on a monthly basis.
+	 * Based on the members current amount of registered bicycles.
+	 * @param m
+	 * @return
+	 */
+	int getPaymentInfo(Member m);
 	
 	/**
 	 * Returns the duration for which the doors should remain unlocked.

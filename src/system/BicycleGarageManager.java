@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.activity.InvalidActivityException;
-
 public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private BarcodePrinter printer;
 	private ElectronicLock entryLock, exitLock;
@@ -30,7 +28,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	private int bicycleFee;
 	
 	private int unlockDuration; // Duration door remains unlocked
-	private int garageSize; // Limit max amount of checked in bicycles.
+	private int garageSize = 0; // Limit max amount of checked in bicycles, value set at installation.
 	
 	private Bicycle exitingBicycle = null;
 	
@@ -172,12 +170,12 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		}
 		
 		for(Bicycle b : m.getBicycles()) {
-			//TODO if(b.isCheckedIn()) {
+			if(b.isCheckedIn()) {
 				led.NF2(entryTerm);
 				entryLock.open(this.getUnlockDuration());
 				entryState = State.AWAITING_OP;
 				return;
-			//TODO }
+			}
 		}
 		
 		// No checked in bicycle
@@ -329,8 +327,8 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		
 		for(Member m : members) {
 			for(Bicycle b : m.getBicycles()) {
-				//if(b.isCheckedIn())
-				//	checkedIn.add(b);
+				if(b.isCheckedIn())
+					checkedIn.add(b);
 			}
 		}
 		
@@ -359,12 +357,12 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 
 	@Override
 	public void setMonthlyFee(int fee) {
-		this.monthlyFee = monthlyFee;
+		this.monthlyFee = fee;
 	}
 
 	@Override
 	public void setBikeFee(int fee) {
-		this.bicycleFee = bicycleFee;
+		this.bicycleFee = fee;
 	}
 
 	@Override
@@ -383,7 +381,7 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 		List<Member> members = mm.listMembers();
 		
 		for(Member m : members) {
-			map.put(m, this.getMonthlyFee() + m.getBicycles().size() * this.getBikeFee());
+			map.put(m, this.getPaymentInfo(m));
 		}
 		
 		return map;
@@ -392,5 +390,15 @@ public class BicycleGarageManager implements interfaces.BicycleGarageManager {
 	@Override
 	public int getUnlockDuration() {
 		return this.unlockDuration;
+	}
+
+	@Override
+	public int getPaymentInfo(Member m) {
+		return this.getMonthlyFee() + m.getBicycles().size() * this.getBikeFee();
+	}
+
+	@Override
+	public int getGarageSize() {
+		return this.garageSize;
 	}
 }

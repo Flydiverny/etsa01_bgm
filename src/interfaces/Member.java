@@ -53,13 +53,7 @@ public interface Member {
 	 * @param phone
 	 */
 	void setPhone(String phone);
-	
-	/**
-	 * Sets the members SSN
-	 * @param ssn
-	 */
-	void setSSN(String ssn);
-	
+		
 	/**
 	 * Sets the members name.
 	 * @param name
