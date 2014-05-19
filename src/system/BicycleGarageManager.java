@@ -1,8 +1,10 @@
 package system;
 
 import interfaces.IBicycle;
+import interfaces.IBicycleGarageManager;
 import interfaces.IMember;
 import interfaces.IMemberManager;
+import interfaces.ITerminalNotifier;
 import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class BicycleGarageManager implements Serializable, interfaces.IBicycleGarageManager {
+public class BicycleGarageManager implements Serializable, IBicycleGarageManager {
 	private static final long serialVersionUID = 6325212317583026360L;
 	
 	private transient BarcodePrinter printer;
@@ -22,7 +24,7 @@ public class BicycleGarageManager implements Serializable, interfaces.IBicycleGa
 	private transient PinCodeTerminal entryTerm, exitTerm;
 	
 	private transient IMemberManager mm;
-	private transient interfaces.ITerminalNotifier led;
+	private transient ITerminalNotifier led;
 	
 	private String operatorPassword;
 	private String operatorPIN;

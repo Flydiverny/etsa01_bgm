@@ -3,9 +3,11 @@
  */
 package system;
 
+import interfaces.ILog;
+
 import java.util.Date;
 
-public class Log implements interfaces.ILog {
+public class Log implements ILog {
 	
 	private Date date;
 	private String description;
