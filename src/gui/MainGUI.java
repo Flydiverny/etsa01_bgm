@@ -28,18 +28,18 @@ public class MainGUI extends Program {
 		//TODO create main window when logged in successfully
 		//TODO win
 		//TODO after login, plz activate menubar
-		rootPane.setJMenuBar(new MenuBarBGM());
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//TODO (maybez not here) plz remove menubar when logging out
 		
 		this.setVisible(true);
 	}
 
-	public static Program getInstance() {
+	public static MainGUI getInstance() {
 		return instance;
 	}
 
 	public void enableMenu() {
-		//TODO Enable menu
+		rootPane.setJMenuBar(new MenuBarBGM());
 	}
 }

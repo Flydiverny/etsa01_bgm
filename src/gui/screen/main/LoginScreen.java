@@ -21,6 +21,7 @@ public class LoginScreen extends Screen {
 		// TODO Auto-generated method stub
 		
 		JPanel southPanel = new JPanel();
+		this.setLayout(new BorderLayout());
 		
 		final JTextField jtfpassword = new JTextField();
 		JLabel jlpassword = new JLabel("Password");
@@ -29,6 +30,10 @@ public class LoginScreen extends Screen {
 		
 		JPanel inputpanel = new JPanel();
 		inputpanel.setLayout(new GridLayout(0,2));
+		JLabel header = new JLabel("Login");
+		header.setFont(header.getFont().deriveFont(20f));
+		inputpanel.add(header);
+		inputpanel.add(new JLabel());
 		inputpanel.add(jlpassword);
 		inputpanel.add(jtfpassword);
 		
@@ -37,6 +42,7 @@ public class LoginScreen extends Screen {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if(bgm.loginOperator(jtfpassword.getText())){
+					MainGUI.getInstance().enableMenu();
 					MainGUI.getInstance().setScreen(new MainScreen());
 				}else{
 					JOptionPane.showMessageDialog(LoginScreen.this, "Invalid password");
