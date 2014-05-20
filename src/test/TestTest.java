@@ -65,19 +65,30 @@ public class TestTest {
 		boolean apa = true;
 		manager.getMember("199309245151").getBicycles().get(0).setCheckedIn(apa);
 	}
+	/* Test 34
+	 * Operator enters password containing a non-alphanumerical character.
+	 */
+	@Test
+	public void passIsAlphanumeric() {
+		System.out.println("--- TEST 34 ---");
+		BicycleGarageManager manager = new BicycleGarageManager();
+		assertEquals("Password may not consist of non-aplhanumerical characters.", 
+		false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
+		System.out.println("--- TEST 34 ---");
+	}
 	
 	/* Test 35
 	 * Operator changes the amount of time the door will be open. Enters too long time.
 	 */
 	@Test
 	public void tooLongTimeEntered() {
-		System.out.println("TEST 35 ------------");
+		System.out.println("--- TEST 35 ---");
 		BicycleGarageManager manager = new BicycleGarageManager();
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(60);
 		assertEquals("Door should be unlocked for 5 sec, duration > 32 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
-		System.out.println("TEST 35 ------------");
+		System.out.println("--- TEST 35 ---");
 	}
 	
 	/* Test 36
@@ -85,16 +96,12 @@ public class TestTest {
 	 */
 	@Test
 	public void tooShortTimeEntered() {
-		System.out.println("TEST 36 ------------");
+		System.out.println("--- TEST 36 ---");
 		BicycleGarageManager manager = new BicycleGarageManager();
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(2);
 		assertEquals("Door should be unlocked for 5 sec, duration < 5 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
-		System.out.println("TEST 36 ------------");
+		System.out.println("--- TEST 36 ---");
 	}
-	
-	
-	
-
 }
