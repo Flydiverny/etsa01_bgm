@@ -20,7 +20,8 @@ public class MainGUI extends Program {
 		
 		this.setTitle("Bicycle Garage Manager");
 		setScreen(new LoginScreen());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 

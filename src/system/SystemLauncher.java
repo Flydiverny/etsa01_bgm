@@ -119,6 +119,7 @@ public class SystemLauncher {
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Failed to load system database, please restart the program. If the problem persists, please remove/rename/move the file named:\n" + SAVE_PATH);
+			System.exit(0);
 		}
 		
 		return mgr;

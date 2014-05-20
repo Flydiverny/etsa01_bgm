@@ -72,8 +72,7 @@ public class OperatorParametersScreen extends Screen {
 		
 		jbchangepassword.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				//TODO check if passwords match, change them etc				
+			public void actionPerformed(ActionEvent arg0) {				
 				if(!bgm.setOperatorPassword(jtfcurpas.getText(), jtfnewpas1.getText(), jtfnewpas2.getText())) {
 					JOptionPane.showMessageDialog(OperatorParametersScreen.this, "Entered password(s) invalid, make sure the new passwords match and that the length is between 10 and 32 characters. Also make sure the current password is correctly entered.");
 					return;
