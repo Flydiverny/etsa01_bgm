@@ -1,6 +1,7 @@
 package gui.screen.main;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,9 +28,9 @@ public class LoginScreen extends Screen {
 		nextBtn.setText("Login");
 		
 		JPanel inputpanel = new JPanel();
-		inputpanel.setLayout(new BorderLayout());
-		inputpanel.add(jlpassword, BorderLayout.WEST);
-		inputpanel.add(jtfpassword,BorderLayout.EAST);
+		inputpanel.setLayout(new GridLayout(0,2));
+		inputpanel.add(jlpassword);
+		inputpanel.add(jtfpassword);
 		
 		nextBtn.addActionListener(new ActionListener() {
 			@Override
