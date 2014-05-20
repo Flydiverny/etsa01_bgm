@@ -26,13 +26,13 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private IMemberManager mm;
 	private transient ITerminalNotifier led;
 	
-	private String operatorPassword;
+	private String operatorPassword = "";
 	private String operatorPIN;
 	
 	private int monthlyFee;
 	private int bicycleFee;
 	
-	private int unlockDuration; // Duration door remains unlocked
+	private int unlockDuration = 5; // Duration door remains unlocked
 	private int garageSize = 0; // Limit max amount of checked in bicycles, value set at installation.
 	
 	private transient IBicycle exitingBicycle = null;
@@ -302,7 +302,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	@Override
 	public boolean setOperatorPassword(String oldPasswd, String newpasswd,
 			String newpasswd2) {
-		if(!oldPasswd.equals(this.operatorPassword) || !newpasswd.equals(newpasswd2))
+		if(!oldPasswd.equals(this.operatorPassword) || !newpasswd.equals(newpasswd2) || newpasswd.length() < 10 || newpasswd.length() > 32)
 			return false;
 		
 		this.operatorPassword = newpasswd;
