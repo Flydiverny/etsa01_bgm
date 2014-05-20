@@ -30,9 +30,9 @@ public class CreateMemberScreen extends Screen {
 
 		JLabel header = new JLabel("Create new Member");
 		header.setFont(header.getFont().deriveFont(20f));
-		JPanel centerpanel = new JPanel();
+		JPanel northpanel = new JPanel();
 				
-		GridLayout gl = new GridLayout(5,2);
+		GridLayout gl = new GridLayout(0,2);
 		JLabel jlName = new JLabel("Name");
 		JLabel jlSSN = new JLabel("Social Security Number");
 		JLabel jlPhone = new JLabel("Phone Nbr.");
@@ -40,18 +40,22 @@ public class CreateMemberScreen extends Screen {
 		
 		this.setLayout(new BorderLayout());
 		
-		centerpanel.setLayout(gl);
-		centerpanel.add(jlName);
-		centerpanel.add(name);
+		northpanel.setLayout(gl);
 		
-		centerpanel.add(jlSSN);
-		centerpanel.add(ssn);
+		northpanel.add(header);
+		northpanel.add(new JLabel());
 		
-		centerpanel.add(jlPhone);
-		centerpanel.add(phone);
+		northpanel.add(jlName);
+		northpanel.add(name);
 		
-		centerpanel.add(jlAddr);
-		centerpanel.add(addr);
+		northpanel.add(jlSSN);
+		northpanel.add(ssn);
+		
+		northpanel.add(jlPhone);
+		northpanel.add(phone);
+		
+		northpanel.add(jlAddr);
+		northpanel.add(addr);
 		
 		JPanel southPanel = new JPanel();
 		
@@ -93,8 +97,7 @@ public class CreateMemberScreen extends Screen {
 		
 		this.setLayout(new BorderLayout());
 		
-		this.add(header, BorderLayout.NORTH);
-		this.add(centerpanel, BorderLayout.CENTER);
+		this.add(northpanel, BorderLayout.NORTH);
 		this.add(southPanel, BorderLayout.SOUTH);
 	}
 }
