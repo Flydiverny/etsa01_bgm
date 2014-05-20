@@ -13,8 +13,8 @@ import interfaces.IMemberManager;
 public class MainGUI extends Program {
 	private static MainGUI instance;
 
-	public MainGUI(IBicycleGarageManager manager, IMemberManager mm) {
-		super(manager, mm);
+	public MainGUI(IBicycleGarageManager manager) {
+		super(manager);
 		
 		MainGUI.instance = this;
 		

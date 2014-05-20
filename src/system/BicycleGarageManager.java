@@ -53,8 +53,8 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private State entryState = State.AWAITING_OP;
 	private State exitState = State.AWAITING_OP;
 	
-	public BicycleGarageManager(IMemberManager mm) {
-		this.mm = mm;
+	public BicycleGarageManager() {
+		this.mm = new MemberManager();
 		led = new TerminalNotifier(this);
 	}
 	

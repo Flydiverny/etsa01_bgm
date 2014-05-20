@@ -20,7 +20,6 @@ import interfaces.hardware.*;
 
 public class SystemLauncher {
 	private IBicycleGarageManager bicycleGarageManager;
-	private IMemberManager memberManager;
 	
 	private boolean isInstalled = false;
 	
@@ -31,15 +30,14 @@ public class SystemLauncher {
 			bicycleGarageManager = loadSystem();
 			isInstalled = true;
 		} else {
-			memberManager = new MemberManager();
-			bicycleGarageManager = new BicycleGarageManager(memberManager);
+			bicycleGarageManager = new BicycleGarageManager();
 		}
 	
 		//Launching of GUI below.
 		if(isInstalled)
 			launchMainGUI();
 		else
-			new InstallationGUI(bicycleGarageManager, memberManager, new Runnable() {
+			new InstallationGUI(bicycleGarageManager, new Runnable() {
 				@Override
 				public void run() {
 					launchMainGUI();
@@ -49,7 +47,7 @@ public class SystemLauncher {
 	private void launchMainGUI() {
 		bindHardware();
 		setupReccuringSave();
-		new MainGUI(bicycleGarageManager, memberManager);
+		new MainGUI(bicycleGarageManager);
 	}
 	
 	private boolean systemInstalled() {

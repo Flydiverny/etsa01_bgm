@@ -13,8 +13,8 @@ public class InstallationGUI extends Program {
 	
 	private Runnable callback;
 	
-	public InstallationGUI(IBicycleGarageManager manager, IMemberManager mm, Runnable callback) {
-		super(manager, mm);
+	public InstallationGUI(IBicycleGarageManager manager, Runnable callback) {
+		super(manager);
 		InstallationGUI.instance = this;
 		this.setTitle("Installation Wizard");
 		
