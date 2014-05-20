@@ -409,4 +409,8 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	public IMemberManager getMemberManager() {
 		return this.mm;
 	}
+	
+	public String getOperatorPIN() {
+		return operatorPIN;
+	}
 }

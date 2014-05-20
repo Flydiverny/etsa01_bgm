@@ -18,8 +18,6 @@ public class LoginScreen extends Screen {
 
 	@Override
 	public void create() {
-		// TODO Auto-generated method stub
-		
 		JPanel southPanel = new JPanel();
 		this.setLayout(new BorderLayout());
 		

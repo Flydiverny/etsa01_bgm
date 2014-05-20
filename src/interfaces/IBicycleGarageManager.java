@@ -160,4 +160,10 @@ public interface IBicycleGarageManager {
 	 * @return member manager
 	 */
 	IMemberManager getMemberManager();
+	
+	/**
+	 * Returns the operators PIN.
+	 * @return operator PIN
+	 */
+	String getOperatorPIN();
 }
