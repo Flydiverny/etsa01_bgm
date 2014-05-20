@@ -154,4 +154,10 @@ public interface IBicycleGarageManager {
 	 * @return duration
 	 */
 	int getUnlockDuration();
+	
+	/**
+	 * Returns the operators PIN.
+	 * @return operator PIN
+	 */
+	String getOperatorPIN();
 }

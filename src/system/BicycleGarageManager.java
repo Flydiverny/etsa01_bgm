@@ -405,4 +405,9 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	public int getGarageSize() {
 		return this.garageSize;
 	}
+
+	@Override
+	public String getOperatorPIN() {
+		return operatorPIN;
+	}
 }

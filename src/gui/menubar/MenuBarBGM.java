@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import gui.MainGUI;
 import gui.screen.main.MainScreen;
+import gui.screen.main.OperatorParametersScreen;
 import gui.screen.main.SystemParametersScreen;
 
 import javax.swing.JMenuBar;
@@ -29,6 +30,15 @@ public class MenuBarBGM extends JMenuBar {
 		});
 		sysparamitem.setText("Change System Parameters");
 		
+		JMenuItem opparamitem = new JMenuItem();
+		opparamitem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MainGUI.getInstance().setScreen(new OperatorParametersScreen());
+			}
+		});
+		opparamitem.setText("Change Operator Parameters");
+		
 		JMenuItem findallitem = new JMenuItem();
 		findallitem.addActionListener(new ActionListener() {
 			@Override
@@ -52,6 +62,7 @@ public class MenuBarBGM extends JMenuBar {
 		//add everything
 		filemenu.add(findallitem);
 		filemenu.add(sysparamitem);
+		filemenu.add(opparamitem);
 		filemenu.add(exititem);
 		this.add(filemenu);
 	}
