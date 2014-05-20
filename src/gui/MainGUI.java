@@ -19,19 +19,8 @@ public class MainGUI extends Program {
 		MainGUI.instance = this;
 		
 		this.setTitle("Bicycle Garage Manager");
-		//TODO setScreen(new LoginScreen());
-		//TODO remove below
 		setScreen(new LoginScreen());
-		//TODO Create menu etc.
-			
-		//TODO log in operator
-		//TODO create main window when logged in successfully
-		//TODO win
-		//TODO after login, plz activate menubar
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//TODO (maybez not here) plz remove menubar when logging out
-		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		this.setVisible(true);
 	}
 
