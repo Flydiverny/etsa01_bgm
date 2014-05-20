@@ -12,6 +12,8 @@ import java.util.TimerTask;
 import javax.swing.JOptionPane;
 
 import test.drivers.*;
+import gui.InstallationGUI;
+import gui.MainGUI;
 import interfaces.IBicycleGarageManager;
 import interfaces.hardware.*;
 
@@ -30,10 +32,16 @@ public class SystemLauncher {
 		}
 		
 		bindHardware();
-		setupReccuringSave();
+		
+	
+		//TODO Remove this :)) (YARR LETS INSTALL)
+		isInstalled = false;
 		
 		//Launching of GUI below.
-		GUI g = new GUI(isInstalled, manager);
+		if(isInstalled)
+			new MainGUI(manager);
+		else
+			new InstallationGUI(manager);
 	}
 	
 	private boolean systemInstalled() {
@@ -83,6 +91,12 @@ public class SystemLauncher {
 	        	saveSystem();
 	        }
 	      }, 0, 1000*60*15); // Every 15 minutes.
+	    
+	    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+	        public void run() {
+	        	saveSystem();
+	        }
+	    }));
 	}
 	
 	private IBicycleGarageManager loadSystem() {
