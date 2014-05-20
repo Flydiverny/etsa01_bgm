@@ -37,7 +37,6 @@ public class MemberListScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				MainGUI.getInstance().setScreen(new MemberScreen(memberManager.getMember((String) table.getValueAt(table.getSelectedRow(), 0))));
-				//System.out.println((String) table.getValueAt(table.getSelectedRow(), 0));
 			}
 		});
 		
