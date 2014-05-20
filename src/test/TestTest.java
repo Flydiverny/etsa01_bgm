@@ -1,12 +1,17 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import system.BicycleGarageManager;
 import system.MemberManager;
 //import interfaces.Bicycle;
 //import interfaces.Member;
@@ -42,13 +47,14 @@ public class TestTest {
 		assertEquals("Address is not the same", "Jupitergatan 2", manager.getMember("199309245151").getAddress() );
 		assertEquals("Phone is not the same", "070315232", manager.getMember("199309245151").getPhone() );
 		
-		assertEquals("should be 1 bicycle registered", new Integer(0), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
+		assertEquals("should be 0 bicycle registered", new Integer(0), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
 		manager.getMember("199309245151").registerBicycle("Yellow ladies bicycle");
 		assertEquals("should be 1 bicycle registered", new Integer(1), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
 		String barcode = manager.getMember("199309245151").getBicycles().get(0).getBarcode();
 		assertNotNull( barcode);
 		System.out.println("barcode: " + barcode);
 		//system clock?
+		System.out.println("register date: " + manager.getMember("199309245151").getBicycles().get(0).getRegistrationDate());
 		System.out.println("TEST 1 ------------");
 		
 	}
@@ -60,9 +66,58 @@ public class TestTest {
 		MemberManager manager = new MemberManager();
 		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
 		manager.getMember("199309245151").registerBicycle("Yellow ladies bicycle");
-		boolean apa = true;
-		manager.getMember("199309245151").getBicycles().get(0).setCheckedIn(apa);
+		boolean sant = true;
+		manager.getMember("199309245151").getBicycles().get(0).setCheckedIn(sant);
+		assertTrue("cykel ej incheckad", manager.getMember("199309245151").getBicycles().get(0).isCheckedIn() );
+		sant = false;
+		manager.getMember("199309245151").getBicycles().get(0).setCheckedIn(sant);
+		assertFalse("cykel ej utcheckad", manager.getMember("199309245151").getBicycles().get(0).isCheckedIn() );
+		
 	}
 	
-
+	/* Test 6
+	 * Operator logs into the system and wants to change the amount of bicycles allowed to be stored in the system.
+	 */
+	@Test
+	public void changeAllowedBicycles() {
+		BicycleGarageManager bicycleMan = new BicycleGarageManager();
+		bicycleMan.setOperatorPassword("", "operatorpass567", "operatorpass567");
+		boolean password = bicycleMan.loginOperator("operatorpass567");
+		assertTrue("Fel lösenord", password );
+		assertEquals("fel garagestorlek i början", new Integer(0), new Integer(bicycleMan.getGarageSize()));
+		bicycleMan.setGarageSize(5);
+		assertEquals("fel garagestorlek i början", new Integer(5), new Integer(bicycleMan.getGarageSize()));
+	}
+	
+	/* Test 11
+	 * Operator wants to change his password.
+	 */
+	@Test
+	public void changePassword() {
+		BicycleGarageManager bicycleMan = new BicycleGarageManager();
+		bicycleMan.setOperatorPassword("", "aaaaa55555", "aaaaa55555");
+		boolean password = bicycleMan.loginOperator("aaaaa55555");
+		assertTrue("Lösenordet är ej aaaaa55555", password );
+		
+		bicycleMan.setOperatorPassword("aaaaa55555", "aaaaa66666", "aaaaa66666");
+		password = bicycleMan.loginOperator("aaaaa66666");
+		assertTrue("Lösenordet är ej aaaaa66666", password );
+		
+	}
+	/* Test 14
+	 * Removal of bicycle.
+	 */
+	@Test
+	public void removeBicycle() {
+		MemberManager manager = new MemberManager();
+		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232",
+				"199309245151");
+		manager.getMember("199309245151").registerBicycle("Yellow ladies bicycle");
+		assertEquals("Bicycle has been removed", new Integer(1), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
+		String barcode = manager.getMember("199309245151").getBicycles().get(0).getBarcode();
+		manager.getMember("199309245151").removeBicycle(barcode);
+		assertEquals("Bicycle has not been removed", new Integer(0), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
+		
+	}
+	
 }
