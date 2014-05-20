@@ -21,7 +21,7 @@ public class MainGUI extends Program {
 		this.setTitle("Bicycle Garage Manager");
 		//TODO setScreen(new LoginScreen());
 		//TODO remove below
-		setScreen(new MainScreen());
+		setScreen(new LoginScreen());
 		//TODO Create menu etc.
 			
 		//TODO log in operator

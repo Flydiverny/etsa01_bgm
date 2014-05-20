@@ -28,6 +28,8 @@ public class LoginScreen extends Screen {
 		
 		JPanel inputpanel = new JPanel();
 		inputpanel.setLayout(new BorderLayout());
+		inputpanel.add(jlpassword, BorderLayout.WEST);
+		inputpanel.add(jtfpassword,BorderLayout.EAST);
 		
 		nextBtn.addActionListener(new ActionListener() {
 			@Override
@@ -44,6 +46,7 @@ public class LoginScreen extends Screen {
 		
 		southPanel.setLayout(new BorderLayout());
 		southPanel.add(nextBtn, BorderLayout.EAST);
+		this.add(inputpanel, BorderLayout.NORTH);
 		this.add(southPanel, BorderLayout.SOUTH);
 	}
 }
