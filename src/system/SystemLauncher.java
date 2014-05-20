@@ -33,6 +33,7 @@ public class SystemLauncher {
 		setupReccuringSave();
 		
 		//Launching of GUI below.
+		//erik was here
 		GUI g = new GUI(isInstalled, manager);
 	}
 	
