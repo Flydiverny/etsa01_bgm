@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import gui.base.Program;
 import gui.menubar.MenuBarBGM;
 import gui.screen.main.LoginScreen;
+import gui.screen.main.MainScreen;
 import gui.screen.main.SystemParametersScreen;
 import interfaces.IBicycleGarageManager;
 import interfaces.IMemberManager;
@@ -20,7 +21,7 @@ public class MainGUI extends Program {
 		this.setTitle("Bicycle Garage Manager");
 		//TODO setScreen(new LoginScreen());
 		//TODO remove below
-		setScreen(new SystemParametersScreen());
+		setScreen(new MainScreen());
 		//TODO Create menu etc.
 			
 		//TODO log in operator
