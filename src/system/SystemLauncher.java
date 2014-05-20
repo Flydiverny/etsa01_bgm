@@ -40,6 +40,8 @@ public class SystemLauncher {
 		//TODO Remove this :)) (YARR LETS INSTALL)
 		//isInstalled = false;
 		
+		setupReccuringSave();
+		
 		//Launching of GUI below.
 		if(isInstalled)
 			new MainGUI(bicycleGarageManager, memberManager);
