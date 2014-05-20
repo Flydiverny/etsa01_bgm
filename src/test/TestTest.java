@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+<<<<<<< HEAD
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -12,6 +13,8 @@ import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.After;
 import org.junit.Before;
+=======
+>>>>>>> 752479f4b1530dbb6c80ff23c382befdba543b89
 import org.junit.Test;
 
 import system.BicycleGarageManager;
@@ -21,21 +24,6 @@ import system.MemberManager;
 //import interfaces.MemberManager;
 
 public class TestTest {
-
-	@Before
-	public void setUp() {
-		String operatorPassword = null;
-		int userPIN = 0;
-		int operatorPIN = 0;
-		boolean userStatus = false;
-		MemberManager manager = new MemberManager();
-		//boolean userRegistered = false;
-	}
-	 @After
-	 public void tearDown() {
-		 
-	 }
-	
 	/* Test 1
 	 * User register as a member of the bicycle garage and registers a bike
 	 */
@@ -78,19 +66,23 @@ public class TestTest {
 		
 	}
 	
+<<<<<<< HEAD
 
+=======
+>>>>>>> 752479f4b1530dbb6c80ff23c382befdba543b89
 	/* Test 6
 	 * Operator logs into the system and wants to change the amount of bicycles allowed to be stored in the system.
 	 */
 	@Test
 	public void changeAllowedBicycles() {
-		BicycleGarageManager bicycleMan = new BicycleGarageManager();
+		MemberManager manager = new MemberManager();
+		BicycleGarageManager bicycleMan = new BicycleGarageManager(manager);
 		bicycleMan.setOperatorPassword("", "operatorpass567", "operatorpass567");
 		boolean password = bicycleMan.loginOperator("operatorpass567");
-		assertTrue("Fel lösenord", password );
-		assertEquals("fel garagestorlek i början", new Integer(0), new Integer(bicycleMan.getGarageSize()));
+		assertTrue("Fel lï¿½senord", password );
+		assertEquals("fel garagestorlek i bï¿½rjan", new Integer(0), new Integer(bicycleMan.getGarageSize()));
 		bicycleMan.setGarageSize(5);
-		assertEquals("fel garagestorlek i början", new Integer(5), new Integer(bicycleMan.getGarageSize()));
+		assertEquals("fel garagestorlek i bï¿½rjan", new Integer(5), new Integer(bicycleMan.getGarageSize()));
 	}
 	
 	/* Test 11
@@ -98,14 +90,14 @@ public class TestTest {
 	 */
 	@Test
 	public void changePassword() {
-		BicycleGarageManager bicycleMan = new BicycleGarageManager();
+		BicycleGarageManager bicycleMan = new BicycleGarageManager(new MemberManager());
 		bicycleMan.setOperatorPassword("", "aaaaa55555", "aaaaa55555");
 		boolean password = bicycleMan.loginOperator("aaaaa55555");
-		assertTrue("Lösenordet är ej aaaaa55555", password );
+		assertTrue("Lï¿½senordet ï¿½r ej aaaaa55555", password );
 		
 		bicycleMan.setOperatorPassword("aaaaa55555", "aaaaa66666", "aaaaa66666");
 		password = bicycleMan.loginOperator("aaaaa66666");
-		assertTrue("Lösenordet är ej aaaaa66666", password );
+		assertTrue("Lï¿½senordet ï¿½r ej aaaaa66666", password );
 		
 	}
 	/* Test 14
@@ -124,6 +116,7 @@ public class TestTest {
 		
 	}
 	
+<<<<<<< HEAD
 	/* Test 21
 	 * Operator enters a social security number that does not exist.
 	 */
@@ -142,13 +135,15 @@ public class TestTest {
 	}
 
 
+=======
+>>>>>>> 752479f4b1530dbb6c80ff23c382befdba543b89
 	/* Test 35
 	 * Operator changes the amount of time the door will be open. Enters too long time.
 	 */
 	@Test
 	public void tooLongTimeEntered() {
 		System.out.println("TEST 35 ------------");
-		BicycleGarageManager manager = new BicycleGarageManager();
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(60);
@@ -162,16 +157,15 @@ public class TestTest {
 	@Test
 	public void tooShortTimeEntered() {
 		System.out.println("TEST 36 ------------");
-		BicycleGarageManager manager = new BicycleGarageManager();
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(2);
 		assertEquals("Door should be unlocked for 5 sec, duration < 5 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		System.out.println("TEST 36 ------------");
 	}
-	
-	
-	
-
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 752479f4b1530dbb6c80ff23c382befdba543b89

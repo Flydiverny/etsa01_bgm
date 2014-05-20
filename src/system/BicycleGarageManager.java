@@ -26,10 +26,14 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private IMemberManager mm;
 	private transient ITerminalNotifier led;
 	
+<<<<<<< HEAD
 
 	private String operatorPassword ="";
 
 
+=======
+	private String operatorPassword = "";
+>>>>>>> 752479f4b1530dbb6c80ff23c382befdba543b89
 	private String operatorPIN;
 	
 	private int monthlyFee;
@@ -56,8 +60,8 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private State entryState = State.AWAITING_OP;
 	private State exitState = State.AWAITING_OP;
 	
-	public BicycleGarageManager() {
-		mm = new MemberManager();
+	public BicycleGarageManager(IMemberManager mm) {
+		this.mm = mm;
 		led = new TerminalNotifier(this);
 	}
 	
@@ -357,7 +361,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		for(IMember m : members) {
 			for(IBicycle b : m.getBicycles())
 				if(b.getBarcode().equals(barcode)) {
-					//b.setCheckedIn(true);
+					b.setCheckedIn(true);
 					return true;
 				}
 		}
