@@ -29,13 +29,14 @@ public class SystemParametersScreen extends Screen {
 		JLabel jlbikefee = new JLabel("Bike fee");
 		
 		Dimension d = new Dimension(75,20); 
-		JTextField jtfmonthlyfee = new JTextField();
+		JTextField jtfmonthlyfee = new JTextField(bgm.getMonthlyFee());
 		jtfmonthlyfee.setSize(d);
-		JTextField jtfbikefee = new JTextField();
+		JTextField jtfbikefee = new JTextField(bgm.getBikeFee());
 		jtfbikefee.setSize(d);
-		JTextField jtfnumofbikes = new JTextField();
+		JTextField jtfnumofbikes = new JTextField(bgm.getGarageSize());
 		jtfnumofbikes.setSize(d);
 		JComboBox<Integer> jcbdooropentime = new JComboBox<Integer>(dooropentime);
+		jcbdooropentime.setSelectedIndex(bgm.getUnlockDuration()-5);
 		
 		this.setLayout(new BorderLayout());
 		JPanel centerpanel = new JPanel();
@@ -81,6 +82,7 @@ public class SystemParametersScreen extends Screen {
 		southPanel.setLayout(new BorderLayout());
 		southPanel.add(cancelBtn, BorderLayout.WEST);
 		southPanel.add(nextBtn, BorderLayout.EAST);
+		this.add(southPanel, BorderLayout.SOUTH);
 	}
 
 }
