@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import gui.MainGUI;
+import gui.screen.main.CreateMemberScreen;
 import gui.screen.main.MainScreen;
 import gui.screen.main.SystemParametersScreen;
 
@@ -39,6 +40,15 @@ public class MenuBarBGM extends JMenuBar {
 		});
 		findallitem.setText("Find All Members");
 		
+		JMenuItem createMember = new JMenuItem();
+		createMember.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MainGUI.getInstance().setScreen(new CreateMemberScreen());
+			}
+		});
+		createMember.setText("Create new Member");
+		
 		JMenuItem exititem = new JMenuItem();
 		exititem.addActionListener(new ActionListener() {
 			@Override
@@ -51,6 +61,7 @@ public class MenuBarBGM extends JMenuBar {
 		
 		//add everything
 		filemenu.add(findallitem);
+		filemenu.add(createMember);
 		filemenu.add(sysparamitem);
 		filemenu.add(exititem);
 		this.add(filemenu);

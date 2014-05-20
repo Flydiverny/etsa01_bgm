@@ -405,4 +405,8 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	public int getGarageSize() {
 		return this.garageSize;
 	}
+
+	public IMemberManager getMemberManager() {
+		return this.mm;
+	}
 }

@@ -23,8 +23,6 @@ public class CompleteScreen extends Screen {
 		JLabel welcomeTxt = new JLabel("Installation Complete!");
 		welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(20f));
 		
-		
-		
 		JPanel centerPanel = new JPanel();
 		
 		centerPanel.setLayout(new GridBagLayout());

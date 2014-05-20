@@ -83,8 +83,8 @@ public class MemberManager implements Serializable, IMemberManager {
 
 	@Override
 	public boolean validateSSN(String ssn) {
-		//TODO Implement FML
-		return false;
+		//TODO Proper validation
+		return ssn.length() == 12;
 	}
 
 	@Override

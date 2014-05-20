@@ -154,4 +154,10 @@ public interface IBicycleGarageManager {
 	 * @return duration
 	 */
 	int getUnlockDuration();
+	
+	/**
+	 * Returns the member manager.
+	 * @return member manager
+	 */
+	IMemberManager getMemberManager();
 }
