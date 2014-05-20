@@ -16,11 +16,11 @@ public abstract class Screen extends JPanel {
 	
 	public abstract void create();
 	
-	public void hide() {
+	public void hideScreen() {
 		this.setVisible(false);
 	}
 	
-	public void show() {
+	public void showScreen() {
 		if(!created) {
 			this.create();
 			created = true;

@@ -18,14 +18,14 @@ public abstract class Program extends JFrame {
 	
 	public void setScreen(Screen screen) {
 		if(this.screen != null) {
-			this.screen.hide();
+			this.screen.hideScreen();
 			this.getContentPane().remove(screen);
 		}
 		
 		this.screen = screen;
 		
 		if(this.screen != null) {
-			this.screen.show();
+			this.screen.showScreen();
 			this.getContentPane().add(screen);
 			this.getContentPane().repaint();
 		}
