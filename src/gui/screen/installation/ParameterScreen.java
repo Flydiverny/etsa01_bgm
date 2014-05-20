@@ -23,7 +23,6 @@ public class ParameterScreen extends Screen {
 	@Override
 	public void create() {
 		JLabel welcomeTxt = new JLabel("System Parameters");
-		JLabel descTxt = new JLabel("");
 		
 		welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(20f));
 		
@@ -54,7 +53,7 @@ public class ParameterScreen extends Screen {
 				}
 				
 				if(!bgm.setOperatorPassword("", oppwdIn.getText(), oppwdrepIn.getText())) {
-					JOptionPane.showMessageDialog(ParameterScreen.this, "Passwords do not match.");
+					JOptionPane.showMessageDialog(ParameterScreen.this, "Entered password is invalid, make sure they match and that the length is between 10 and 32 characters.");
 					return;
 				}
 				
@@ -70,9 +69,9 @@ public class ParameterScreen extends Screen {
 		
 		this.setLayout(new BorderLayout());
 		
-		add(welcomeTxt, BorderLayout.NORTH);
-		add(centerPanel(), BorderLayout.CENTER);
-		add(southPanel, BorderLayout.SOUTH);
+		this.add(welcomeTxt, BorderLayout.NORTH);
+		this.add(centerPanel(), BorderLayout.CENTER);
+		this.add(southPanel, BorderLayout.SOUTH);
 	}
 
 	private JTextField bicyclesInput, oppwdIn, oppwdrepIn;
@@ -82,7 +81,6 @@ public class ParameterScreen extends Screen {
 		
 		GridBagConstraints c = new GridBagConstraints();
 		pane.setLayout(new GridBagLayout());
-		
 
 		JLabel info = new JLabel("To install the system we need some starting information.");	
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -90,7 +88,6 @@ public class ParameterScreen extends Screen {
 	    c.gridy = 0;
 	    c.weightx = 2;
 		pane.add(info,c);
-		
 		
 		JLabel bicycles = new JLabel("Bicycle");	
 		c.fill = GridBagConstraints.HORIZONTAL;
