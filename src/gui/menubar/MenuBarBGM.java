@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import gui.MainGUI;
 import gui.screen.main.CreateMemberScreen;
 import gui.screen.main.MainScreen;
+import gui.screen.main.MemberListScreen;
 import gui.screen.main.OperatorParametersScreen;
 import gui.screen.main.SystemParametersScreen;
 
@@ -44,8 +45,7 @@ public class MenuBarBGM extends JMenuBar {
 		listallmembersitem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO implement
-				//MainGUI.getInstance().setScreen(new SystemParametersScreen());
+				MainGUI.getInstance().setScreen(new MemberListScreen());
 			}
 		});
 		listallmembersitem.setText("List All Members");
