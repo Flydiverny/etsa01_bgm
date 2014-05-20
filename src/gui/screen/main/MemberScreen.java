@@ -39,14 +39,14 @@ public class MemberScreen extends Screen {
 		
 		pane.setLayout(new GridLayout(0,3));
 		
+		createField(pane, "SSN", member.getSSN());		
+
 		createField(pane, "Name", member.getName(), new EditCallback() {
 			@Override
 			public void Edit(String newValue) {
 				member.setName(newValue);
 			}
 		});
-		
-		createField(pane, "SSN", member.getSSN());
 		
 		createField(pane, "Phone", member.getPhone(), new EditCallback() {
 			@Override
@@ -61,6 +61,29 @@ public class MemberScreen extends Screen {
 				member.setAddress(newValue);
 			}
 		});
+		
+		pane.add(new JLabel("Member Status"));
+		final JTextField memberStatus = new JTextField();
+		memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+		memberStatus.setEditable(false);
+		pane.add(memberStatus);
+		
+		final JButton memberStatusToggle = new JButton((member.isDisabled() ? "Enable" : "Disable"));
+		
+		memberStatusToggle.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				member.enable(member.isDisabled());
+				memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+				memberStatusToggle.setText((member.isDisabled() ? "Enable" : "Disable"));
+			}
+		});
+		
+		pane.add(memberStatusToggle);
+		
+		createField(pane, "Amount of Bicycles", String.valueOf(member.amountOfBicycles()));
+		createField(pane, "Monthly Fee", String.valueOf(bgm.getPaymentInfo(member)));
 		
 		return pane;
 	}
@@ -116,5 +139,4 @@ public class MemberScreen extends Screen {
 	private interface EditCallback {
 		public void Edit(String newValue);
 	}
-
 }
