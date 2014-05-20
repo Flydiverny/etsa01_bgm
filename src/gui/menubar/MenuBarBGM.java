@@ -1,20 +1,21 @@
 package gui.menubar;
 
-import java.awt.MenuBar;
+import gui.MainGUI;
+import gui.screen.main.MainScreen;
 
-public class MenuBarBGM extends MenuBar {
+import javax.swing.JMenuBar;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+public class MenuBarBGM extends JMenuBar {
 	private static final long serialVersionUID = -4255644508622465982L;
-	public final static int MENUBAR_TYPE_LOCKED_DOWN = 0, MENUBAR_TYPE_EVERYTHING_ALLOWED = 1;
 	public MenuBarBGM(int menubartype){
-		if(menubartype==MENUBAR_TYPE_LOCKED_DOWN){
-			//TODO bare minimum sorta
-		}
-		if(menubartype == MENUBAR_TYPE_EVERYTHING_ALLOWED){
-			//TODO add everything
-			
-		}
-		
-		
+		//TODO implement
+		//MainGUI.getInstance().setScreen(new SystemParametersScreen());
+		JMenu filemenu = new JMenu();
+		JMenuItem sysparamitem = new JMenuItem();
+		this.add(filemenu);
 	}
 
 
