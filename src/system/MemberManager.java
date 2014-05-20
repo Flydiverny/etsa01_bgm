@@ -83,8 +83,8 @@ public class MemberManager implements Serializable, IMemberManager {
 
 	@Override
 	public boolean validateSSN(String ssn) {
-		//TODO Proper validation
-		return ssn.length() == 12;
+		//TODO Possibly a better implementation than checking if its 12 digits.
+		return ssn.length() == 12 && ssn.matches("\\d+");
 	}
 
 	@Override
