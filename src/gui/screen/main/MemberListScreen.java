@@ -12,8 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import org.w3c.dom.views.AbstractView;
-
 import gui.MainGUI;
 import gui.base.Screen;
 
