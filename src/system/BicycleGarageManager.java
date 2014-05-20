@@ -354,7 +354,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		for(IMember m : members) {
 			for(IBicycle b : m.getBicycles())
 				if(b.getBarcode().equals(barcode)) {
-					//b.setCheckedIn(true);
+					b.setCheckedIn(true);
 					return true;
 				}
 		}
