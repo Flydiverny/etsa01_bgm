@@ -2,11 +2,15 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import interfaces.*;
+//import interfaces.Bicycle;
+//import interfaces.Member;
+//import interfaces.MemberManager;
+import interfaces.IMember;
 import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
 import system.BicycleGarageManager;
+import system.Member;
 import system.MemberManager;
 
 import java.io.Serializable;
@@ -21,28 +25,27 @@ import org.junit.Test;
 
 public class TestTest {
 
-	IMemberManager mm;
-	
 	@Before
 	public void setUp() throws Exception {
 		String operatorPassword = null;
 		int userPIN = 0;
 		int operatorPIN = 0;
 		boolean userStatus = false;
-		boolean userRegistered = false;
-		mm = new MemberManager();
+		
+		//boolean userRegistered = false;
 	}
 	
-
-	@Test
-	/* 
+	/* Test 1
 	 * User register as a member of the bicycle garage and registers a bike
 	 */
+	@Test
 	public void userReg() {
 		//insert code to press "create new member" button
-		mm.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
-		//assertEquals(mm.getAddress()
-		fail("Not yet implemented");
+		MemberManager manager = new MemberManager();
+		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232",
+				"199309245151");
+		assertEquals("name is not the same", "Jacob Nilsson", manager.getMember("199309245151").getName() );
+		
 	}
 
 }
