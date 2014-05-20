@@ -26,11 +26,10 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private IMemberManager mm;
 	private transient ITerminalNotifier led;
 	
-<<<<<<< HEAD
+
 	private String operatorPassword ="";
-=======
-	private String operatorPassword = "";
->>>>>>> b1b709788a04fcb04188192154e678896776ec01
+
+
 	private String operatorPIN;
 	
 	private int monthlyFee;

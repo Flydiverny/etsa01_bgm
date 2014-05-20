@@ -3,22 +3,17 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-<<<<<<< HEAD
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
-=======
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
->>>>>>> b1b709788a04fcb04188192154e678896776ec01
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-<<<<<<< HEAD
 
-=======
->>>>>>> b1b709788a04fcb04188192154e678896776ec01
 import system.BicycleGarageManager;
 import system.MemberManager;
 //import interfaces.Bicycle;
@@ -83,7 +78,7 @@ public class TestTest {
 		
 	}
 	
-<<<<<<< HEAD
+
 	/* Test 6
 	 * Operator logs into the system and wants to change the amount of bicycles allowed to be stored in the system.
 	 */
@@ -129,8 +124,24 @@ public class TestTest {
 		
 	}
 	
-}
-=======
+	/* Test 21
+	 * Operator enters a social security number that does not exist.
+	 */
+	@Test
+	public void ssnExistNot() {
+		MemberManager manager = new MemberManager();
+		assertNull(manager.getMember("1778455543"));
+	}
+	/* Test 23
+	 * Operator wants to view the Operator PIN-code.
+	 */
+	@Test
+	public void checkPassword() {
+		BicycleGarageManager bicycleMan = new BicycleGarageManager();
+		bicycleMan.setOperatorPassword("", "operatorpass567", "operatorpass567");
+	}
+
+
 	/* Test 35
 	 * Operator changes the amount of time the door will be open. Enters too long time.
 	 */
@@ -163,4 +174,4 @@ public class TestTest {
 	
 
 }
->>>>>>> b1b709788a04fcb04188192154e678896776ec01
+
