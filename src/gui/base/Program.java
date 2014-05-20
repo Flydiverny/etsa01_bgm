@@ -3,14 +3,18 @@ package gui.base;
 import javax.swing.JFrame;
 
 import interfaces.IBicycleGarageManager;
+import interfaces.IMember;
+import interfaces.IMemberManager;
 
 public abstract class Program extends JFrame {
 	
 	private Screen screen;
-	private static IBicycleGarageManager manager;
+	private static IBicycleGarageManager BGM_MANAGER;
+	private static IMemberManager MEMBER_MANAGER;
 	
-	public Program(IBicycleGarageManager manager) {
-		this.manager = manager;
+	public Program(IBicycleGarageManager manager, IMemberManager mm) {
+		Program.BGM_MANAGER = manager;
+		Program.MEMBER_MANAGER = mm;
 		
 		this.setSize(854, 480);
 		this.setResizable(false);
@@ -31,7 +35,11 @@ public abstract class Program extends JFrame {
 		}
 	}
 	
-	public static IBicycleGarageManager getManager() {
-		return manager;
+	public static IBicycleGarageManager getBGM() {
+		return BGM_MANAGER;
+	}
+	
+	public static IMemberManager getMemberManager() {
+		return MEMBER_MANAGER;
 	}
 }

@@ -11,7 +11,7 @@ public abstract class Screen extends JPanel {
 	private boolean created = false;
 	
 	public Screen() {
-		this.bgm = Program.getManager();
+		this.bgm = Program.getBGM();
 	}
 	
 	public abstract void create();

@@ -33,7 +33,7 @@ public class CompleteScreen extends Screen {
 				InstallationGUI.getInstance().setVisible(false);
 				InstallationGUI.getInstance().dispose();
 				
-				new MainGUI(Program.getManager());
+				new MainGUI(Program.getBGM(), Program.getMemberManager());
 			}
 		});
 		
