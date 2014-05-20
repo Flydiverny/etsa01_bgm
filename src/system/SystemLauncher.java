@@ -34,19 +34,25 @@ public class SystemLauncher {
 			memberManager = new MemberManager();
 			bicycleGarageManager = new BicycleGarageManager(memberManager);
 		}
-		
-		bindHardware();
 	
 		//TODO Remove this :)) (YARR LETS INSTALL)
 		//isInstalled = false;
 		
-		setupReccuringSave();
-		
 		//Launching of GUI below.
 		if(isInstalled)
-			new MainGUI(bicycleGarageManager, memberManager);
+			launchMainGUI();
 		else
-			new InstallationGUI(bicycleGarageManager, memberManager);
+			new InstallationGUI(bicycleGarageManager, memberManager, new Runnable() {
+				@Override
+				public void run() {
+					launchMainGUI();
+				}});
+	}
+	
+	private void launchMainGUI() {
+		bindHardware();
+		setupReccuringSave();
+		new MainGUI(bicycleGarageManager, memberManager);
 	}
 	
 	private boolean systemInstalled() {

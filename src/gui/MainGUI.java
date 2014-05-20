@@ -28,7 +28,7 @@ public class MainGUI extends Program {
 		//TODO win
 		//TODO after login, plz activate menubar
 		rootPane.setJMenuBar(new MenuBarBGM());
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//TODO (maybez not here) plz remove menubar when logging out
 		
 		this.setVisible(true);

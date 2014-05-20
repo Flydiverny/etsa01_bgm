@@ -11,17 +11,29 @@ public class InstallationGUI extends Program {
 
 	private static InstallationGUI instance;
 	
-	public InstallationGUI(IBicycleGarageManager manager, IMemberManager mm) {
+	private Runnable callback;
+	
+	public InstallationGUI(IBicycleGarageManager manager, IMemberManager mm, Runnable callback) {
 		super(manager, mm);
 		InstallationGUI.instance = this;
 		this.setTitle("Installation Wizard");
 		
 		this.setScreen(new WelcomeScreen());
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		this.callback = callback;
+		
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
 		this.setVisible(true);
 	}
 	
 	public static Program getInstance() {
 		return instance;
+	}
+	
+	public void dispose() {
+		super.dispose();
+		
+		callback.run();
 	}
 }

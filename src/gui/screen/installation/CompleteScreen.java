@@ -32,8 +32,6 @@ public class CompleteScreen extends Screen {
 			public void actionPerformed(ActionEvent arg0) {
 				InstallationGUI.getInstance().setVisible(false);
 				InstallationGUI.getInstance().dispose();
-				
-				new MainGUI(Program.getBGM(), Program.getMemberManager());
 			}
 		});
 		
