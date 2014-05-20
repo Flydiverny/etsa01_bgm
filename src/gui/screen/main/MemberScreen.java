@@ -39,32 +39,28 @@ public class MemberScreen extends Screen {
 		
 		pane.setLayout(new GridLayout(0,3));
 		
-		createField(pane, "Name", member.getName(), new ActionListener() {
+		createField(pane, "Name", member.getName(), new EditCallback() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void Edit(String newValue) {
+				member.setName(newValue);
 			}
 		});
 		
 		createField(pane, "SSN", member.getSSN());
 		
-		createField(pane, "Phone", member.getPhone(), new ActionListener() {
+		createField(pane, "Phone", member.getPhone(), new EditCallback() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void Edit(String newValue) {
+				member.setPhone(newValue);
 			}
 		});
 		
-		createField(pane, "Addr", member.getAddress(), new ActionListener() {
+		createField(pane, "Addr", member.getAddress(), new EditCallback() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void Edit(String newValue) {
+				member.setAddress(newValue);
 			}
 		});
-		
 		
 		return pane;
 	}
@@ -73,18 +69,38 @@ public class MemberScreen extends Screen {
 		createField(p, desc, value, null);
 	}
 	
-	private void createField(JPanel p, String desc, String value, ActionListener callback) {
+	private void createField(JPanel p, String desc, String value, final EditCallback callback) {
 		p.add(new JLabel(desc));
 		
-		JTextField txtField = new JTextField();
+		final JTextField txtField = new JTextField();
 		txtField.setText(value);
 		txtField.setEditable(false);
 		
 		p.add(txtField);
 		
 		if(callback != null) {
-			JButton editBtn = new JButton("Edit");
-			editBtn.addActionListener(callback);
+			final JButton editBtn = new JButton("Edit");
+			
+			ActionListener edit = new ActionListener() {
+				boolean editing = false;
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if(editing) {
+						editBtn.setText("Edit");
+						txtField.setEditable(false);
+						callback.Edit(txtField.getText());
+						editing = false;
+					} else {
+						editBtn.setText("Save");
+						txtField.setEditable(true);
+						editing = true;
+					}
+				}
+			};
+			
+			editBtn.addActionListener(edit);
+			
 			p.add(editBtn);
 		} else {
 			p.add(new JLabel()); // Fill space in grid.
@@ -95,6 +111,10 @@ public class MemberScreen extends Screen {
 		//TODO Implement
 		
 		return new JPanel();
+	}
+	
+	private interface EditCallback {
+		public void Edit(String newValue);
 	}
 
 }
