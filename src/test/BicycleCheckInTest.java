@@ -13,8 +13,9 @@ public class BicycleCheckInTest {
 	
 	@Test
 	public void noreg(){
-		BicycleGarageManager garage = new BicycleGarageManager();
 		MemberManager member = new MemberManager(); 	
+		BicycleGarageManager garage = new BicycleGarageManager(member);
+		
 		member.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
 		
 		IMember mb = member.getMember("199309245151");
@@ -31,10 +32,6 @@ public class BicycleCheckInTest {
 		bikes = mb.getBicycles();
 		
 		assertTrue("bicycle checked in", garage.checkInBicycleByBarcode(bikes.get(2).getBarcode()));
-		
-		
-		
-		
 		
 	}
 	
