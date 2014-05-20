@@ -40,15 +40,15 @@ public class MenuBarBGM extends JMenuBar {
 		});
 		opparamitem.setText("Change Operator Parameters");
 		
-		JMenuItem findallitem = new JMenuItem();
-		findallitem.addActionListener(new ActionListener() {
+		JMenuItem listallmembersitem = new JMenuItem();
+		listallmembersitem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO implement
 				//MainGUI.getInstance().setScreen(new SystemParametersScreen());
 			}
 		});
-		findallitem.setText("Find All Members");
+		listallmembersitem.setText("List All Members");
 		
 		JMenuItem createMember = new JMenuItem();
 		createMember.addActionListener(new ActionListener() {
@@ -70,7 +70,7 @@ public class MenuBarBGM extends JMenuBar {
 		
 		
 		//add everything
-		filemenu.add(findallitem);
+		filemenu.add(listallmembersitem);
 		filemenu.add(createMember);
 		filemenu.add(sysparamitem);
 		filemenu.add(opparamitem);
