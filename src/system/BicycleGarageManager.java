@@ -309,10 +309,12 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		return true;
 	}
-
+	//Lägga till tillåtna värden i user interface?
 	@Override
 	public void setUnlockDuration(int time) {
+		if(!(time > 32 || time < 5)){
 		this.unlockDuration = time;
+		}
 	}
 
 	@Override
