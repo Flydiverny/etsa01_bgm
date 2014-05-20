@@ -35,9 +35,6 @@ public class SystemLauncher {
 			bicycleGarageManager = new BicycleGarageManager(memberManager);
 		}
 	
-		//TODO Remove this :)) (YARR LETS INSTALL)
-		//isInstalled = false;
-		
 		//Launching of GUI below.
 		if(isInstalled)
 			launchMainGUI();
