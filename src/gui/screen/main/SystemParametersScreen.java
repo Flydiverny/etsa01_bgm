@@ -1,7 +1,6 @@
 package gui.screen.main;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,8 +8,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import gui.MainGUI;
 import gui.base.Screen;
 
 public class SystemParametersScreen extends Screen {
@@ -28,13 +30,9 @@ public class SystemParametersScreen extends Screen {
 		JLabel jlmonthlyfee = new JLabel("Monthly fee");
 		JLabel jlbikefee = new JLabel("Bike fee");
 		
-		Dimension d = new Dimension(75,20); 
-		JTextField jtfmonthlyfee = new JTextField(bgm.getMonthlyFee());
-		jtfmonthlyfee.setSize(d);
-		JTextField jtfbikefee = new JTextField(bgm.getBikeFee());
-		jtfbikefee.setSize(d);
-		JTextField jtfnumofbikes = new JTextField(bgm.getGarageSize());
-		jtfnumofbikes.setSize(d);
+		final JTextField jtfmonthlyfee = new JTextField(String.valueOf(bgm.getMonthlyFee()));
+		final JTextField jtfbikefee = new JTextField(String.valueOf(bgm.getBikeFee()));
+		final JTextField jtfnumofbikes = new JTextField(String.valueOf(bgm.getGarageSize()));
 		JComboBox<Integer> jcbdooropentime = new JComboBox<Integer>(dooropentime);
 		jcbdooropentime.setSelectedIndex(bgm.getUnlockDuration()-5);
 		
@@ -64,7 +62,7 @@ public class SystemParametersScreen extends Screen {
 		cancelBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO cancel
+				MainGUI.getInstance().setScreen(new MainScreen());
 			}
 		});
 		
@@ -74,8 +72,54 @@ public class SystemParametersScreen extends Screen {
 		nextBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO en fin screen att gå till och kolla så allt e korrekt o sånt 
-				//InstallationGUI.getInstance().setScreen();
+				int bicycles = 0;
+				
+				try {
+					bicycles = Integer.parseInt(jtfnumofbikes.getText());
+					if(bicycles<bgm.getAmountOfCheckedInBicycles()){
+						JOptionPane.showMessageDialog(SystemParametersScreen.this, "Too few bicycles, garage already has more than the specified amount of bicycles checked in!");
+						return;
+					}	
+				} catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(SystemParametersScreen.this, "Invalid amount of bicycles");
+					return;
+				}
+				
+				
+				
+				int monthly = 0;
+				
+				try {
+					monthly = Integer.parseInt(jtfmonthlyfee.getText());
+					if(monthly<0){
+						JOptionPane.showMessageDialog(SystemParametersScreen.this, "Only positive payment values are valid");
+						return;
+					}	
+				} catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(SystemParametersScreen.this, "Invalid monthly payment");
+					return;
+				}
+				
+				
+				
+				int bikefee = 0;
+				
+				try {
+					bikefee = Integer.parseInt(jtfbikefee.getText());
+					if(bikefee<0){
+						JOptionPane.showMessageDialog(SystemParametersScreen.this, "Only positive payment values are valid");
+						return;
+					}	
+				} catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(SystemParametersScreen.this, "Invalid bike payment");
+					return;
+				}
+				
+				bgm.setGarageSize(bicycles);
+				bgm.setBikeFee(bikefee);
+				bgm.setMonthlyFee(monthly);
+				
+				MainGUI.getInstance().setScreen(new MainScreen());
 			}
 		});
 		
