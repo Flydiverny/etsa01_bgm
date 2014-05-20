@@ -18,6 +18,11 @@ public class Member implements Serializable, IMember {
 	
 	public Member(String name, String addr, String phone, String ssn, String pin) {
 		bicycles = new LinkedList<IBicycle>();
+		this.name = name;
+		this.adderss = addr;
+		this.phone = phone;
+		this.ssn = ssn;
+		this.pin = pin;
 	}
 	
 	@Override
