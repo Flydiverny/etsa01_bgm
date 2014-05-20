@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -22,7 +23,7 @@ public class ParameterScreen extends Screen {
 	@Override
 	public void create() {
 		JLabel welcomeTxt = new JLabel("System Parameters");
-		JLabel descTxt = new JLabel("To install the system we need some starting information.");
+		JLabel descTxt = new JLabel("");
 		
 		welcomeTxt.setFont(welcomeTxt.getFont().deriveFont(20f));
 		
@@ -43,6 +44,22 @@ public class ParameterScreen extends Screen {
 		nextBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				int bicycles = 0;
+				
+				try {
+					bicycles = Integer.parseInt(bicyclesInput.getText());
+				} catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(ParameterScreen.this, "Invalid amount of bicycles");
+					return;
+				}
+				
+				if(!bgm.setOperatorPassword("", oppwdIn.getText(), oppwdrepIn.getText())) {
+					JOptionPane.showMessageDialog(ParameterScreen.this, "Passwords do not match.");
+					return;
+				}
+				
+				bgm.setGarageSize(bicycles);
+				
 				InstallationGUI.getInstance().setScreen(new CompleteScreen());
 			}
 		});
@@ -58,33 +75,55 @@ public class ParameterScreen extends Screen {
 		add(southPanel, BorderLayout.SOUTH);
 	}
 
+	private JTextField bicyclesInput, oppwdIn, oppwdrepIn;
+	
 	private JPanel centerPanel() {
 		JPanel pane = new JPanel();
 		
 		GridBagConstraints c = new GridBagConstraints();
 		pane.setLayout(new GridBagLayout());
 		
-		JLabel bicycles = new JLabel("Bicycle");	
+
+		JLabel info = new JLabel("To install the system we need some starting information.");	
 		c.fill = GridBagConstraints.HORIZONTAL;
 	    c.gridx = 0;
 	    c.gridy = 0;
+	    c.weightx = 2;
+		pane.add(info,c);
+		
+		
+		JLabel bicycles = new JLabel("Bicycle");	
+		c.fill = GridBagConstraints.HORIZONTAL;
+	    c.gridx = 0;
+	    c.gridy = 1;
+	    c.weightx = 1;
 		pane.add(bicycles,c);
 				
-		JTextField bicyclesInput = new JTextField();
+		bicyclesInput = new JTextField();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
-	    c.gridy = 0;
+	    c.gridy = 1;
 		pane.add(bicyclesInput,c);
 		
 		JLabel oppwd = new JLabel("Operator Password");
 		c.gridx = 0;
-	    c.gridy = 1;
+	    c.gridy = 2;
 		pane.add(oppwd,c);
+		
+		oppwdIn = new JTextField();
+		c.gridx = 1;
+	    c.gridy = 2;
+		pane.add(oppwdIn,c);
 		
 		JLabel oppwdrep = new JLabel("Repeat Password");
 		c.gridx = 0;
-	    c.gridy = 2;
+	    c.gridy = 3;
 		pane.add(oppwdrep,c);
+		
+		oppwdrepIn = new JTextField();
+		c.gridx = 1;
+	    c.gridy = 3;
+		pane.add(oppwdrepIn,c);
 		
 		return pane;
 	}
