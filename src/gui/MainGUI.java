@@ -2,6 +2,7 @@ package gui;
 
 import gui.base.Program;
 import gui.screen.main.LoginScreen;
+import gui.screen.main.SystemParametersScreen;
 import interfaces.IBicycleGarageManager;
 
 public class MainGUI extends Program {
@@ -13,8 +14,9 @@ public class MainGUI extends Program {
 		this.instance = this;
 		
 		this.setTitle("Bicycle Garage Manager");
-		setScreen(new LoginScreen());
-				
+		//TODO setScreen(new LoginScreen());
+		//TODO remove below
+		setScreen(new SystemParametersScreen());
 		//TODO Create menu etc.
 			
 		//TODO log in operator

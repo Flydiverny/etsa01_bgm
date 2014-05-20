@@ -3,14 +3,22 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+<<<<<<< HEAD
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+=======
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+>>>>>>> b1b709788a04fcb04188192154e678896776ec01
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+<<<<<<< HEAD
 
+=======
+>>>>>>> b1b709788a04fcb04188192154e678896776ec01
 import system.BicycleGarageManager;
 import system.MemberManager;
 //import interfaces.Bicycle;
@@ -75,6 +83,7 @@ public class TestTest {
 		
 	}
 	
+<<<<<<< HEAD
 	/* Test 6
 	 * Operator logs into the system and wants to change the amount of bicycles allowed to be stored in the system.
 	 */
@@ -121,3 +130,37 @@ public class TestTest {
 	}
 	
 }
+=======
+	/* Test 35
+	 * Operator changes the amount of time the door will be open. Enters too long time.
+	 */
+	@Test
+	public void tooLongTimeEntered() {
+		System.out.println("TEST 35 ------------");
+		BicycleGarageManager manager = new BicycleGarageManager();
+		manager.setUnlockDuration(5);
+		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
+		manager.setUnlockDuration(60);
+		assertEquals("Door should be unlocked for 5 sec, duration > 32 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
+		System.out.println("TEST 35 ------------");
+	}
+	
+	/* Test 36
+	 * Operator changes the amount of time the door will be open. Enters too short time.
+	 */
+	@Test
+	public void tooShortTimeEntered() {
+		System.out.println("TEST 36 ------------");
+		BicycleGarageManager manager = new BicycleGarageManager();
+		manager.setUnlockDuration(5);
+		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
+		manager.setUnlockDuration(2);
+		assertEquals("Door should be unlocked for 5 sec, duration < 5 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
+		System.out.println("TEST 36 ------------");
+	}
+	
+	
+	
+
+}
+>>>>>>> b1b709788a04fcb04188192154e678896776ec01
