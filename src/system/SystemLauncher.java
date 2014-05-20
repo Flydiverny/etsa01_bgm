@@ -15,33 +15,36 @@ import test.drivers.*;
 import gui.InstallationGUI;
 import gui.MainGUI;
 import interfaces.IBicycleGarageManager;
+import interfaces.IMemberManager;
 import interfaces.hardware.*;
 
 public class SystemLauncher {
-	private IBicycleGarageManager manager;
+	private IBicycleGarageManager bicycleGarageManager;
+	private IMemberManager memberManager;
+	
 	private boolean isInstalled = false;
 	
 	private final String SAVE_PATH = "bgm_database.out";
 	
 	public SystemLauncher() {
 		if(systemInstalled()) {
-			manager = loadSystem();
+			bicycleGarageManager = loadSystem();
 			isInstalled = true;
 		} else {
-			manager = new BicycleGarageManager();
+			memberManager = new MemberManager();
+			bicycleGarageManager = new BicycleGarageManager(memberManager);
 		}
 		
 		bindHardware();
-		
 	
 		//TODO Remove this :)) (YARR LETS INSTALL)
 		isInstalled = false;
 		
 		//Launching of GUI below.
 		if(isInstalled)
-			new MainGUI(manager);
+			new MainGUI(bicycleGarageManager, memberManager);
 		else
-			new InstallationGUI(manager);
+			new InstallationGUI(bicycleGarageManager, memberManager);
 	}
 	
 	private boolean systemInstalled() {
@@ -57,15 +60,15 @@ public class SystemLauncher {
         PinCodeTerminal entryTerminal = new PinCodeTerminalTestDriver(true);
         PinCodeTerminal exitTerminal = new PinCodeTerminalTestDriver(false);
         
-        manager.registerHardwareDrivers(printer, entryLock, exitLock, entryTerminal, exitTerminal);
-        entryTerminal.register(manager);
-        exitTerminal.register(manager);
+        bicycleGarageManager.registerHardwareDrivers(printer, entryLock, exitLock, entryTerminal, exitTerminal);
+        entryTerminal.register(bicycleGarageManager);
+        exitTerminal.register(bicycleGarageManager);
         
         BarcodeReader readerEntry = new BarcodeReaderEntryTestDriver();
         BarcodeReader readerExit = new BarcodeReaderExitTestDriver();
         
-        readerEntry.register(manager);
-        readerExit.register(manager);
+        readerEntry.register(bicycleGarageManager);
+        readerExit.register(bicycleGarageManager);
 	}
 	 
 	private void saveSystem() {
@@ -74,7 +77,7 @@ public class SystemLauncher {
 			fos = new FileOutputStream(SAVE_PATH);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			
-			oos.writeObject(manager);
+			oos.writeObject(bicycleGarageManager);
 	    	oos.flush();
 	    	oos.close();
 		} catch (IOException e) {
@@ -120,3 +123,4 @@ public class SystemLauncher {
         new SystemLauncher();
     }
 }
+

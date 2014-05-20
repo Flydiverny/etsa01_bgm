@@ -4,12 +4,13 @@ import gui.base.Program;
 import gui.screen.main.LoginScreen;
 import gui.screen.main.SystemParametersScreen;
 import interfaces.IBicycleGarageManager;
+import interfaces.IMemberManager;
 
 public class MainGUI extends Program {
 	private static MainGUI instance;
 
-	public MainGUI(IBicycleGarageManager manager) {
-		super(manager);
+	public MainGUI(IBicycleGarageManager manager, IMemberManager mm) {
+		super(manager, mm);
 		
 		this.instance = this;
 		

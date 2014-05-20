@@ -1,13 +1,19 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Date;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import system.BicycleGarageManager;
 import system.MemberManager;
 //import interfaces.Bicycle;
@@ -15,21 +21,6 @@ import system.MemberManager;
 //import interfaces.MemberManager;
 
 public class TestTest {
-
-	@Before
-	public void setUp() {
-		String operatorPassword = null;
-		int userPIN = 0;
-		int operatorPIN = 0;
-		boolean userStatus = false;
-		MemberManager manager = new MemberManager();
-		//boolean userRegistered = false;
-	}
-	 @After
-	 public void tearDown() {
-		 
-	 }
-	
 	/* Test 1
 	 * User register as a member of the bicycle garage and registers a bike
 	 */
@@ -44,13 +35,14 @@ public class TestTest {
 		assertEquals("Address is not the same", "Jupitergatan 2", manager.getMember("199309245151").getAddress() );
 		assertEquals("Phone is not the same", "070315232", manager.getMember("199309245151").getPhone() );
 		
-		assertEquals("should be 1 bicycle registered", new Integer(0), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
+		assertEquals("should be 0 bicycle registered", new Integer(0), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
 		manager.getMember("199309245151").registerBicycle("Yellow ladies bicycle");
 		assertEquals("should be 1 bicycle registered", new Integer(1), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
 		String barcode = manager.getMember("199309245151").getBicycles().get(0).getBarcode();
 		assertNotNull( barcode);
 		System.out.println("barcode: " + barcode);
 		//system clock?
+		System.out.println("register date: " + manager.getMember("199309245151").getBicycles().get(0).getRegistrationDate());
 		System.out.println("TEST 1 ------------");
 		
 	}
@@ -62,8 +54,28 @@ public class TestTest {
 		MemberManager manager = new MemberManager();
 		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
 		manager.getMember("199309245151").registerBicycle("Yellow ladies bicycle");
-		boolean apa = true;
-		manager.getMember("199309245151").getBicycles().get(0).setCheckedIn(apa);
+		boolean sant = true;
+		manager.getMember("199309245151").getBicycles().get(0).setCheckedIn(sant);
+		assertTrue("cykel ej incheckad", manager.getMember("199309245151").getBicycles().get(0).isCheckedIn() );
+		sant = false;
+		manager.getMember("199309245151").getBicycles().get(0).setCheckedIn(sant);
+		assertFalse("cykel ej utcheckad", manager.getMember("199309245151").getBicycles().get(0).isCheckedIn() );
+		
+	}
+	
+	/* Test 6
+	 * Operator logs into the system and wants to change the amount of bicycles allowed to be stored in the system.
+	 */
+	@Test
+	public void changeAllowedBicycles() {
+		MemberManager manager = new MemberManager();
+		BicycleGarageManager bicycleMan = new BicycleGarageManager(manager);
+		bicycleMan.setOperatorPassword("", "operatorpass567", "operatorpass567");
+		boolean password = bicycleMan.loginOperator("operatorpass567");
+		assertTrue("Fel l�senord", password );
+		assertEquals("fel garagestorlek i b�rjan", new Integer(0), new Integer(bicycleMan.getGarageSize()));
+		bicycleMan.setGarageSize(5);
+		assertEquals("fel garagestorlek i b�rjan", new Integer(5), new Integer(bicycleMan.getGarageSize()));
 	}
 	/* Test 34
 	 * Operator enters password containing a non-alphanumerical character.
@@ -71,19 +83,68 @@ public class TestTest {
 	@Test
 	public void passIsAlphanumeric() {
 		System.out.println("--- TEST 34 ---");
-		BicycleGarageManager manager = new BicycleGarageManager();
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
 		assertEquals("Password may not consist of non-aplhanumerical characters.", 
 		false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
 		System.out.println("--- TEST 34 ---");
 	}
 	
+	/* Test 11
+	 * Operator wants to change his password.
+	 */
+	@Test
+	public void changePassword() {
+		BicycleGarageManager bicycleMan = new BicycleGarageManager(new MemberManager());
+		bicycleMan.setOperatorPassword("", "aaaaa55555", "aaaaa55555");
+		boolean password = bicycleMan.loginOperator("aaaaa55555");
+		assertTrue("L�senordet �r ej aaaaa55555", password );
+		
+		bicycleMan.setOperatorPassword("aaaaa55555", "aaaaa66666", "aaaaa66666");
+		password = bicycleMan.loginOperator("aaaaa66666");
+		assertTrue("L�senordet �r ej aaaaa66666", password );
+		
+	}
+	/* Test 14
+	 * Removal of bicycle.
+	 */
+	@Test
+	public void removeBicycle() {
+		MemberManager manager = new MemberManager();
+		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232",
+				"199309245151");
+		manager.getMember("199309245151").registerBicycle("Yellow ladies bicycle");
+		assertEquals("Bicycle has been removed", new Integer(1), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
+		String barcode = manager.getMember("199309245151").getBicycles().get(0).getBarcode();
+		manager.getMember("199309245151").removeBicycle(barcode);
+		assertEquals("Bicycle has not been removed", new Integer(0), new Integer(manager.getMember("199309245151").amountOfBicycles()) );
+		
+	}
+	
+	/* Test 21
+	 * Operator enters a social security number that does not exist.
+	 */
+	@Test
+	public void ssnExistNot() {
+		MemberManager manager = new MemberManager();
+		assertNull(manager.getMember("1778455543"));
+	}
+	/* Test 23
+	 * Operator wants to view the Operator PIN-code.
+	 */
+	@Test
+	public void checkPassword() {
+		BicycleGarageManager bicycleMan = new BicycleGarageManager(new MemberManager());
+		bicycleMan.setOperatorPassword("", "operatorpass567", "operatorpass567");
+	}
+
+
 	/* Test 35
 	 * Operator changes the amount of time the door will be open. Enters too long time.
 	 */
 	@Test
 	public void tooLongTimeEntered() {
-		System.out.println("--- TEST 35 ---");
-		BicycleGarageManager manager = new BicycleGarageManager();
+		System.out.println("TEST 35 ------------");
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(60);
@@ -96,8 +157,8 @@ public class TestTest {
 	 */
 	@Test
 	public void tooShortTimeEntered() {
-		System.out.println("--- TEST 36 ---");
-		BicycleGarageManager manager = new BicycleGarageManager();
+		System.out.println("TEST 36 ------------");
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(2);
