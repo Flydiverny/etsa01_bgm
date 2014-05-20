@@ -101,8 +101,7 @@ public class Member implements Serializable, IMember {
 
 	@Override
 	public boolean isDisabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return !enabled;
 	}
 
 }
