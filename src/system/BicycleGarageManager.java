@@ -248,7 +248,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		// TODO Check for OP Code 9* (operator wants to leave the building)
 		
-		if(exitState != State.AWAITING_PIN) // TODO Perhaps a LED NF 3 or something
+		if(exitState != State.AWAITING_PIN) // TODO Perhaps a LED NF3 or something
 			return;
 		
 		if(exitBuffer[0] == '#') {

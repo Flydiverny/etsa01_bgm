@@ -33,12 +33,7 @@ public class SystemLauncher {
 		setupReccuringSave();
 		
 		//Launching of GUI below.
-		if(isInstalled) {
-			//GUI g = new GUI();
-		} else {//hej jag �r snygg
-			//GUI inst = new InstallGUI();
-			//perhaps just send isInstalled as parameter to GUI and GUI has to take care of it.
-		}
+		GUI g = new GUI(isInstalled, manager);
 	}
 	
 	private boolean systemInstalled() {
