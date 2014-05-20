@@ -1,5 +1,7 @@
 package gui;
 
+import javax.swing.JFrame;
+
 import interfaces.IBicycleGarageManager;
 import interfaces.IMemberManager;
 import gui.base.Program;
@@ -15,7 +17,7 @@ public class InstallationGUI extends Program {
 		this.setTitle("Installation Wizard");
 		
 		this.setScreen(new WelcomeScreen());
-		
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 	

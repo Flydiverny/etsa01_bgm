@@ -1,6 +1,9 @@
 package gui;
 
+import javax.swing.JFrame;
+
 import gui.base.Program;
+import gui.menubar.MenuBarBGM;
 import gui.screen.main.LoginScreen;
 import gui.screen.main.SystemParametersScreen;
 import interfaces.IBicycleGarageManager;
@@ -12,7 +15,7 @@ public class MainGUI extends Program {
 	public MainGUI(IBicycleGarageManager manager, IMemberManager mm) {
 		super(manager, mm);
 		
-		this.instance = this;
+		MainGUI.instance = this;
 		
 		this.setTitle("Bicycle Garage Manager");
 		//TODO setScreen(new LoginScreen());
@@ -23,6 +26,10 @@ public class MainGUI extends Program {
 		//TODO log in operator
 		//TODO create main window when logged in successfully
 		//TODO win
+		//TODO after login, plz activate menubar
+		rootPane.setJMenuBar(new MenuBarBGM());
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//TODO (maybez not here) plz remove menubar when logging out
 		
 		this.setVisible(true);
 	}

@@ -38,7 +38,7 @@ public class SystemLauncher {
 		bindHardware();
 	
 		//TODO Remove this :)) (YARR LETS INSTALL)
-		isInstalled = false;
+		//isInstalled = false;
 		
 		//Launching of GUI below.
 		if(isInstalled)
