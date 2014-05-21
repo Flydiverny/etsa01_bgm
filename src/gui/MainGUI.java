@@ -8,6 +8,10 @@ import interfaces.IBicycleGarageManager;
 import javax.swing.JFrame;
 
 public class MainGUI extends Program {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3801631743920387386L;
 	private static MainGUI instance;
 
 	public MainGUI(IBicycleGarageManager manager) {

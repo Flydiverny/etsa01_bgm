@@ -16,6 +16,11 @@ import javax.swing.JTextField;
 
 public class LoginScreen extends Screen {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1217673798999202074L;
+
 	@Override
 	public void create() {
 		JPanel southPanel = new JPanel();

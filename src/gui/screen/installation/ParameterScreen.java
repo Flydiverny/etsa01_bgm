@@ -17,6 +17,11 @@ import javax.swing.JTextField;
 
 public class ParameterScreen extends Screen {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7998128385903916792L;
+
 	@Override
 	public void create() {
 		JLabel welcomeTxt = new JLabel("System Parameters");
