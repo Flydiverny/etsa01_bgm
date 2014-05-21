@@ -74,9 +74,7 @@ public class CreateMemberScreen extends Screen {
 		
 		nextBtn.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.print(ssn.getText());
-				
+			public void actionPerformed(ActionEvent arg0) {				
 				if(!memberManager.validateSSN(ssn.getText())) {
 					JOptionPane.showMessageDialog(CreateMemberScreen.this, "Invalid Socical Security Number, make sure your SSN follows the format YYYYMMDDXXXX");
 					return;

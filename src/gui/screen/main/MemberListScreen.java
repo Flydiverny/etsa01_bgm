@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -34,8 +35,11 @@ public class MemberListScreen extends Screen {
 		selectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				MainGUI.getInstance().setScreen(new MemberScreen(memberManager.getMember((String) table.getValueAt(table.getSelectedRow(), 0))));
-				//System.out.println((String) table.getValueAt(table.getSelectedRow(), 0));
+				int index = table.getSelectedRow();
+				if(index>=0)
+					MainGUI.getInstance().setScreen(new MemberScreen(memberManager.getMember((String) table.getValueAt(index, 0))));
+				else
+					JOptionPane.showMessageDialog(MemberListScreen.this, "No member selected.");
 			}
 		});
 		
