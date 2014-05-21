@@ -58,6 +58,7 @@ public class TerminalNotifier implements ITerminalNotifier {
 	public void NF4(PinCodeTerminal terminal) {
 		terminal.lightLED(PinCodeTerminal.GREEN_LED, 3);
 		terminal.lightLED(PinCodeTerminal.RED_LED, 3);
+		//TODO Blink alternerande sexig dans
 	}
 
 	@Override

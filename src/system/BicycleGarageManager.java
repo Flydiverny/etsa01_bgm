@@ -32,7 +32,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private int monthlyFee;
 	private int bicycleFee;
 	
-	private int unlockDuration = 5; // Duration door remains unlocked
+	private int unlockDuration = 10; // Duration door remains unlocked
 	private int garageSize = 0; // Limit max amount of checked in bicycles, value set at installation.
 	
 	private transient IBicycle exitingBicycle = null;
@@ -89,6 +89,12 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			led().NF3(entryTerm);
 			return;
 		}
+		
+		if(b.getOwner().isDisabled()) {
+			led().NF6(entryTerm);
+			return;
+		}
+		
 		b.setCheckedIn(true);
 		
 		entryLock.open(this.getUnlockDuration());
@@ -105,6 +111,12 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			return;
 		
 		IBicycle b = mm.getBicycle(bicycleId);
+		
+		if(b == null) {
+			led().NF3(exitTerm);
+			return;
+		}
+		
 		if(!b.isCheckedIn()) {
 			led().NF4(exitTerm);
 			return;
@@ -127,8 +139,10 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			checkOpCode();
 			break;
 		case AWAITING_OPERATOR:
+			checkOPPIN();
 			break;
 		case AWAITING_PIN:
+			//TODO increase time left before reset for each press in this state. by 1000 ms
 			checkPIN();
 			break;
 		case AWAITING_SCAN:
@@ -155,6 +169,12 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		}
 		
 		exitResetTime = System.currentTimeMillis() + 5000;
+	}
+	
+	private void checkOPPIN() {
+		//TODO FIX OP PIN stuff so operator can enter
+		//TODO also operator should be able to exit.
+		//TODO USE CASE 10
 	}
 	
 	private void checkPIN() {
@@ -257,6 +277,8 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		if(exitState != State.AWAITING_PIN) // TODO Perhaps a LED NF3 or something
 			return;
+		
+		bufferInput(c, exitBuffer);
 		
 		if(exitBuffer[0] == '#') {
 			clearExitBuffer();

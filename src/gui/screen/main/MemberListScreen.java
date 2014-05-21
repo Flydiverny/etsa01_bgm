@@ -67,6 +67,11 @@ public class MemberListScreen extends Screen {
 				data[i][1] = m.getName();
 				data[i][2] = String.valueOf(m.amountOfBicycles());
 				data[i][3] = !m.isDisabled() ? "Enabled" : "Disabled";
+				
+				//TODO Should be able to double click row
+				//TODO USE CASE 12
+				//TODO add col for checked in bikez
+				//TODO Show payment info UC17
 				i++;
 			}
 		}

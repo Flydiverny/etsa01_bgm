@@ -17,6 +17,7 @@ import javax.swing.table.AbstractTableModel;
 
 import interfaces.IBicycle;
 import interfaces.ILog;
+import interfaces.IMember;
 import gui.MainGUI;
 import gui.base.Program;
 import gui.base.Screen;
@@ -40,12 +41,14 @@ public class BicycleDetailsScreen extends Screen {
 		title.setFont(title.getFont().deriveFont(20f));
 		
 		this.add(title, BorderLayout.NORTH);
-		this.add(memberDetails(), BorderLayout.WEST);
+		this.add(bicycleDetails(), BorderLayout.WEST);
 		this.add(logList(), BorderLayout.EAST);
 		this.add(southPanel(), BorderLayout.SOUTH);
 	}
 	
-	private JPanel memberDetails() {
+	private JPanel bicycleDetails() {
+		//TODO add registration date somewhere in this screen
+		
 		JPanel pane = new JPanel();
 		
 		pane.setLayout(new GridLayout(0,3));
@@ -69,6 +72,7 @@ public class BicycleDetailsScreen extends Screen {
 	}
 	
 	private JPanel southPanel() {
+	
 		JPanel pane = new JPanel();
 		
 		pane.setLayout(new BorderLayout());
@@ -77,11 +81,16 @@ public class BicycleDetailsScreen extends Screen {
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(bicycle.isCheckedIn()) {
+					JOptionPane.showMessageDialog(null, "Cannot remove a checked in bicycle.");
+					return;
+				}
+				
 				if(JOptionPane.showConfirmDialog(null, "Do you really want to delte the selceted bicycle?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					bicycle.getOwner().removeBicycle(bicycle.getBarcode());
-					JOptionPane.showMessageDialog(null,  "Bike was most likely successfully deleted");
-					MainGUI.getInstance().setScreen(new MainScreen());
-					
+					IMember owner = bicycle.getOwner();
+					owner.removeBicycle(bicycle.getBarcode());
+					JOptionPane.showMessageDialog(null,  "Bike was most successfully deleted");
+					MainGUI.getInstance().setScreen(new MemberScreen(owner));
 				}
 			}
 		});
@@ -93,7 +102,17 @@ public class BicycleDetailsScreen extends Screen {
 			}
 		});
 		
+		JButton back = new JButton("View Owner");
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MainGUI.getInstance().setScreen(new MemberScreen(bicycle.getOwner()));
+			}
+		});
+		
 		pane.add(delete, BorderLayout.EAST);
+		
+		pane.add(back, BorderLayout.CENTER);
 		pane.add(print, BorderLayout.WEST);
 		
 		return pane;

@@ -80,6 +80,8 @@ public class CreateMemberScreen extends Screen {
 					return;
 				}
 				
+				// FOrce non empty strings
+				
 				if(!memberManager.createMember(name.getText(), addr.getText(), phone.getText(), ssn.getText())) {
 					JOptionPane.showMessageDialog(CreateMemberScreen.this, "A member with the entered Social Security Number already exists.");
 				}

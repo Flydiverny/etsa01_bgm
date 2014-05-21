@@ -38,7 +38,7 @@ public class MemberScreen extends Screen {
 		title.setFont(title.getFont().deriveFont(20f));
 		
 		this.add(title, BorderLayout.NORTH);
-		this.add(memberDetails(), BorderLayout.WEST);
+		this.add(memberDetails(), BorderLayout.CENTER);
 		this.add(bicyleList(), BorderLayout.EAST);
 		this.add(southPanel(), BorderLayout.SOUTH);
 	}
@@ -170,6 +170,7 @@ public class MemberScreen extends Screen {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if(editing) {
+						//TODO dont allow empty values on save
 						editBtn.setText("Edit");
 						txtField.setEditable(false);
 						callback.Edit(txtField.getText());
@@ -242,7 +243,27 @@ public class MemberScreen extends Screen {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int amountOfGarageSize = 0;
+				
+				for(IMember m: memberManager.listMembers()) {
+					amountOfGarageSize += m.amountOfBicycles();
+				}
+				
+				if(bgm.getGarageSize() <= amountOfGarageSize) {
+					JOptionPane.showMessageDialog(null, "Garage is full, you may not registereded bicycle!");
+					return;
+				}
+				
+				if(member.isDisabled()) {
+					JOptionPane.showMessageDialog(null, "Bicycle registration is not allowed when the member is disabled");
+					return;
+				}
+				
 				String desc = JOptionPane.showInputDialog("Enter Bicycle description");
+				
+				if(desc == null || desc.equals(""))
+					return;
+				
 				member.registerBicycle(desc);
 				
 				model.updateTableData();

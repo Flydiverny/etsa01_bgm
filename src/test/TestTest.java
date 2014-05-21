@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import interfaces.IBicycleGarageManager;
 import interfaces.IMember;
+import interfaces.IMemberManager;
 
 import java.util.Date;
 import java.util.Map;
@@ -138,7 +140,7 @@ public class TestTest {
 	@Test
 	public void changeUnlockTime() {
 		BicycleGarageManager bicycleMan = new BicycleGarageManager();
-		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(bicycleMan.getUnlockDuration()));
+		assertEquals("Door should be unlocked for 10 seconds.", new Integer(10), new Integer(bicycleMan.getUnlockDuration()));
 		bicycleMan.setUnlockDuration(7);
 		assertEquals("Door should be unlocked for 7 seconds.", new Integer(7), new Integer(bicycleMan.getUnlockDuration()));
 	}
@@ -149,8 +151,8 @@ public class TestTest {
 	@Test
 	public void operatoreChecksInBicycle() {
 		System.out.println("test 26---------");
-		BicycleGarageManager bicycleMan = new BicycleGarageManager();
-		MemberManager manager = new MemberManager();
+		IBicycleGarageManager bicycleMan = new BicycleGarageManager();
+		IMemberManager manager = bicycleMan.getMemberManager();
 		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
 		manager.getMember("199309245151").registerBicycle("Yellow ladies bicycle");
 		String barcode = manager.getMember("199309245151").getBicycles().get(0).getBarcode();
@@ -253,7 +255,7 @@ public class TestTest {
 	public void passNotAlphanumeric() {
 		BicycleGarageManager manager = new BicycleGarageManager();
 		assertTrue("Password may not consist of non-aplhanumeric characters.", 
-		manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
+		manager.setOperatorPassword("", "operatorpassword(567", "operatorpassword(567"));
 	}
 
 	/* Test 35
