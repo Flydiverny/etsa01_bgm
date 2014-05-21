@@ -66,7 +66,7 @@ public class MemberListScreen extends Screen {
 				data[i][0] = m.getSSN();
 				data[i][1] = m.getName();
 				data[i][2] = String.valueOf(m.amountOfBicycles());
-				data[i][3] = !m.isDisabled();
+				data[i][3] = !m.isDisabled() ? "Enabled" : "Disabled";
 				i++;
 			}
 		}

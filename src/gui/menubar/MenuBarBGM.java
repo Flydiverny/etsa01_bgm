@@ -22,8 +22,11 @@ public class MenuBarBGM extends JMenuBar {
 	public MenuBarBGM(){
 		//TODO implement
 		//create menus
-		JMenu filemenu = new JMenu();
-		filemenu.setText("File");
+		JMenu systemmenu = new JMenu();
+		systemmenu.setText("System");
+		
+		JMenu databasemenu = new JMenu();
+		databasemenu.setText("Database");
 		
 		//create items
 		JMenuItem sysparamitem = new JMenuItem();
@@ -80,7 +83,7 @@ public class MenuBarBGM extends JMenuBar {
 				}
 			}
 		});
-		findMemberBySSN.setText("Find Member By Social Security Number");
+		findMemberBySSN.setText("Find Member");
 		
 		JMenuItem exititem = new JMenuItem();
 		exititem.addActionListener(new ActionListener() {
@@ -100,16 +103,41 @@ public class MenuBarBGM extends JMenuBar {
 		});
 		gohomeitem.setText("Go Home");
 		
+		JMenuItem checkinbike = new JMenuItem();
+		checkinbike.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String input = JOptionPane.showInputDialog(MenuBarBGM.this, "Insert a barcode to find a bicycle in the database.", "Find by barcode", JOptionPane.QUESTION_MESSAGE);
+				if(input != null){
+					if(Program.getBGM().checkInBicycleByBarcode(input)){
+						JOptionPane.showMessageDialog(MenuBarBGM.this, "Bicycle was checked in");
+						return;
+					}else if(Program.getMemberManager().getBicycle(input) == null){
+						JOptionPane.showMessageDialog(MenuBarBGM.this, "Bicycle could not be found in database. Are you sure you provided a valid barcode?");
+					}else if(Program.getMemberManager().getBicycle(input).isCheckedIn()){
+						JOptionPane.showMessageDialog(MenuBarBGM.this, "Bicycle is already checked in");
+					}else{
+						JOptionPane.showMessageDialog(MenuBarBGM.this, "Could not check in bicycle. Unknown reason.");
+					}
+				}
+			}
+		});
+		checkinbike.setText("Check In Bicycle");
+		
 		
 		//add everything
-		filemenu.add(gohomeitem);
-		filemenu.add(listallmembersitem);
-		filemenu.add(findMemberBySSN);
-		filemenu.add(createMember);
-		filemenu.add(sysparamitem);
-		filemenu.add(opparamitem);
-		filemenu.add(exititem);
-		this.add(filemenu);
+		systemmenu.add(gohomeitem);
+		systemmenu.add(sysparamitem);
+		systemmenu.add(opparamitem);
+		systemmenu.add(exititem);
+		
+		databasemenu.add(listallmembersitem);
+		databasemenu.add(findMemberBySSN);
+		databasemenu.add(createMember);
+		databasemenu.add(checkinbike);
+		
+		this.add(systemmenu);
+		this.add(databasemenu);
 	}
 
 
