@@ -110,6 +110,7 @@ public class MemberScreen extends Screen {
 		pane.add(new JLabel("Member Status"));
 		final JTextField memberStatus = new JTextField();
 		memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+		memberStatus.setToolTipText(((member.isDisabled() ? "Disabled" : "Enabled")));
 		memberStatus.setEditable(false);
 		pane.add(memberStatus);
 		
@@ -120,6 +121,7 @@ public class MemberScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				member.enable(member.isDisabled());
 				memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+				memberStatus.setToolTipText(((member.isDisabled() ? "Disabled" : "Enabled")));
 				memberStatusToggle.setText((member.isDisabled() ? "Enable" : "Disable"));
 			}
 		});
@@ -131,6 +133,7 @@ public class MemberScreen extends Screen {
 		pane.add(new JLabel("PIN-code"));
 		final JTextField memberPIN = new JTextField();
 		memberPIN.setText(member.getPIN());
+		memberPIN.setToolTipText(member.getPIN());
 		memberPIN.setEditable(false);
 		pane.add(memberPIN);
 		
@@ -141,6 +144,7 @@ public class MemberScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Do you really want to generate a new PIN-code for this member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					memberPIN.setText(memberManager.createNewPIN(member));
+					memberPIN.setToolTipText(member.getPIN());
 				}
 			}
 		});
@@ -157,6 +161,7 @@ public class MemberScreen extends Screen {
 		
 		final JTextField txtField = new JTextField();
 		txtField.setText(value);
+		txtField.setToolTipText(value);
 		txtField.setEditable(false);
 		
 		p.add(txtField);
@@ -174,6 +179,7 @@ public class MemberScreen extends Screen {
 						editBtn.setText("Edit");
 						txtField.setEditable(false);
 						callback.Edit(txtField.getText());
+						txtField.setToolTipText(txtField.getText());
 						editing = false;
 					} else {
 						editBtn.setText("Save");

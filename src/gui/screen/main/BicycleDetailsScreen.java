@@ -41,14 +41,12 @@ public class BicycleDetailsScreen extends Screen {
 		title.setFont(title.getFont().deriveFont(20f));
 		
 		this.add(title, BorderLayout.NORTH);
-		this.add(bicycleDetails(), BorderLayout.WEST);
+		this.add(bicycleDetails(), BorderLayout.CENTER);
 		this.add(logList(), BorderLayout.EAST);
 		this.add(southPanel(), BorderLayout.SOUTH);
 	}
 	
-	private JPanel bicycleDetails() {
-		//TODO add registration date somewhere in this screen
-		
+	private JPanel bicycleDetails() {	
 		JPanel pane = new JPanel();
 		
 		pane.setLayout(new GridLayout(0,3));
@@ -58,6 +56,8 @@ public class BicycleDetailsScreen extends Screen {
 		createField(pane, "Owner Name", bicycle.getOwner().getName());
 		
 		createField(pane, "Barcode", bicycle.getBarcode());
+		
+		createField(pane, "Registration Date", bicycle.getRegistrationDate().toString());
 		
 		createField(pane, "Description", bicycle.getDescription(), new EditCallback() {
 			@Override
@@ -122,6 +122,7 @@ public class BicycleDetailsScreen extends Screen {
 		pane.add(new JLabel("Status"));
 		final JTextField bikeCheckedInStatus = new JTextField();
 		bikeCheckedInStatus.setText(bicycle.isCheckedIn() ? "Checked In" : "Checked Out");
+		bikeCheckedInStatus.setToolTipText((bicycle.isCheckedIn() ? "Checked In" : "Checked Out"));
 		bikeCheckedInStatus.setEditable(false);
 		pane.add(bikeCheckedInStatus);
 		
@@ -132,6 +133,7 @@ public class BicycleDetailsScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				bicycle.setCheckedIn(!bicycle.isCheckedIn());
 				bikeCheckedInStatus.setText(bicycle.isCheckedIn() ? "Checked In" : "Checked Out");
+				bikeCheckedInStatus.setToolTipText((bicycle.isCheckedIn() ? "Checked In" : "Checked Out"));
 				bikeCheckedInStatusToggle.setText(bicycle.isCheckedIn() ? "Check Out" : "Check In");
 				MainGUI.getInstance().setScreen(new BicycleDetailsScreen(bicycle));
 			}
@@ -151,6 +153,7 @@ public class BicycleDetailsScreen extends Screen {
 		
 		final JTextField txtField = new JTextField();
 		txtField.setText(value);
+		txtField.setToolTipText(value);
 		txtField.setEditable(false);
 		
 		p.add(txtField);
@@ -166,6 +169,7 @@ public class BicycleDetailsScreen extends Screen {
 					if(editing) {
 						editBtn.setText("Edit");
 						txtField.setEditable(false);
+						txtField.setToolTipText(txtField.getText());
 						callback.Edit(txtField.getText());
 						editing = false;
 					} else {

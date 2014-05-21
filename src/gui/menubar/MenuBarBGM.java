@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 public class MenuBarBGM extends JMenuBar {
 	private static final long serialVersionUID = -4255644508622465982L;
 	public MenuBarBGM(){
-		//TODO implement
 		//create menus
 		JMenu systemmenu = new JMenu();
 		systemmenu.setText("System");
