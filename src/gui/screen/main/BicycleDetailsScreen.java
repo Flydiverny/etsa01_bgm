@@ -14,27 +14,27 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellRenderer;
 
+import interfaces.IBicycle;
+import interfaces.ILog;
 import gui.MainGUI;
 import gui.base.Screen;
-import interfaces.IBicycle;
-import interfaces.IMember;
 
-public class MemberScreen extends Screen {
-	
-	private IMember member;
-	
-	public MemberScreen(IMember member) {
+
+
+public class BicycleDetailsScreen extends Screen {
+	private static final long serialVersionUID = 7343484603784490726L;
+	private IBicycle bicycle;
+	public BicycleDetailsScreen(IBicycle b){
 		super();
-		this.member = member;
+		bicycle = b;
 	}
 
 	@Override
 	public void create() {
 		this.setLayout(new BorderLayout());
 		
-		JLabel title = new JLabel("Member Details for " + member.getSSN());
+		JLabel title = new JLabel("Bicycle Details for " + bicycle.getBarcode());
 		title.setFont(title.getFont().deriveFont(20f));
 		
 		this.add(title, BorderLayout.NORTH);
@@ -48,33 +48,33 @@ public class MemberScreen extends Screen {
 		
 		pane.setLayout(new GridLayout(0,3));
 		
-		createField(pane, "SSN", member.getSSN());		
+		createField(pane, "SSN", "");		
 
-		createField(pane, "Name", member.getName(), new EditCallback() {
+		createField(pane, "Name", "", new EditCallback() {
 			@Override
 			public void Edit(String newValue) {
-				member.setName(newValue);
+				//member.setName(newValue);
 			}
 		});
 		
-		createField(pane, "Phone", member.getPhone(), new EditCallback() {
+		createField(pane, "Phone", "", new EditCallback() {
 			@Override
 			public void Edit(String newValue) {
-				member.setPhone(newValue);
+				//member.setPhone(newValue);
 			}
 		});
 		
-		createField(pane, "Addr", member.getAddress(), new EditCallback() {
+		createField(pane, "Addr", "", new EditCallback() {
 			@Override
 			public void Edit(String newValue) {
-				member.setAddress(newValue);
+				//member.setAddress(newValue);
 			}
 		});
 		
 		addMemberStatus(pane);
 		
-		createField(pane, "Amount of Bicycles", String.valueOf(member.amountOfBicycles()));
-		createField(pane, "Monthly Fee", String.valueOf(bgm.getPaymentInfo(member)));
+		createField(pane, "Amount of Bicycles", ""/*String.valueOf(member.amountOfBicycles())*/);
+		createField(pane, "Monthly Fee", ""/*String.valueOf(bgm.getPaymentInfo(member))*/);
 		
 		addPIN(pane);
 				
@@ -90,6 +90,7 @@ public class MemberScreen extends Screen {
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				return;/*
 				if(JOptionPane.showConfirmDialog(null, "Do you really want to delte the selceted member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					if(memberManager.removeMember(member.getSSN())) {
 						JOptionPane.showMessageDialog(null,  "Member was successfully deleted");
@@ -97,7 +98,7 @@ public class MemberScreen extends Screen {
 					} else {
 						JOptionPane.showMessageDialog(null,  "Failed to delete member, make sure all prerequisites are fulfilled.");
 					}
-				}
+				}*/
 			}
 		});
 		
@@ -109,18 +110,18 @@ public class MemberScreen extends Screen {
 	private void addMemberStatus(JPanel pane) {
 		pane.add(new JLabel("Member Status"));
 		final JTextField memberStatus = new JTextField();
-		memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+		memberStatus.setText("");
 		memberStatus.setEditable(false);
 		pane.add(memberStatus);
 		
-		final JButton memberStatusToggle = new JButton((member.isDisabled() ? "Enable" : "Disable"));
+		final JButton memberStatusToggle = new JButton("");
 		
 		memberStatusToggle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				member.enable(member.isDisabled());
-				memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
-				memberStatusToggle.setText((member.isDisabled() ? "Enable" : "Disable"));
+				//member.enable(member.isDisabled());
+				//memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+				//memberStatusToggle.setText((member.isDisabled() ? "Enable" : "Disable"));
 			}
 		});
 		
@@ -130,7 +131,7 @@ public class MemberScreen extends Screen {
 	private void addPIN(JPanel pane) {
 		pane.add(new JLabel("PIN-code"));
 		final JTextField memberPIN = new JTextField();
-		memberPIN.setText(member.getPIN());
+		memberPIN.setText("");
 		memberPIN.setEditable(false);
 		pane.add(memberPIN);
 		
@@ -140,7 +141,7 @@ public class MemberScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Do you really want to generate a new PIN-code for this member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					memberPIN.setText(memberManager.createNewPIN(member));
+					//memberPIN.setText(memberManager.createNewPIN(member));
 				}
 			}
 		});
@@ -205,20 +206,13 @@ public class MemberScreen extends Screen {
 		selectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(table.getSelectedRow()<0){
-					JOptionPane.showMessageDialog(MemberScreen.this, "No bicycle selected");
+				return;
+				/*if(table.getSelectedRow()<0){
+					JOptionPane.showMessageDialog(BicycleDetailsScreen.this, "No bicycle selected");
 					return;
 				}
 				String target = (String) table.getValueAt(table.getSelectedRow(), 0);
-				for(IBicycle b : member.getBicycles()) {
-					
-						
-					if(b.getBarcode().equals(target)) {
-						//TODO Uncomment when bicycle screen exists MainGUI.getInstance().setScreen(new BicycleDetailsScreen(b));
-						return;
-					}
-					
-				}
+*/
 			}
 		});
 		
@@ -227,14 +221,14 @@ public class MemberScreen extends Screen {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String target = (String) table.getValueAt(table.getSelectedRow(), 0);
-				
+				/*
 				for(IBicycle b : member.getBicycles()) {
 					if(b.getBarcode().equals(target)) {
 						bgm.printBarcode(b);
 						return;
 					}
 					
-				}
+				}*/
 			}
 		});
 		
@@ -242,10 +236,12 @@ public class MemberScreen extends Screen {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				/*
 				String desc = JOptionPane.showInputDialog("Enter Bicycle description");
 				member.registerBicycle(desc);
 				
 				model.updateTableData();
+				*/
 			}
 		});
 		
@@ -267,9 +263,9 @@ public class MemberScreen extends Screen {
 		private static final long serialVersionUID = 2083509527767319524L;
 		
 		private String[] columnNames = {
-			"Barcode",
-            "Description",
-            "Checked In"
+			"Time",
+            "Description"
+            
 		};
 		
 		private Object[][] data;
@@ -279,16 +275,14 @@ public class MemberScreen extends Screen {
 		}
 		
 		public void updateTableData() {
-			data = new Object[member.amountOfBicycles()][columnNames.length];
-			
+
 			//get all the datazzz
-			List<IBicycle> bicycles = member.getBicycles();
+			List<ILog> logentries = bicycle.getLogEntries();
+			data = new Object[logentries.size()][columnNames.length];
 			int i = 0;
-			for(final IBicycle b : bicycles){
-				data[i][0] = b.getBarcode();
-				data[i][1] = b.getDescription();
-				data[i][2] = b.isCheckedIn() ? "Checked In" : "Checked Out";
-				
+			for(final ILog l : logentries){
+				data[i][0] = l.getDate().toString();
+				data[i][1] = l.getDesc();
 				i++;
 			}
 			
@@ -318,4 +312,5 @@ public class MemberScreen extends Screen {
 	private interface EditCallback {
 		public void Edit(String newValue);
 	}
+
 }
