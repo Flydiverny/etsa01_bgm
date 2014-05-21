@@ -16,6 +16,11 @@ import javax.swing.JTextField;
 
 public class CompleteScreen extends Screen {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6050577755734247793L;
+
 	@Override
 	public void create() {
 		JLabel welcomeTxt = new JLabel("Installation Complete!");

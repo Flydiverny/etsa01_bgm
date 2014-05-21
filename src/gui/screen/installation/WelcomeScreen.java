@@ -13,6 +13,11 @@ import javax.swing.JPanel;
 
 public class WelcomeScreen extends Screen {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5807177214221954390L;
+
 	@Override
 	public void create() {
 		JLabel welcomeTxt = new JLabel("Welcome to Bicycle Garage Management");

@@ -7,6 +7,11 @@ import javax.swing.JPanel;
 
 public abstract class Screen extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5968612809173032911L;
+
 	protected IBicycleGarageManager bgm;
 	
 	protected IMemberManager memberManager;
