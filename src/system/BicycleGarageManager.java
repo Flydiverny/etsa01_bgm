@@ -55,7 +55,14 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	
 	public BicycleGarageManager() {
 		this.mm = new MemberManager();
-		led = new TerminalNotifier(this);
+		led();
+	}
+	
+	private ITerminalNotifier led() {
+		if(led == null)
+			led = new TerminalNotifier(this);
+		
+		return led;
 	}
 	
 	@Override
@@ -79,13 +86,13 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		IBicycle b = mm.getBicycle(bicycleId);
 		
 		if(b == null) {
-			led.NF3(entryTerm);
+			led().NF3(entryTerm);
 			return;
 		}
 		b.setCheckedIn(true);
 		
 		entryLock.open(this.getUnlockDuration());
-		led.NF2(entryTerm);
+		led().NF2(entryTerm);
 		
 		entryState = State.AWAITING_OP;
 	}
@@ -99,13 +106,13 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		IBicycle b = mm.getBicycle(bicycleId);
 		if(!b.isCheckedIn()) {
-			led.NF4(exitTerm);
+			led().NF4(exitTerm);
 			return;
 		}
 		
 		exitingBicycle = b;
 		
-		led.NF5(exitTerm);
+		led().NF5(exitTerm);
 		exitState = State.AWAITING_PIN;
 	}
 
@@ -161,14 +168,14 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		StringBuilder pin = new StringBuilder();
 		
-		for(int i = entryBuffer.length; i > 0; i++) {
+		for(int i = entryBuffer.length; i > 0; i--) {
 			pin.append(entryBuffer[i-1]);
 		}
 		
 		IMember m = mm.getMemberByPin(pin.toString());
 
 		if(m == null) {
-			led.NF3(entryTerm);
+			led().NF3(entryTerm);
 			clearEntryBuffer();
 			entryState = State.AWAITING_OP;
 			return;
@@ -176,7 +183,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		for(IBicycle b : m.getBicycles()) {
 			if(b.isCheckedIn()) {
-				led.NF2(entryTerm);
+				led().NF2(entryTerm);
 				entryLock.open(this.getUnlockDuration());
 				entryState = State.AWAITING_OP;
 				return;
@@ -184,7 +191,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		}
 		
 		// No checked in bicycle
-		led.NF4(entryTerm);
+		led().NF4(entryTerm);
 		entryState = State.AWAITING_OP;
 	}
 	
@@ -205,19 +212,19 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		switch(entryBuffer[1]) {
 		case '1': // op code 1
 			entryState = State.AWAITING_SCAN;
-			led.NF5(entryTerm);
+			led().NF5(entryTerm);
 			break;
 		case '2':
 			entryState = State.AWAITING_PIN;
-			led.NF5(entryTerm);
+			led().NF5(entryTerm);
 			break;
 		case '9':
 			entryState = State.AWAITING_OPERATOR;
-			led.NF5(entryTerm);
+			led().NF5(entryTerm);
 			break;
 		default:
 			// State remains the same.
-			led.NF3(entryTerm);
+			led().NF3(entryTerm);
 			break;
 		}
 		
@@ -261,7 +268,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		StringBuilder pin = new StringBuilder();
 		
-		for(int i = exitBuffer.length; i > 0; i++) {
+		for(int i = exitBuffer.length; i > 0; i--) {
 			pin.append(exitBuffer[i-1]);
 		}
 		
@@ -270,13 +277,13 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		if(m.getPIN().equals(pin.toString())) {
 			exitingBicycle.setCheckedIn(false);
 			exitLock.open(this.getUnlockDuration());
-			led.NF2(exitTerm);
+			led().NF2(exitTerm);
 			exitState = State.AWAITING_SCAN;
 			return;
 		}
 		
 		// Entered PIN doesn't match the bicycle owners PIN		
-		led.NF4(exitTerm);
+		led().NF4(exitTerm);
 		exitState = State.AWAITING_SCAN;
 	}
 

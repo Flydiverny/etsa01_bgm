@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import gui.MainGUI;
 import gui.base.Screen;
@@ -200,7 +201,7 @@ public class MemberScreen extends Screen {
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		
-		JButton selectButton = new JButton("Go to details page for selected bicycle");
+		JButton selectButton = new JButton("Open Selected");
 		selectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -209,6 +210,22 @@ public class MemberScreen extends Screen {
 				for(IBicycle b : member.getBicycles()) {
 					if(b.getBarcode().equals(target)) {
 						//TODO Uncomment when bicycle screen exists MainGUI.getInstance().setScreen(new BicycleDetailsScreen(b));
+						return;
+					}
+					
+				}
+			}
+		});
+		
+		JButton barcodeBtn = new JButton("Print Selected");
+		barcodeBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String target = (String) table.getValueAt(table.getSelectedRow(), 0);
+				
+				for(IBicycle b : member.getBicycles()) {
+					if(b.getBarcode().equals(target)) {
+						bgm.printBarcode(b);
 						return;
 					}
 					
@@ -232,6 +249,7 @@ public class MemberScreen extends Screen {
 		
 		buttonPane.add(addButton, BorderLayout.WEST);
 		buttonPane.add(selectButton, BorderLayout.CENTER);
+		buttonPane.add(barcodeBtn, BorderLayout.EAST);
 		
 		pane.add(scrollPane, BorderLayout.CENTER);
 		pane.add(buttonPane, BorderLayout.SOUTH);
@@ -246,7 +264,7 @@ public class MemberScreen extends Screen {
 		private String[] columnNames = {
 			"Barcode",
             "Description",
-            "Checked In",
+            "Checked In"
 		};
 		
 		private Object[][] data;
@@ -261,10 +279,11 @@ public class MemberScreen extends Screen {
 			//get all the datazzz
 			List<IBicycle> bicycles = member.getBicycles();
 			int i = 0;
-			for(IBicycle b : bicycles){
+			for(final IBicycle b : bicycles){
 				data[i][0] = b.getBarcode();
 				data[i][1] = b.getDescription();
 				data[i][2] = b.isCheckedIn();
+				
 				i++;
 			}
 			
