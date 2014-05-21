@@ -78,7 +78,6 @@ public class TestTest {
 		bicycleMan.setGarageSize(5);
 		assertEquals("fel garagestorlek i b�rjan", new Integer(5), new Integer(bicycleMan.getGarageSize()));
 	}
-
 	
 	/* Test 11
 	 * Operator wants to change his password.
@@ -210,6 +209,51 @@ public class TestTest {
 	public void passIsAlphanumeric() {
 		BicycleGarageManager manager = new BicycleGarageManager();
 		assertEquals("Password may not consist of non-aplhanumerical characters.", false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
+	}
+	
+	/* Test 29
+	 * Operator disables member. 
+	 */
+	@Test
+	public void memberGetsDisabled() {
+		MemberManager manager = new MemberManager();
+		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232",
+				"199309245151");
+		assertFalse("Member has not been enabled", 
+				manager.getMember("199309245151").isDisabled());
+		manager.getMember("199309245151").enable(false);
+		assertTrue("Member has not been disabled", 
+		manager.getMember("199309245151").isDisabled());
+	}
+	
+	/* Test 32
+	 * Operator enters password shorter than 10 alphanumerical characters.
+	 */
+	@Test
+	public void tooShortPwEntered() {
+		BicycleGarageManager manager = new BicycleGarageManager();
+		assertFalse("< 10 characters is not permitted.", 
+		manager.setOperatorPassword("aaaaa55555", "operatorpasswordoperatorpassword123", "operatorpasswordoperatorpassword123"));
+	}
+	
+	/* Test 33
+	 * Operator enters password longer than 32 aplhanumerical characters.
+	 */
+	@Test
+	public void tooLongPwEntered() {
+		BicycleGarageManager manager = new BicycleGarageManager();
+		assertFalse("> 32 characters is not permitted.", 
+		manager.setOperatorPassword("aaaaa55555", "operatorpasswordoperatorpassword123", "operatorpasswordoperatorpassword123"));
+	}
+	
+	/* Test 34
+	 * Operator enters password containing a non-alphanumerical character.
+	 */
+	@Test
+	public void passNotAlphanumeric() {
+		BicycleGarageManager manager = new BicycleGarageManager();
+		assertTrue("Password may not consist of non-aplhanumeric characters.", 
+		manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
 	}
 
 	/* Test 35
