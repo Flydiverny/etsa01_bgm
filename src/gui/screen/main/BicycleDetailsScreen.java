@@ -61,7 +61,12 @@ public class BicycleDetailsScreen extends Screen {
 		
 		createField(pane, "Description", bicycle.getDescription(), new EditCallback() {
 			@Override
-			public void Edit(String newValue) {
+			public void Edit(String newValue, JTextField editedField) {
+				if(newValue.equals("")){
+					newValue = bicycle.getDescription();
+					editedField.setText(newValue);
+					JOptionPane.showMessageDialog(null, "Empty fields are not allowed");
+				}
 				bicycle.setDescription(newValue);
 			}
 		});
@@ -86,10 +91,10 @@ public class BicycleDetailsScreen extends Screen {
 					return;
 				}
 				
-				if(JOptionPane.showConfirmDialog(null, "Do you really want to delte the selceted bicycle?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				if(JOptionPane.showConfirmDialog(null, "Do you really want to delete the selected bicycle?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					IMember owner = bicycle.getOwner();
 					owner.removeBicycle(bicycle.getBarcode());
-					JOptionPane.showMessageDialog(null,  "Bike was most successfully deleted");
+					JOptionPane.showMessageDialog(null,  "Bike was successfully deleted");
 					MainGUI.getInstance().setScreen(new MemberScreen(owner));
 				}
 			}
@@ -170,7 +175,7 @@ public class BicycleDetailsScreen extends Screen {
 						editBtn.setText("Edit");
 						txtField.setEditable(false);
 						txtField.setToolTipText(txtField.getText());
-						callback.Edit(txtField.getText());
+						callback.Edit(txtField.getText(), txtField);
 						editing = false;
 					} else {
 						editBtn.setText("Save");
@@ -197,6 +202,10 @@ public class BicycleDetailsScreen extends Screen {
 		final JTable table = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
+		
+		
+		
+		
 		pane.add(scrollPane, BorderLayout.CENTER);
 		
 		return pane;
@@ -248,13 +257,13 @@ public class BicycleDetailsScreen extends Screen {
 	        return data[row][col];
 	    }
 
-	    public Class getColumnClass(int c) {
+	    public Class<?> getColumnClass(int c) {
 	        return getValueAt(0, c).getClass();
 	    }
 	}
 	
 	private interface EditCallback {
-		public void Edit(String newValue);
+		public void Edit(String newValue, JTextField editedField);
 	}
 
 }
