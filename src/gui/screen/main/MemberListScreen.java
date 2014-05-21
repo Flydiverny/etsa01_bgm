@@ -1,5 +1,7 @@
 package gui.screen.main;
 
+import gui.MainGUI;
+import gui.base.Screen;
 import interfaces.IBicycle;
 import interfaces.IMember;
 
@@ -15,9 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-
-import gui.MainGUI;
-import gui.base.Screen;
 
 public class MemberListScreen extends Screen {
 

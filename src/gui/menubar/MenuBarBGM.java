@@ -1,8 +1,5 @@
 package gui.menubar;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import gui.MainGUI;
 import gui.base.Program;
 import gui.screen.main.CreateMemberScreen;
@@ -12,8 +9,11 @@ import gui.screen.main.MemberScreen;
 import gui.screen.main.OperatorParametersScreen;
 import gui.screen.main.SystemParametersScreen;
 
-import javax.swing.JMenuBar;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 

@@ -1,10 +1,10 @@
 package interfaces;
-import java.util.List;
-import java.util.Map;
-
 import interfaces.hardware.BarcodePrinter;
 import interfaces.hardware.ElectronicLock;
 import interfaces.hardware.PinCodeTerminal;
+
+import java.util.List;
+import java.util.Map;
 
 public interface IBicycleGarageManager {
 	

@@ -1,10 +1,9 @@
 package gui.base;
 
-import javax.swing.JFrame;
-
 import interfaces.IBicycleGarageManager;
-import interfaces.IMember;
 import interfaces.IMemberManager;
+
+import javax.swing.JFrame;
 
 public abstract class Program extends JFrame {
 	

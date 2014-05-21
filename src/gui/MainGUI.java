@@ -1,14 +1,11 @@
 package gui;
 
-import javax.swing.JFrame;
-
 import gui.base.Program;
 import gui.menubar.MenuBarBGM;
 import gui.screen.main.LoginScreen;
-import gui.screen.main.MainScreen;
-import gui.screen.main.SystemParametersScreen;
 import interfaces.IBicycleGarageManager;
-import interfaces.IMemberManager;
+
+import javax.swing.JFrame;
 
 public class MainGUI extends Program {
 	private static MainGUI instance;
