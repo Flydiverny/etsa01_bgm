@@ -1,12 +1,11 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import interfaces.IBicycleGarageManager;
-import interfaces.IMemberManager;
-import system.BicycleGarageManager;
-import system.MemberManager;
 
 import org.junit.Test;
+
+import system.BicycleGarageManager;
 
 
 public class OperatorAccessMembersTest {

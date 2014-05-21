@@ -1,11 +1,8 @@
 package gui;
 
-import javax.swing.JFrame;
-
-import interfaces.IBicycleGarageManager;
-import interfaces.IMemberManager;
 import gui.base.Program;
 import gui.screen.installation.WelcomeScreen;
+import interfaces.IBicycleGarageManager;
 
 public class InstallationGUI extends Program {
 

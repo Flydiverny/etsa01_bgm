@@ -1,5 +1,11 @@
 package gui.screen.main;
 
+import gui.MainGUI;
+import gui.base.Program;
+import gui.base.Screen;
+import interfaces.IBicycle;
+import interfaces.IMember;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,12 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
-
-import gui.MainGUI;
-import gui.base.Program;
-import gui.base.Screen;
-import interfaces.IBicycle;
-import interfaces.IMember;
 
 public class MemberScreen extends Screen {
 

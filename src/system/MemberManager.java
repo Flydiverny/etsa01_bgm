@@ -1,14 +1,14 @@
 package system;
 
+import interfaces.IBicycle;
+import interfaces.IMember;
+import interfaces.IMemberManager;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-import interfaces.IBicycle;
-import interfaces.IMember;
-import interfaces.IMemberManager;
 
 public class MemberManager implements Serializable, IMemberManager {
 	private static final long serialVersionUID = -2454050190313135909L;

@@ -2,12 +2,13 @@ package test.drivers;
 
 import interfaces.hardware.ElectronicLock;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.awt.event.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * This class simulates an electronic lock. 

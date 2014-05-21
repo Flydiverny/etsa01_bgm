@@ -1,10 +1,10 @@
 package system;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import interfaces.ITerminalNotifier;
 import interfaces.hardware.PinCodeTerminal;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TerminalNotifier implements ITerminalNotifier {
 	private BicycleGarageManager bgm;
