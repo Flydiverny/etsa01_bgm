@@ -35,7 +35,7 @@ public class MainScreen extends Screen {
 		
 		this.setLayout(new BorderLayout());
 		JPanel centerpanel = new JPanel();
-		JLabel header = new JLabel("Main Status Window");
+		JLabel header = new JLabel("Status");
 		header.setFont(header.getFont().deriveFont(20f));
 		
 		centerpanel.setLayout(gl);
