@@ -18,6 +18,7 @@ import javax.swing.table.AbstractTableModel;
 import interfaces.IBicycle;
 import interfaces.ILog;
 import gui.MainGUI;
+import gui.base.Program;
 import gui.base.Screen;
 
 
@@ -84,8 +85,16 @@ public class BicycleDetailsScreen extends Screen {
 				}
 			}
 		});
+		JButton print = new JButton("Print Barcode");
+		print.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Program.getBGM().printBarcode(bicycle);
+			}
+		});
 		
 		pane.add(delete, BorderLayout.EAST);
+		pane.add(print, BorderLayout.WEST);
 		
 		return pane;
 	}
