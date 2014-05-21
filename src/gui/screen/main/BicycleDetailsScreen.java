@@ -22,6 +22,7 @@ import gui.base.Screen;
 
 
 
+
 public class BicycleDetailsScreen extends Screen {
 	private static final long serialVersionUID = 7343484603784490726L;
 	private IBicycle bicycle;
@@ -39,7 +40,7 @@ public class BicycleDetailsScreen extends Screen {
 		
 		this.add(title, BorderLayout.NORTH);
 		this.add(memberDetails(), BorderLayout.WEST);
-		this.add(bicyleList(), BorderLayout.EAST);
+		this.add(logList(), BorderLayout.EAST);
 		this.add(southPanel(), BorderLayout.SOUTH);
 	}
 	
@@ -48,35 +49,20 @@ public class BicycleDetailsScreen extends Screen {
 		
 		pane.setLayout(new GridLayout(0,3));
 		
-		createField(pane, "SSN", "");		
+		createField(pane, "Owner SSN", bicycle.getOwner().getSSN());		
 
-		createField(pane, "Name", "", new EditCallback() {
+		createField(pane, "Owner Name", bicycle.getOwner().getName());
+		
+		createField(pane, "Barcode", bicycle.getBarcode());
+		
+		createField(pane, "Description", bicycle.getDescription(), new EditCallback() {
 			@Override
 			public void Edit(String newValue) {
-				//member.setName(newValue);
+				bicycle.setDescription(newValue);
 			}
 		});
 		
-		createField(pane, "Phone", "", new EditCallback() {
-			@Override
-			public void Edit(String newValue) {
-				//member.setPhone(newValue);
-			}
-		});
-		
-		createField(pane, "Addr", "", new EditCallback() {
-			@Override
-			public void Edit(String newValue) {
-				//member.setAddress(newValue);
-			}
-		});
-		
-		addMemberStatus(pane);
-		
-		createField(pane, "Amount of Bicycles", ""/*String.valueOf(member.amountOfBicycles())*/);
-		createField(pane, "Monthly Fee", ""/*String.valueOf(bgm.getPaymentInfo(member))*/);
-		
-		addPIN(pane);
+		addBicycleStatus(pane);
 				
 		return pane;
 	}
@@ -86,19 +72,16 @@ public class BicycleDetailsScreen extends Screen {
 		
 		pane.setLayout(new BorderLayout());
 		
-		JButton delete = new JButton("Delete Member");
+		JButton delete = new JButton("Delete Bicycle");
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				return;/*
-				if(JOptionPane.showConfirmDialog(null, "Do you really want to delte the selceted member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					if(memberManager.removeMember(member.getSSN())) {
-						JOptionPane.showMessageDialog(null,  "Member was successfully deleted");
-						MainGUI.getInstance().setScreen(new MainScreen());
-					} else {
-						JOptionPane.showMessageDialog(null,  "Failed to delete member, make sure all prerequisites are fulfilled.");
-					}
-				}*/
+				if(JOptionPane.showConfirmDialog(null, "Do you really want to delte the selceted bicycle?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					bicycle.getOwner().removeBicycle(bicycle.getBarcode());
+					JOptionPane.showMessageDialog(null,  "Bike was most likely successfully deleted");
+					MainGUI.getInstance().setScreen(new MainScreen());
+					
+				}
 			}
 		});
 		
@@ -107,47 +90,29 @@ public class BicycleDetailsScreen extends Screen {
 		return pane;
 	}
 	
-	private void addMemberStatus(JPanel pane) {
-		pane.add(new JLabel("Member Status"));
-		final JTextField memberStatus = new JTextField();
-		memberStatus.setText("");
-		memberStatus.setEditable(false);
-		pane.add(memberStatus);
+	private void addBicycleStatus(JPanel pane) {
+		pane.add(new JLabel("Status"));
+		final JTextField bikeCheckedInStatus = new JTextField();
+		bikeCheckedInStatus.setText(bicycle.isCheckedIn() ? "Checked In" : "Checked Out");
+		bikeCheckedInStatus.setEditable(false);
+		pane.add(bikeCheckedInStatus);
 		
-		final JButton memberStatusToggle = new JButton("");
+		final JButton bikeCheckedInStatusToggle = new JButton(bicycle.isCheckedIn() ? "Check Out" : "Check In");
 		
-		memberStatusToggle.addActionListener(new ActionListener() {
+		bikeCheckedInStatusToggle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//member.enable(member.isDisabled());
-				//memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
-				//memberStatusToggle.setText((member.isDisabled() ? "Enable" : "Disable"));
+				bicycle.setCheckedIn(!bicycle.isCheckedIn());
+				bikeCheckedInStatus.setText(bicycle.isCheckedIn() ? "Checked In" : "Checked Out");
+				bikeCheckedInStatusToggle.setText(bicycle.isCheckedIn() ? "Check Out" : "Check In");
+				MainGUI.getInstance().setScreen(new BicycleDetailsScreen(bicycle));
 			}
 		});
 		
-		pane.add(memberStatusToggle);
+		pane.add(bikeCheckedInStatusToggle);
+		
 	}
 	
-	private void addPIN(JPanel pane) {
-		pane.add(new JLabel("PIN-code"));
-		final JTextField memberPIN = new JTextField();
-		memberPIN.setText("");
-		memberPIN.setEditable(false);
-		pane.add(memberPIN);
-		
-		JButton memberPINGenerate = new JButton("Generate New PIN");
-		
-		memberPINGenerate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(JOptionPane.showConfirmDialog(null, "Do you really want to generate a new PIN-code for this member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					//memberPIN.setText(memberManager.createNewPIN(member));
-				}
-			}
-		});
-		
-		pane.add(memberPINGenerate);
-	}
 	
 	private void createField(JPanel p, String desc, String value) {
 		createField(p, desc, value, null);
@@ -191,69 +156,16 @@ public class BicycleDetailsScreen extends Screen {
 		}
 	}
 	
-	private JPanel bicyleList() {
+	private JPanel logList() {
 		JPanel pane = new JPanel();
 		
 		pane.setLayout(new BorderLayout());	
 				
 		final TableModelBGM model = new TableModelBGM();
-		
 		final JTable table = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
-		
-		JButton selectButton = new JButton("Open Selected");
-		selectButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				return;
-				/*if(table.getSelectedRow()<0){
-					JOptionPane.showMessageDialog(BicycleDetailsScreen.this, "No bicycle selected");
-					return;
-				}
-				String target = (String) table.getValueAt(table.getSelectedRow(), 0);
-*/
-			}
-		});
-		
-		JButton barcodeBtn = new JButton("Print Selected");
-		barcodeBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String target = (String) table.getValueAt(table.getSelectedRow(), 0);
-				/*
-				for(IBicycle b : member.getBicycles()) {
-					if(b.getBarcode().equals(target)) {
-						bgm.printBarcode(b);
-						return;
-					}
-					
-				}*/
-			}
-		});
-		
-		JButton addButton = new JButton("Add New Bicycle");
-		addButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				/*
-				String desc = JOptionPane.showInputDialog("Enter Bicycle description");
-				member.registerBicycle(desc);
-				
-				model.updateTableData();
-				*/
-			}
-		});
-		
-		JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new BorderLayout());
-		
-		buttonPane.add(addButton, BorderLayout.WEST);
-		buttonPane.add(selectButton, BorderLayout.CENTER);
-		buttonPane.add(barcodeBtn, BorderLayout.EAST);
-		
 		pane.add(scrollPane, BorderLayout.CENTER);
-		pane.add(buttonPane, BorderLayout.SOUTH);
 		
 		return pane;
 	}

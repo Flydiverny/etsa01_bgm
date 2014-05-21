@@ -214,7 +214,7 @@ public class MemberScreen extends Screen {
 					
 						
 					if(b.getBarcode().equals(target)) {
-						//TODO Uncomment when bicycle screen exists MainGUI.getInstance().setScreen(new BicycleDetailsScreen(b));
+						MainGUI.getInstance().setScreen(new BicycleDetailsScreen(b));
 						return;
 					}
 					
