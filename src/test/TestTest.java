@@ -77,17 +77,6 @@ public class TestTest {
 		bicycleMan.setGarageSize(5);
 		assertEquals("fel garagestorlek i b�rjan", new Integer(5), new Integer(bicycleMan.getGarageSize()));
 	}
-	/* Test 34
-	 * Operator enters password containing a non-alphanumerical character.
-	 */
-	@Test
-	public void passIsAlphanumeric() {
-		System.out.println("--- TEST 34 ---");
-		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
-		assertEquals("Password may not consist of non-aplhanumerical characters.", 
-		false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
-		System.out.println("--- TEST 34 ---");
-	}
 	
 	/* Test 11
 	 * Operator wants to change his password.
@@ -136,20 +125,62 @@ public class TestTest {
 		BicycleGarageManager bicycleMan = new BicycleGarageManager(new MemberManager());
 		bicycleMan.setOperatorPassword("", "operatorpass567", "operatorpass567");
 	}
-
+	
+	/* Test 29
+	 * Operator disables member. 
+	 */
+	@Test
+	public void memberGetsDisabled() {
+		MemberManager manager = new MemberManager();
+		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232",
+				"199309245151");
+		assertFalse("Member has not been enabled", 
+				manager.getMember("199309245151").isDisabled());
+		manager.getMember("199309245151").enable(false);
+		assertTrue("Member has not been disabled", 
+		manager.getMember("199309245151").isDisabled());
+	}
+	
+	/* Test 32
+	 * Operator enters password shorter than 10 alphanumerical characters.
+	 */
+	@Test
+	public void tooShortPwEntered() {
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
+		assertFalse("< 10 characters is not permitted.", 
+		manager.setOperatorPassword("aaaaa55555", "operatorpasswordoperatorpassword123", "operatorpasswordoperatorpassword123"));
+	}
+	
+	/* Test 33
+	 * Operator enters password longer than 32 aplhanumerical characters.
+	 */
+	@Test
+	public void tooLongPwEntered() {
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
+		assertFalse("> 32 characters is not permitted.", 
+		manager.setOperatorPassword("aaaaa55555", "operatorpasswordoperatorpassword123", "operatorpasswordoperatorpassword123"));
+	}
+	
+	/* Test 34
+	 * Operator enters password containing a non-alphanumerical character.
+	 */
+	@Test
+	public void passNotAlphanumeric() {
+		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
+		assertTrue("Password may not consist of non-aplhanumeric characters.", 
+		manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
+	}
 
 	/* Test 35
 	 * Operator changes the amount of time the door will be open. Enters too long time.
 	 */
 	@Test
 	public void tooLongTimeEntered() {
-		System.out.println("TEST 35 ------------");
 		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(60);
 		assertEquals("Door should be unlocked for 5 sec, duration > 32 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
-		System.out.println("--- TEST 35 ---");
 	}
 	
 	/* Test 36
@@ -157,12 +188,10 @@ public class TestTest {
 	 */
 	@Test
 	public void tooShortTimeEntered() {
-		System.out.println("TEST 36 ------------");
 		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(2);
 		assertEquals("Door should be unlocked for 5 sec, duration < 5 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
-		System.out.println("--- TEST 36 ---");
 	}
 }
