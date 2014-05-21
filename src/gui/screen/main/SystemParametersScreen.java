@@ -33,7 +33,7 @@ public class SystemParametersScreen extends Screen {
 		final JTextField jtfmonthlyfee = new JTextField(String.valueOf(bgm.getMonthlyFee()));
 		final JTextField jtfbikefee = new JTextField(String.valueOf(bgm.getBikeFee()));
 		final JTextField jtfnumofbikes = new JTextField(String.valueOf(bgm.getGarageSize()));
-		JComboBox<Integer> jcbdooropentime = new JComboBox<Integer>(dooropentime);
+		final JComboBox<Integer> jcbdooropentime = new JComboBox<Integer>(dooropentime);
 		jcbdooropentime.setSelectedIndex(bgm.getUnlockDuration()-5);
 		
 		this.setLayout(new BorderLayout());
@@ -118,6 +118,7 @@ public class SystemParametersScreen extends Screen {
 				bgm.setGarageSize(bicycles);
 				bgm.setBikeFee(bikefee);
 				bgm.setMonthlyFee(monthly);
+				bgm.setUnlockDuration(jcbdooropentime.getSelectedIndex()+5);
 				
 				MainGUI.getInstance().setScreen(new MainScreen());
 			}

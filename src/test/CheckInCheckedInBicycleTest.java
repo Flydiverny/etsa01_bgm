@@ -13,8 +13,10 @@ public class CheckInCheckedInBicycleTest {
 		
 	@Test
 	public void noreg(){
-		MemberManager member = new MemberManager(); 	
-		BicycleGarageManager garage = new BicycleGarageManager(member);
+			
+		IBicycleGarageManager garage = new BicycleGarageManager();
+		IMemberManager member = garage.getMemberManager(); 
+		
 		assertTrue("Couldnt create member", member.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151"));
 		
 		IMember mb = member.getMember("199309245151");

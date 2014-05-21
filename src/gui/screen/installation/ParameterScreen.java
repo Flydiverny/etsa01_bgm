@@ -89,7 +89,7 @@ public class ParameterScreen extends Screen {
 	    c.weightx = 2;
 		pane.add(info,c);
 		
-		JLabel bicycles = new JLabel("Bicycle");	
+		JLabel bicycles = new JLabel("Number of bicycles allowed in garage");	
 		c.fill = GridBagConstraints.HORIZONTAL;
 	    c.gridx = 0;
 	    c.gridy = 1;

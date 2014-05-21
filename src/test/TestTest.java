@@ -5,7 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4375bf124b9c2056537b04084f6ef764cab6cf08
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -13,7 +16,10 @@ import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.After;
 import org.junit.Before;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4375bf124b9c2056537b04084f6ef764cab6cf08
 import org.junit.Test;
 
 import system.BicycleGarageManager;
@@ -65,14 +71,16 @@ public class TestTest {
 		
 	}
 	
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4375bf124b9c2056537b04084f6ef764cab6cf08
 	/* Test 6
 	 * Operator logs into the system and wants to change the amount of bicycles allowed to be stored in the system.
 	 */
 	@Test
 	public void changeAllowedBicycles() {
-		MemberManager manager = new MemberManager();
-		BicycleGarageManager bicycleMan = new BicycleGarageManager(manager);
+		BicycleGarageManager bicycleMan = new BicycleGarageManager();
 		bicycleMan.setOperatorPassword("", "operatorpass567", "operatorpass567");
 		boolean password = bicycleMan.loginOperator("operatorpass567");
 		assertTrue("Fel l�senord", password );
@@ -80,13 +88,24 @@ public class TestTest {
 		bicycleMan.setGarageSize(5);
 		assertEquals("fel garagestorlek i b�rjan", new Integer(5), new Integer(bicycleMan.getGarageSize()));
 	}
+	/* Test 34
+	 * Operator enters password containing a non-alphanumerical character.
+	 */
+	@Test
+	public void passIsAlphanumeric() {
+		System.out.println("--- TEST 34 ---");
+		BicycleGarageManager manager = new BicycleGarageManager();
+		assertEquals("Password may not consist of non-aplhanumerical characters.", 
+		false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
+		System.out.println("--- TEST 34 ---");
+	}
 	
 	/* Test 11
 	 * Operator wants to change his password.
 	 */
 	@Test
 	public void changePassword() {
-		BicycleGarageManager bicycleMan = new BicycleGarageManager(new MemberManager());
+		BicycleGarageManager bicycleMan = new BicycleGarageManager();
 		bicycleMan.setOperatorPassword("", "aaaaa55555", "aaaaa55555");
 		boolean password = bicycleMan.loginOperator("aaaaa55555");
 		assertTrue("L�senordet �r ej aaaaa55555", password );
@@ -112,7 +131,10 @@ public class TestTest {
 		
 	}
 	
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4375bf124b9c2056537b04084f6ef764cab6cf08
 	/* Test 21
 	 * Operator enters a social security number that does not exist.
 	 */
@@ -131,19 +153,22 @@ public class TestTest {
 	}
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4375bf124b9c2056537b04084f6ef764cab6cf08
 	/* Test 35
 	 * Operator changes the amount of time the door will be open. Enters too long time.
 	 */
 	@Test
 	public void tooLongTimeEntered() {
 		System.out.println("TEST 35 ------------");
-		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
+		BicycleGarageManager manager = new BicycleGarageManager();
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(60);
 		assertEquals("Door should be unlocked for 5 sec, duration > 32 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
-		System.out.println("TEST 35 ------------");
+		System.out.println("--- TEST 35 ---");
 	}
 	
 	/* Test 36
@@ -152,12 +177,15 @@ public class TestTest {
 	@Test
 	public void tooShortTimeEntered() {
 		System.out.println("TEST 36 ------------");
-		BicycleGarageManager manager = new BicycleGarageManager(new MemberManager());
+		BicycleGarageManager manager = new BicycleGarageManager();
 		manager.setUnlockDuration(5);
 		assertEquals("Door should be unlocked for 5 seconds.", new Integer(5), new Integer(manager.getUnlockDuration()));
 		manager.setUnlockDuration(2);
 		assertEquals("Door should be unlocked for 5 sec, duration < 5 sec not permitted.", new Integer(5), new Integer(manager.getUnlockDuration()));
-		System.out.println("TEST 36 ------------");
+		System.out.println("--- TEST 36 ---");
 	}
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4375bf124b9c2056537b04084f6ef764cab6cf08

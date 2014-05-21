@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import interfaces.*;
 import system.BicycleGarageManager;
 import system.MemberManager;
+
 import java.util.List;
 
 import org.junit.Test;
@@ -13,8 +14,9 @@ public class BicycleCheckInTest {
 	
 	@Test
 	public void noreg(){
-		MemberManager member = new MemberManager(); 	
-		BicycleGarageManager garage = new BicycleGarageManager(member);
+		
+		IBicycleGarageManager garage = new BicycleGarageManager();
+		IMemberManager member = garage.getMemberManager(); 	
 		
 		member.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
 		
