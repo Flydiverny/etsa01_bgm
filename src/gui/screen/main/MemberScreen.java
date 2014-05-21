@@ -4,15 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 
 import gui.MainGUI;
 import gui.base.Screen;
+import interfaces.IBicycle;
 import interfaces.IMember;
 
 public class MemberScreen extends Screen {
@@ -185,9 +190,105 @@ public class MemberScreen extends Screen {
 	}
 	
 	private JPanel bicyleList() {
-		//TODO Implement
+		JPanel pane = new JPanel();
 		
-		return new JPanel();
+		pane.setLayout(new BorderLayout());	
+				
+		final TableModelBGM model = new TableModelBGM();
+		
+		final JTable table = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(table);
+		table.setFillsViewportHeight(true);
+		
+		JButton selectButton = new JButton("Go to details page for selected bicycle");
+		selectButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String target = (String) table.getValueAt(table.getSelectedRow(), 0);
+				
+				for(IBicycle b : member.getBicycles()) {
+					if(b.getBarcode().equals(target)) {
+						//TODO Uncomment when bicycle screen exists MainGUI.getInstance().setScreen(new BicycleDetailsScreen(b));
+						return;
+					}
+					
+				}
+			}
+		});
+		
+		JButton addButton = new JButton("Add New Bicycle");
+		addButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String desc = JOptionPane.showInputDialog("Enter Bicycle description");
+				member.registerBicycle(desc);
+				
+				model.updateTableData();
+			}
+		});
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new BorderLayout());
+		
+		buttonPane.add(addButton, BorderLayout.WEST);
+		buttonPane.add(selectButton, BorderLayout.CENTER);
+		
+		pane.add(scrollPane, BorderLayout.CENTER);
+		pane.add(buttonPane, BorderLayout.SOUTH);
+		
+		return pane;
+	}
+	
+	private class TableModelBGM extends AbstractTableModel{
+
+		private static final long serialVersionUID = 2083509527767319524L;
+		
+		private String[] columnNames = {
+			"Barcode",
+            "Description",
+            "Checked In",
+		};
+		
+		private Object[][] data;
+		
+		private TableModelBGM(){
+			updateTableData();
+		}
+		
+		public void updateTableData() {
+			data = new Object[member.amountOfBicycles()][columnNames.length];
+			
+			//get all the datazzz
+			List<IBicycle> bicycles = member.getBicycles();
+			int i = 0;
+			for(IBicycle b : bicycles){
+				data[i][0] = b.getBarcode();
+				data[i][1] = b.getDescription();
+				data[i][2] = b.isCheckedIn();
+				i++;
+			}
+			
+			fireTableDataChanged();
+		}
+
+		public int getColumnCount() {
+	        return columnNames.length;
+	    }
+	    public int getRowCount() {
+	        return data.length;
+	    }
+
+	    public String getColumnName(int col) {
+	        return columnNames[col];
+	    }
+
+	    public Object getValueAt(int row, int col) {
+	        return data[row][col];
+	    }
+
+	    public Class getColumnClass(int c) {
+	        return getValueAt(0, c).getClass();
+	    }
 	}
 	
 	private interface EditCallback {
