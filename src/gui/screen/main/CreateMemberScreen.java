@@ -1,7 +1,5 @@
 package gui.screen.main;
 
-import interfaces.IMember;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,10 +18,10 @@ public class CreateMemberScreen extends Screen {
 
 	private static final long serialVersionUID = 8077241173028123090L;
 
-	private JTextField name = new JTextField();
-	private final JTextField ssn = new JTextField();
-	private JTextField phone = new JTextField();
-	private JTextField addr = new JTextField();
+	private JTextField name = new JTextField("");
+	private final JTextField ssn = new JTextField("");
+	private JTextField phone = new JTextField("");
+	private JTextField addr = new JTextField("");
 	
 	@Override
 	public void create() {
@@ -74,13 +72,15 @@ public class CreateMemberScreen extends Screen {
 		
 		nextBtn.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {				
+			public void actionPerformed(ActionEvent arg0) {
 				if(!memberManager.validateSSN(ssn.getText())) {
 					JOptionPane.showMessageDialog(CreateMemberScreen.this, "Invalid Socical Security Number, make sure your SSN follows the format YYYYMMDDXXXX");
 					return;
 				}
-				
-				// FOrce non empty strings
+				if(name.getText().equals("") || addr.getText().equals("") || phone.getText().equals("") || ssn.getText().equals("")){
+					JOptionPane.showMessageDialog(CreateMemberScreen.this, "You must provide information in all fields");
+					return;
+				}				
 				
 				if(!memberManager.createMember(name.getText(), addr.getText(), phone.getText(), ssn.getText())) {
 					JOptionPane.showMessageDialog(CreateMemberScreen.this, "A member with the entered Social Security Number already exists.");

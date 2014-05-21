@@ -77,7 +77,6 @@ public class MemberListScreen extends Screen {
 				data[i][3] = String.valueOf(checkedInBicycles);
 				data[i][4] = String.valueOf(bgm.getPaymentInfo(m));
 				data[i][5] = !m.isDisabled() ? "Enabled" : "Disabled";
-
 				//TODO Should be able to double click row USE CASE 12
 				i++;
 			}

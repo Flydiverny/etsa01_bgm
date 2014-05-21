@@ -53,10 +53,7 @@ public class MemberManager implements Serializable, IMemberManager {
 
 	@Override
 	public boolean createMember(String name, String addr, String phone,
-			String ssn) {
-		
-		//TODO check if null/empty values all must be enterrzed
-		
+			String ssn) {		
 		for(IMember m : members) {
 			if(m.getSSN().equals(ssn))
 				return false;
