@@ -91,8 +91,18 @@ public class MenuBarBGM extends JMenuBar {
 		});
 		exititem.setText("Save And Exit");
 		
+		JMenuItem gohomeitem = new JMenuItem();
+		gohomeitem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				MainGUI.getInstance().setScreen(new MainScreen());
+			}
+		});
+		gohomeitem.setText("Go Home");
+		
 		
 		//add everything
+		filemenu.add(gohomeitem);
 		filemenu.add(listallmembersitem);
 		filemenu.add(findMemberBySSN);
 		filemenu.add(createMember);
