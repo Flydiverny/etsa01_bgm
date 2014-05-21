@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 import interfaces.*;
 import system.BicycleGarageManager;
 import system.MemberManager;
+
 import java.util.List;
+
 import org.junit.Test;
 
 public class CheckInCheckedInBicycleTest {
@@ -12,7 +14,7 @@ public class CheckInCheckedInBicycleTest {
 		
 		
 	@Test
-	public void noreg(){
+	public void checkInCheckedInBicycleTest(){
 			
 		IBicycleGarageManager garage = new BicycleGarageManager();
 		IMemberManager member = garage.getMemberManager(); 
@@ -28,8 +30,11 @@ public class CheckInCheckedInBicycleTest {
 		assertTrue("bicycle checked in", garage.checkInBicycleByBarcode(bikes.get(0).getBarcode()));
 		assertTrue("bicycle checked in", garage.checkInBicycleByBarcode(bikes.get(1).getBarcode()));
 		
-		assertFalse("bicycle already checked in", garage.checkInBicycleByBarcode(bikes.get(1).getBarcode()));
+		garage.checkInBicycleByBarcode(bikes.get(1).getBarcode());
 		assertEquals(2, garage.getAmountOfCheckedInBicycles());
-	};
+	}
 
-}
+	
+	
+	}
+

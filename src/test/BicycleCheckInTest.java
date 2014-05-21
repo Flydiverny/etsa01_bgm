@@ -13,7 +13,7 @@ public class BicycleCheckInTest {
 	
 	
 	@Test
-	public void noreg(){
+	public void bicycleCheckInTest(){
 		
 		IBicycleGarageManager garage = new BicycleGarageManager();
 		IMemberManager member = garage.getMemberManager(); 	
