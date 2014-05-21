@@ -101,7 +101,7 @@ public class MenuBarBGM extends JMenuBar {
 				MainGUI.getInstance().setScreen(new MainScreen());
 			}
 		});
-		gohomeitem.setText("Go Home");
+		gohomeitem.setText("Status");
 		
 		JMenuItem checkinbike = new JMenuItem();
 		checkinbike.addActionListener(new ActionListener() {
