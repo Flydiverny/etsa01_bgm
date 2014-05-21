@@ -7,9 +7,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import gui.MainGUI;
 import gui.base.Screen;
 import interfaces.IMember;
 
@@ -32,6 +34,7 @@ public class MemberScreen extends Screen {
 		this.add(title, BorderLayout.NORTH);
 		this.add(memberDetails(), BorderLayout.WEST);
 		this.add(bicyleList(), BorderLayout.EAST);
+		this.add(southPanel(), BorderLayout.SOUTH);
 	}
 	
 	private JPanel memberDetails() {
@@ -62,6 +65,42 @@ public class MemberScreen extends Screen {
 			}
 		});
 		
+		addMemberStatus(pane);
+		
+		createField(pane, "Amount of Bicycles", String.valueOf(member.amountOfBicycles()));
+		createField(pane, "Monthly Fee", String.valueOf(bgm.getPaymentInfo(member)));
+		
+		addPIN(pane);
+				
+		return pane;
+	}
+	
+	private JPanel southPanel() {
+		JPanel pane = new JPanel();
+		
+		pane.setLayout(new BorderLayout());
+		
+		JButton delete = new JButton("Delete Member");
+		delete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(JOptionPane.showConfirmDialog(null, "Do you really want to delte the selceted member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					if(memberManager.removeMember(member.getSSN())) {
+						JOptionPane.showMessageDialog(null,  "Member was successfully deleted");
+						MainGUI.getInstance().setScreen(new MainScreen());
+					} else {
+						JOptionPane.showMessageDialog(null,  "Failed to delete member, make sure all prerequisites are fulfilled.");
+					}
+				}
+			}
+		});
+		
+		pane.add(delete, BorderLayout.EAST);
+		
+		return pane;
+	}
+	
+	private void addMemberStatus(JPanel pane) {
 		pane.add(new JLabel("Member Status"));
 		final JTextField memberStatus = new JTextField();
 		memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
@@ -71,7 +110,6 @@ public class MemberScreen extends Screen {
 		final JButton memberStatusToggle = new JButton((member.isDisabled() ? "Enable" : "Disable"));
 		
 		memberStatusToggle.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				member.enable(member.isDisabled());
@@ -81,11 +119,27 @@ public class MemberScreen extends Screen {
 		});
 		
 		pane.add(memberStatusToggle);
+	}
+	
+	private void addPIN(JPanel pane) {
+		pane.add(new JLabel("PIN-code"));
+		final JTextField memberPIN = new JTextField();
+		memberPIN.setText(member.getPIN());
+		memberPIN.setEditable(false);
+		pane.add(memberPIN);
 		
-		createField(pane, "Amount of Bicycles", String.valueOf(member.amountOfBicycles()));
-		createField(pane, "Monthly Fee", String.valueOf(bgm.getPaymentInfo(member)));
+		JButton memberPINGenerate = new JButton("Generate New PIN");
 		
-		return pane;
+		memberPINGenerate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(JOptionPane.showConfirmDialog(null, "Do you really want to generate a new PIN-code for this member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					memberPIN.setText(memberManager.createNewPIN(member));
+				}
+			}
+		});
+		
+		pane.add(memberPINGenerate);
 	}
 	
 	private void createField(JPanel p, String desc, String value) {
