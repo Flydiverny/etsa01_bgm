@@ -10,11 +10,9 @@ public abstract class Program extends JFrame {
 	
 	private Screen screen;
 	private static IBicycleGarageManager BGM_MANAGER;
-	private static IMemberManager MEMBER_MANAGER;
 	
-	public Program(IBicycleGarageManager manager, IMemberManager mm) {
+	public Program(IBicycleGarageManager manager) {
 		Program.BGM_MANAGER = manager;
-		Program.MEMBER_MANAGER = mm;
 		
 		this.setSize(854, 480);
 		this.setResizable(false);
@@ -40,6 +38,6 @@ public abstract class Program extends JFrame {
 	}
 	
 	public static IMemberManager getMemberManager() {
-		return MEMBER_MANAGER;
+		return BGM_MANAGER.getMemberManager();
 	}
 }

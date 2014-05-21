@@ -1,7 +1,11 @@
 package gui;
 
+import javax.swing.JFrame;
+
 import gui.base.Program;
+import gui.menubar.MenuBarBGM;
 import gui.screen.main.LoginScreen;
+import gui.screen.main.MainScreen;
 import gui.screen.main.SystemParametersScreen;
 import interfaces.IBicycleGarageManager;
 import interfaces.IMemberManager;
@@ -9,29 +13,23 @@ import interfaces.IMemberManager;
 public class MainGUI extends Program {
 	private static MainGUI instance;
 
-	public MainGUI(IBicycleGarageManager manager, IMemberManager mm) {
-		super(manager, mm);
+	public MainGUI(IBicycleGarageManager manager) {
+		super(manager);
 		
-		this.instance = this;
+		MainGUI.instance = this;
 		
 		this.setTitle("Bicycle Garage Manager");
-		//TODO setScreen(new LoginScreen());
-		//TODO remove below
-		setScreen(new SystemParametersScreen());
-		//TODO Create menu etc.
-			
-		//TODO log in operator
-		//TODO create main window when logged in successfully
-		//TODO win
-		
+		setScreen(new LoginScreen());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 
-	public static Program getInstance() {
+	public static MainGUI getInstance() {
 		return instance;
 	}
 
 	public void enableMenu() {
-		//TODO Enable menu
+		rootPane.setJMenuBar(new MenuBarBGM());
 	}
 }

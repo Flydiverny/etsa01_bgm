@@ -10,6 +10,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import test.drivers.*;
 import gui.InstallationGUI;
@@ -20,7 +23,6 @@ import interfaces.hardware.*;
 
 public class SystemLauncher {
 	private IBicycleGarageManager bicycleGarageManager;
-	private IMemberManager memberManager;
 	
 	private boolean isInstalled = false;
 	
@@ -31,20 +33,24 @@ public class SystemLauncher {
 			bicycleGarageManager = loadSystem();
 			isInstalled = true;
 		} else {
-			memberManager = new MemberManager();
-			bicycleGarageManager = new BicycleGarageManager(memberManager);
+			bicycleGarageManager = new BicycleGarageManager();
 		}
-		
-		bindHardware();
 	
-		//TODO Remove this :)) (YARR LETS INSTALL)
-		isInstalled = false;
-		
 		//Launching of GUI below.
 		if(isInstalled)
-			new MainGUI(bicycleGarageManager, memberManager);
+			launchMainGUI();
 		else
-			new InstallationGUI(bicycleGarageManager, memberManager);
+			new InstallationGUI(bicycleGarageManager, new Runnable() {
+				@Override
+				public void run() {
+					launchMainGUI();
+				}});
+	}
+	
+	private void launchMainGUI() {
+		bindHardware();
+		setupReccuringSave();
+		new MainGUI(bicycleGarageManager);
 	}
 	
 	private boolean systemInstalled() {
@@ -114,12 +120,24 @@ public class SystemLauncher {
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Failed to load system database, please restart the program. If the problem persists, please remove/rename/move the file named:\n" + SAVE_PATH);
+			System.exit(0);
 		}
 		
 		return mgr;
 	}
 	 
     public static void main(String[] args) {
+    	try {
+    	    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+    	        if ("Nimbus".equals(info.getName())) {
+    	            UIManager.setLookAndFeel(info.getClassName());
+    	            break;
+    	        }
+    	    }
+    	} catch (Exception e) {
+    	    // If Nimbus is not available, you can set the GUI to another look and feel.
+    	}
+    	
         new SystemLauncher();
     }
 }
