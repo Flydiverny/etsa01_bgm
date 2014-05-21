@@ -54,7 +54,7 @@ public class MenuBarBGM extends JMenuBar {
 				MainGUI.getInstance().setScreen(new MemberListScreen());
 			}
 		});
-		listallmembersitem.setText("List All Members");
+		listallmembersitem.setText("List Members And Payment Info");
 		
 		JMenuItem createMember = new JMenuItem();
 		createMember.addActionListener(new ActionListener() {

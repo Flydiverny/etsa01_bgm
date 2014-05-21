@@ -1,5 +1,6 @@
 package gui.screen.main;
 
+import interfaces.IBicycle;
 import interfaces.IMember;
 
 import java.awt.BorderLayout;
@@ -54,6 +55,8 @@ public class MemberListScreen extends Screen {
 				"Social Security Number",
 	            "Name",
 	            "Registered Bicycles",
+	            "Checked In Bicycles",
+	            "Fee",
 	            "Enabled"
 			};
 		private Object[][] data = new Object[memberManager.amountOfMembers()][columnNames.length];
@@ -63,15 +66,19 @@ public class MemberListScreen extends Screen {
 			List<IMember> memberlist = memberManager.listMembers();
 			int i = 0;
 			for(IMember m : memberlist){
+				int checkedInBicycles = 0;
+				for(IBicycle b : m.getBicycles()){
+					if(b.isCheckedIn())
+						checkedInBicycles++;
+				}
 				data[i][0] = m.getSSN();
 				data[i][1] = m.getName();
 				data[i][2] = String.valueOf(m.amountOfBicycles());
-				data[i][3] = !m.isDisabled() ? "Enabled" : "Disabled";
-				
-				//TODO Should be able to double click row
-				//TODO USE CASE 12
-				//TODO add col for checked in bikez
-				//TODO Show payment info UC17
+				data[i][3] = String.valueOf(checkedInBicycles);
+				data[i][4] = String.valueOf(bgm.getPaymentInfo(m));
+				data[i][5] = !m.isDisabled() ? "Enabled" : "Disabled";
+
+				//TODO Should be able to double click row USE CASE 12
 				i++;
 			}
 		}
