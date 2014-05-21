@@ -6,6 +6,8 @@ import interfaces.IMember;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -32,6 +34,20 @@ public class MemberListScreen extends Screen {
 		final JTable table = new JTable(new TableModelBGM());
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
+		
+		//double click on table ftw
+		table.addMouseListener(new MouseAdapter() {
+		   public void mouseClicked(MouseEvent e) {
+			   if (e.getClickCount() == 2) {
+				   int index = table.getSelectedRow();
+				   if(index>=0)
+					   MainGUI.getInstance().setScreen(new MemberScreen(memberManager.getMember((String) table.getValueAt(index, 0))));
+				   else
+					   JOptionPane.showMessageDialog(MemberListScreen.this, "No member selected.");
+			   }
+		   }
+		});
+		
 		
 		selectButton.addActionListener(new ActionListener() {
 			@Override
@@ -77,7 +93,6 @@ public class MemberListScreen extends Screen {
 				data[i][3] = String.valueOf(checkedInBicycles);
 				data[i][4] = String.valueOf(bgm.getPaymentInfo(m));
 				data[i][5] = !m.isDisabled() ? "Enabled" : "Disabled";
-				//TODO Should be able to double click row USE CASE 12
 				i++;
 			}
 		}

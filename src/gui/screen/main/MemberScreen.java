@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import gui.MainGUI;
+import gui.base.Program;
 import gui.base.Screen;
 import interfaces.IBicycle;
 import interfaces.IMember;
@@ -221,6 +224,19 @@ public class MemberScreen extends Screen {
 		final JTable table = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
+		
+		//double click on table ftw
+		table.addMouseListener(new MouseAdapter() {
+		   public void mouseClicked(MouseEvent e) {
+			   if (e.getClickCount() == 2) {
+				   int index = table.getSelectedRow();
+				   if(index>=0)
+					   MainGUI.getInstance().setScreen(new BicycleDetailsScreen(Program.getMemberManager().getBicycle(((String) table.getValueAt(index, 0)))));
+				   else
+					   JOptionPane.showMessageDialog(MemberScreen.this, "No bicycle selected.");
+			   }
+		   }
+		});
 		
 		JButton selectButton = new JButton("Open Selected");
 		selectButton.addActionListener(new ActionListener() {

@@ -202,6 +202,10 @@ public class BicycleDetailsScreen extends Screen {
 		final JTable table = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
+		
+		
+		
+		
 		pane.add(scrollPane, BorderLayout.CENTER);
 		
 		return pane;
