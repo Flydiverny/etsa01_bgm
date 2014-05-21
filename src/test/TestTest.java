@@ -171,15 +171,14 @@ public class TestTest {
 	@Test
 	public void newPINForUser() {
 		System.out.println("test 28------------");
-		BicycleGarageManager bicycleMan = new BicycleGarageManager();
-		MemberManager manager = new MemberManager();
+		IBicycleGarageManager bgm = new BicycleGarageManager();
+		IMemberManager manager = bgm.getMemberManager();
 		manager.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232", "199309245151");
 		String barcodeOld = manager.getMember("199309245151").getPIN();
 		System.out.println("old PIN: " + barcodeOld);
 		String barcodeNew = manager.createNewPIN(manager.getMember("199309245151"));
 		System.out.println("new PIN: " + barcodeNew);
-		int test = barcodeOld.compareTo(barcodeNew);
-		assertNotEquals("Borde inte vara samma PIN", new Integer(0), new Integer(test));
+		assertFalse("Borde inte vara samma PIN", barcodeOld.compareTo(barcodeNew) == 0);
 		System.out.println("test 28------------");
 	}
 	
