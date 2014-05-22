@@ -75,10 +75,6 @@ public class TestTest {
 		bicycleMan.setGarageSize(5);
 		assertEquals("fel garagestorlek i b�rjan", new Integer(5), new Integer(bicycleMan.getGarageSize()));
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 8690630489acbd9371742703d8f3b46985c122a3
 	
 	/* Test 11
 	 * Operator wants to change his password.
@@ -210,10 +206,6 @@ public class TestTest {
 		BicycleGarageManager manager = new BicycleGarageManager();
 		assertEquals("Password may not consist of non-aplhanumerical characters.", false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 8690630489acbd9371742703d8f3b46985c122a3
 	
 	/* Test 29
 	 * Operator disables member. 
@@ -256,13 +248,8 @@ public class TestTest {
 	@Test
 	public void passNotAlphanumeric() {
 		BicycleGarageManager manager = new BicycleGarageManager();
-<<<<<<< HEAD
-		assertFalse("Password may not consist of non-aplhanumeric characters.", 
-		manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
-=======
 		assertTrue("Password may not consist of non-aplhanumeric characters.", 
 		manager.setOperatorPassword("", "operatorpassword(567", "operatorpassword(567"));
->>>>>>> 8690630489acbd9371742703d8f3b46985c122a3
 	}
 
 	/* Test 35
