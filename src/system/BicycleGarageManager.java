@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 public class BicycleGarageManager implements Serializable, IBicycleGarageManager {
 	private static final long serialVersionUID = 6325212317583026360L;
 	
@@ -141,6 +140,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			break;
 		case AWAITING_OPERATOR:
 			bufferInput(c, operatorBuffer);
+			//TODO här resetas op-pin alltid efter första siffran (OPPIN returnerar false pga ofärdig pin och else:en tar bort allt man skrivit in. GG
 			if(checkOPPIN()) {
 				entryLock.open(this.getUnlockDuration());
 				led().NF2(entryTerm);
@@ -177,7 +177,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		exitResetTime = System.currentTimeMillis() + 5000;
 	}
 	
-	private boolean checkOPPIN() {
+	private boolean checkOPPIN() { 
 		if(operatorBuffer[0] == '#')
 			clearOperatorBuffer();
 		
@@ -297,7 +297,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		if(exitState == State.AWAITING_OPERATOR) {
 			bufferInput(c, operatorBuffer);
-			
+			//TODO här resetas op-pin alltid efter första siffran (OPPIN returnerar false pga ofärdig pin och else:en tar bort allt man skrivit in. GG
 			if(checkOPPIN()) {
 				openExit();
 			} else {
