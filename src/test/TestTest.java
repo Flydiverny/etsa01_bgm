@@ -156,7 +156,7 @@ public class TestTest {
 		System.out.println(barcode);
 		System.out.println(apa);
 		System.out.println("test 26---------");
-		assertFalse("cykel borde vara incheckad", manager.getMember("199309245151").getBicycles().get(0).isCheckedIn() );
+		assertTrue("cykel borde vara incheckad", manager.getMember("199309245151").getBicycles().get(0).isCheckedIn() );
 		
 	}
 	
@@ -206,7 +206,6 @@ public class TestTest {
 		BicycleGarageManager manager = new BicycleGarageManager();
 		assertEquals("Password may not consist of non-aplhanumerical characters.", false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
 	}
-	
 	/* Test 29
 	 * Operator disables member. 
 	 */
@@ -248,7 +247,7 @@ public class TestTest {
 	@Test
 	public void passNotAlphanumeric() {
 		BicycleGarageManager manager = new BicycleGarageManager();
-		assertTrue("Password may not consist of non-aplhanumeric characters.", 
+		assertFalse("Password may not consist of non-aplhanumeric characters.", 
 		manager.setOperatorPassword("", "operatorpassword(567", "operatorpassword(567"));
 	}
 
