@@ -375,12 +375,6 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		if(!oldPasswd.equals(this.operatorPassword) || !newpasswd.equals(newpasswd2) || newpasswd.length() < 10 || newpasswd.length() > 32 || newpasswd.matches("[A-Za-z0-9]+") == false)
  			return false;
  		
-		for (int i=0; i<newpasswd.length(); i++) {
-	        char c = newpasswd.charAt(i);
-	        if (c < 0x30 || (c >= 0x3a && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a)
-	            return false;
-	    }
-		
 		this.operatorPassword = newpasswd;
 		
 		return true;
