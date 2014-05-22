@@ -249,7 +249,7 @@ public class TestTest {
 	public void passNotAlphanumeric() {
 		BicycleGarageManager manager = new BicycleGarageManager();
 		
-		assertTrue("Password may not consist of non-aplhanumeric characters.", 
+		assertFalse("Password may not consist of non-aplhanumeric characters.", 
 		manager.setOperatorPassword("", "operatorpassword(567", "operatorpassword(567"));
 	}
 
