@@ -37,7 +37,7 @@ public class OperatorParametersScreen extends Screen {
 		
 		this.setLayout(new BorderLayout());
 		JPanel centerpanel = new JPanel();
-		JLabel header = new JLabel("System Parameters");
+		JLabel header = new JLabel("Operator Parameters");
 		header.setFont(header.getFont().deriveFont(20f));
 		
 		centerpanel.setLayout(gl);
