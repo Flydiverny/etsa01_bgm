@@ -1,10 +1,10 @@
 package system;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import interfaces.ITerminalNotifier;
 import interfaces.hardware.PinCodeTerminal;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TerminalNotifier implements ITerminalNotifier {
 	private BicycleGarageManager bgm;
@@ -55,9 +55,36 @@ public class TerminalNotifier implements ITerminalNotifier {
 	}
 
 	@Override
-	public void NF4(PinCodeTerminal terminal) {
-		terminal.lightLED(PinCodeTerminal.GREEN_LED, 3);
-		terminal.lightLED(PinCodeTerminal.RED_LED, 3);
+	public void NF4(final PinCodeTerminal terminal) {
+		final Timer timer = new Timer();
+	    timer.scheduleAtFixedRate(new TimerTask()
+	      {
+	    	private int counter = 1;
+	    	
+	        public void run()
+	        {
+	        	if(counter == 3)
+	        		timer.cancel();
+	        	
+	        	terminal.lightLED(PinCodeTerminal.GREEN_LED, 1);
+	        	counter++;
+	        }
+	      }, 0, 2000);
+	    
+	    final Timer timer2 = new Timer();
+	    timer2.scheduleAtFixedRate(new TimerTask()
+	      {
+	    	private int counter = 1;
+	    	
+	        public void run()
+	        {
+	        	if(counter == 3)
+	        		timer2.cancel();
+	        	
+	        	terminal.lightLED(PinCodeTerminal.RED_LED, 1);
+	        	counter++;
+	        }
+	      }, 1000, 2000);
 	}
 
 	@Override

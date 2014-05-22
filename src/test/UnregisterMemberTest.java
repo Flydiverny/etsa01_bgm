@@ -1,6 +1,7 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -9,7 +10,7 @@ import system.MemberManager;
 public class UnregisterMemberTest {
 
 	@Test
-	public void noreg() {
+	public void unregisterMemberTest() {
 		MemberManager member = new MemberManager();
 		member.createMember("Jacob Nilsson", "Jupitergatan 2", "070315232",
 				"199309245151");

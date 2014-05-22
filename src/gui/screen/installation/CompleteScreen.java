@@ -1,5 +1,8 @@
 package gui.screen.installation;
 
+import gui.InstallationGUI;
+import gui.base.Screen;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,12 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import gui.InstallationGUI;
-import gui.MainGUI;
-import gui.base.Program;
-import gui.base.Screen;
-
 public class CompleteScreen extends Screen {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6050577755734247793L;
 
 	@Override
 	public void create() {

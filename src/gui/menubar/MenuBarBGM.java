@@ -1,8 +1,5 @@
 package gui.menubar;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import gui.MainGUI;
 import gui.base.Program;
 import gui.screen.main.CreateMemberScreen;
@@ -12,15 +9,17 @@ import gui.screen.main.MemberScreen;
 import gui.screen.main.OperatorParametersScreen;
 import gui.screen.main.SystemParametersScreen;
 
-import javax.swing.JMenuBar;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class MenuBarBGM extends JMenuBar {
 	private static final long serialVersionUID = -4255644508622465982L;
 	public MenuBarBGM(){
-		//TODO implement
 		//create menus
 		JMenu systemmenu = new JMenu();
 		systemmenu.setText("System");
@@ -54,7 +53,7 @@ public class MenuBarBGM extends JMenuBar {
 				MainGUI.getInstance().setScreen(new MemberListScreen());
 			}
 		});
-		listallmembersitem.setText("List All Members");
+		listallmembersitem.setText("List Members And Payment Info");
 		
 		JMenuItem createMember = new JMenuItem();
 		createMember.addActionListener(new ActionListener() {
@@ -69,13 +68,13 @@ public class MenuBarBGM extends JMenuBar {
 		findMemberBySSN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String input = JOptionPane.showInputDialog(MenuBarBGM.this, "Insert a Social Security Number to find in the member database", "Find by SSN", JOptionPane.QUESTION_MESSAGE);
+				String input = JOptionPane.showInputDialog(null, "Insert a Social Security Number to find in the member database", "Find by SSN", JOptionPane.QUESTION_MESSAGE);
 				if(input != null){
 					if(!Program.getMemberManager().validateSSN(input)){
-						JOptionPane.showMessageDialog(MenuBarBGM.this, "Invalid SSN, please provide a valid SSN");
+						JOptionPane.showMessageDialog(null, "Invalid SSN, please provide a valid SSN");
 						return;
 					}else if(Program.getMemberManager().getMember(input) == null){
-						JOptionPane.showMessageDialog(MenuBarBGM.this, "Could not find such a member in the database");
+						JOptionPane.showMessageDialog(null, "Could not find such a member in the database");
 						return;
 					}
 					MainGUI.getInstance().setScreen(new MemberScreen(Program.getMemberManager().getMember(input)));
@@ -107,17 +106,17 @@ public class MenuBarBGM extends JMenuBar {
 		checkinbike.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String input = JOptionPane.showInputDialog(MenuBarBGM.this, "Insert a barcode to find a bicycle in the database.", "Find by barcode", JOptionPane.QUESTION_MESSAGE);
+				String input = JOptionPane.showInputDialog(null, "Insert a barcode to find a bicycle in the database.", "Find by barcode", JOptionPane.QUESTION_MESSAGE);
 				if(input != null){
 					if(Program.getBGM().checkInBicycleByBarcode(input)){
-						JOptionPane.showMessageDialog(MenuBarBGM.this, "Bicycle was checked in");
+						JOptionPane.showMessageDialog(null, "Bicycle was checked in");
 						return;
 					}else if(Program.getMemberManager().getBicycle(input) == null){
-						JOptionPane.showMessageDialog(MenuBarBGM.this, "Bicycle could not be found in database. Are you sure you provided a valid barcode?");
+						JOptionPane.showMessageDialog(null, "Bicycle could not be found in database. Are you sure you provided a valid barcode?");
 					}else if(Program.getMemberManager().getBicycle(input).isCheckedIn()){
-						JOptionPane.showMessageDialog(MenuBarBGM.this, "Bicycle is already checked in");
+						JOptionPane.showMessageDialog(null, "Bicycle is already checked in");
 					}else{
-						JOptionPane.showMessageDialog(MenuBarBGM.this, "Could not check in bicycle. Unknown reason.");
+						JOptionPane.showMessageDialog(null, "Could not check in bicycle. Unknown reason.");
 					}
 				}
 			}

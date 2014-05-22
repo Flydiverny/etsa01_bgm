@@ -1,14 +1,14 @@
 package system;
 
+import interfaces.IBicycle;
+import interfaces.IMember;
+import interfaces.IMemberManager;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-import interfaces.IBicycle;
-import interfaces.IMember;
-import interfaces.IMemberManager;
 
 public class MemberManager implements Serializable, IMemberManager {
 	private static final long serialVersionUID = -2454050190313135909L;
@@ -53,8 +53,7 @@ public class MemberManager implements Serializable, IMemberManager {
 
 	@Override
 	public boolean createMember(String name, String addr, String phone,
-			String ssn) {
-		
+			String ssn) {		
 		for(IMember m : members) {
 			if(m.getSSN().equals(ssn))
 				return false;

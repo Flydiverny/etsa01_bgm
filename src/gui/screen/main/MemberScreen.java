@@ -1,9 +1,17 @@
 package gui.screen.main;
 
+import gui.MainGUI;
+import gui.base.Program;
+import gui.base.Screen;
+import interfaces.IBicycle;
+import interfaces.IMember;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -14,15 +22,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellRenderer;
-
-import gui.MainGUI;
-import gui.base.Screen;
-import interfaces.IBicycle;
-import interfaces.IMember;
 
 public class MemberScreen extends Screen {
-	
+
+	private static final long serialVersionUID = -636121863443598547L;
 	private IMember member;
 	
 	public MemberScreen(IMember member) {
@@ -38,7 +41,7 @@ public class MemberScreen extends Screen {
 		title.setFont(title.getFont().deriveFont(20f));
 		
 		this.add(title, BorderLayout.NORTH);
-		this.add(memberDetails(), BorderLayout.WEST);
+		this.add(memberDetails(), BorderLayout.CENTER);
 		this.add(bicyleList(), BorderLayout.EAST);
 		this.add(southPanel(), BorderLayout.SOUTH);
 	}
@@ -52,21 +55,36 @@ public class MemberScreen extends Screen {
 
 		createField(pane, "Name", member.getName(), new EditCallback() {
 			@Override
-			public void Edit(String newValue) {
+			public void Edit(String newValue, JTextField editedField) {
+				if(newValue.equals("")){
+					newValue = member.getName();
+					editedField.setText(newValue);
+					JOptionPane.showMessageDialog(null, "Empty fields are not allowed");
+				}
 				member.setName(newValue);
 			}
 		});
 		
 		createField(pane, "Phone", member.getPhone(), new EditCallback() {
 			@Override
-			public void Edit(String newValue) {
+			public void Edit(String newValue, JTextField editedField) {
+				if(newValue.equals("")){
+					newValue = member.getPhone();
+					editedField.setText(newValue);
+					JOptionPane.showMessageDialog(null, "Empty fields are not allowed");
+				}
 				member.setPhone(newValue);
 			}
 		});
 		
 		createField(pane, "Addr", member.getAddress(), new EditCallback() {
 			@Override
-			public void Edit(String newValue) {
+			public void Edit(String newValue, JTextField editedField) {
+				if(newValue.equals("")){
+					newValue = member.getAddress();
+					editedField.setText(newValue);
+					JOptionPane.showMessageDialog(null, "Empty fields are not allowed");
+				}
 				member.setAddress(newValue);
 			}
 		});
@@ -90,7 +108,7 @@ public class MemberScreen extends Screen {
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(JOptionPane.showConfirmDialog(null, "Do you really want to delte the selceted member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				if(JOptionPane.showConfirmDialog(null, "Do you really want to delete the selected member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					if(memberManager.removeMember(member.getSSN())) {
 						JOptionPane.showMessageDialog(null,  "Member was successfully deleted");
 						MainGUI.getInstance().setScreen(new MainScreen());
@@ -110,6 +128,7 @@ public class MemberScreen extends Screen {
 		pane.add(new JLabel("Member Status"));
 		final JTextField memberStatus = new JTextField();
 		memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+		memberStatus.setToolTipText(((member.isDisabled() ? "Disabled" : "Enabled")));
 		memberStatus.setEditable(false);
 		pane.add(memberStatus);
 		
@@ -120,6 +139,7 @@ public class MemberScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				member.enable(member.isDisabled());
 				memberStatus.setText((member.isDisabled() ? "Disabled" : "Enabled"));
+				memberStatus.setToolTipText(((member.isDisabled() ? "Disabled" : "Enabled")));
 				memberStatusToggle.setText((member.isDisabled() ? "Enable" : "Disable"));
 			}
 		});
@@ -131,6 +151,7 @@ public class MemberScreen extends Screen {
 		pane.add(new JLabel("PIN-code"));
 		final JTextField memberPIN = new JTextField();
 		memberPIN.setText(member.getPIN());
+		memberPIN.setToolTipText(member.getPIN());
 		memberPIN.setEditable(false);
 		pane.add(memberPIN);
 		
@@ -141,6 +162,7 @@ public class MemberScreen extends Screen {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Do you really want to generate a new PIN-code for this member?", "Are you sure?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					memberPIN.setText(memberManager.createNewPIN(member));
+					memberPIN.setToolTipText(member.getPIN());
 				}
 			}
 		});
@@ -157,6 +179,7 @@ public class MemberScreen extends Screen {
 		
 		final JTextField txtField = new JTextField();
 		txtField.setText(value);
+		txtField.setToolTipText(value);
 		txtField.setEditable(false);
 		
 		p.add(txtField);
@@ -172,7 +195,8 @@ public class MemberScreen extends Screen {
 					if(editing) {
 						editBtn.setText("Edit");
 						txtField.setEditable(false);
-						callback.Edit(txtField.getText());
+						callback.Edit(txtField.getText(), txtField);
+						txtField.setToolTipText(txtField.getText());
 						editing = false;
 					} else {
 						editBtn.setText("Save");
@@ -201,15 +225,33 @@ public class MemberScreen extends Screen {
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		
+		//double click on table ftw
+		table.addMouseListener(new MouseAdapter() {
+		   public void mouseClicked(MouseEvent e) {
+			   if (e.getClickCount() == 2) {
+				   int index = table.getSelectedRow();
+				   if(index>=0)
+					   MainGUI.getInstance().setScreen(new BicycleDetailsScreen(Program.getMemberManager().getBicycle(((String) table.getValueAt(index, 0)))));
+				   else
+					   JOptionPane.showMessageDialog(MemberScreen.this, "No bicycle selected.");
+			   }
+		   }
+		});
+		
 		JButton selectButton = new JButton("Open Selected");
 		selectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(table.getSelectedRow()<0){
+					JOptionPane.showMessageDialog(MemberScreen.this, "No bicycle selected");
+					return;
+				}
 				String target = (String) table.getValueAt(table.getSelectedRow(), 0);
-				
 				for(IBicycle b : member.getBicycles()) {
+					
+						
 					if(b.getBarcode().equals(target)) {
-						//TODO Uncomment when bicycle screen exists MainGUI.getInstance().setScreen(new BicycleDetailsScreen(b));
+						MainGUI.getInstance().setScreen(new BicycleDetailsScreen(b));
 						return;
 					}
 					
@@ -237,7 +279,27 @@ public class MemberScreen extends Screen {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int amountOfGarageSize = 0;
+				
+				for(IMember m: memberManager.listMembers()) {
+					amountOfGarageSize += m.amountOfBicycles();
+				}
+				
+				if(bgm.getGarageSize() <= amountOfGarageSize) {
+					JOptionPane.showMessageDialog(null, "Garage is full, you may not registereded bicycle!");
+					return;
+				}
+				
+				if(member.isDisabled()) {
+					JOptionPane.showMessageDialog(null, "Bicycle registration is not allowed when the member is disabled");
+					return;
+				}
+				
 				String desc = JOptionPane.showInputDialog("Enter Bicycle description");
+				
+				if(desc == null || desc.equals(""))
+					return;
+				
 				member.registerBicycle(desc);
 				
 				model.updateTableData();
@@ -282,7 +344,7 @@ public class MemberScreen extends Screen {
 			for(final IBicycle b : bicycles){
 				data[i][0] = b.getBarcode();
 				data[i][1] = b.getDescription();
-				data[i][2] = b.isCheckedIn();
+				data[i][2] = b.isCheckedIn() ? "Checked In" : "Checked Out";
 				
 				i++;
 			}
@@ -305,12 +367,12 @@ public class MemberScreen extends Screen {
 	        return data[row][col];
 	    }
 
-	    public Class getColumnClass(int c) {
+	    public Class<?> getColumnClass(int c) {
 	        return getValueAt(0, c).getClass();
 	    }
 	}
 	
 	private interface EditCallback {
-		public void Edit(String newValue);
+		public void Edit(String newValue, JTextField editedField);
 	}
 }

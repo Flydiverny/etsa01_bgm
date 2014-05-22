@@ -1,19 +1,22 @@
 package test;
 
-import static org.junit.Assert.*;
-import interfaces.*;
-import system.BicycleGarageManager;
-import system.MemberManager;
+import static org.junit.Assert.assertTrue;
+import interfaces.IBicycle;
+import interfaces.IBicycleGarageManager;
+import interfaces.IMember;
+import interfaces.IMemberManager;
 
 import java.util.List;
 
 import org.junit.Test;
 
+import system.BicycleGarageManager;
+
 public class BicycleCheckInTest {
 	
 	
 	@Test
-	public void noreg(){
+	public void bicycleCheckInTest(){
 		
 		IBicycleGarageManager garage = new BicycleGarageManager();
 		IMemberManager member = garage.getMemberManager(); 	

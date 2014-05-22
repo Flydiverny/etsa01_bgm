@@ -1,5 +1,13 @@
 package system;
 
+import gui.InstallationGUI;
+import gui.MainGUI;
+import interfaces.IBicycleGarageManager;
+import interfaces.hardware.BarcodePrinter;
+import interfaces.hardware.BarcodeReader;
+import interfaces.hardware.ElectronicLock;
+import interfaces.hardware.PinCodeTerminal;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,14 +20,12 @@ import java.util.TimerTask;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
-import test.drivers.*;
-import gui.InstallationGUI;
-import gui.MainGUI;
-import interfaces.IBicycleGarageManager;
-import interfaces.IMemberManager;
-import interfaces.hardware.*;
+import test.drivers.BarcodePrinterTestDriver;
+import test.drivers.BarcodeReaderEntryTestDriver;
+import test.drivers.BarcodeReaderExitTestDriver;
+import test.drivers.ElectronicLockTestDriver;
+import test.drivers.PinCodeTerminalTestDriver;
 
 public class SystemLauncher {
 	private IBicycleGarageManager bicycleGarageManager;

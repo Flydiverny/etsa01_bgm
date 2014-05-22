@@ -1,13 +1,16 @@
 package gui.base;
 
-import javax.swing.JFrame;
-
 import interfaces.IBicycleGarageManager;
-import interfaces.IMember;
 import interfaces.IMemberManager;
+
+import javax.swing.JFrame;
 
 public abstract class Program extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 265280116073391618L;
 	private Screen screen;
 	private static IBicycleGarageManager BGM_MANAGER;
 	

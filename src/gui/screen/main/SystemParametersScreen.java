@@ -1,5 +1,8 @@
 package gui.screen.main;
 
+import gui.MainGUI;
+import gui.base.Screen;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,9 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import gui.MainGUI;
-import gui.base.Screen;
 
 public class SystemParametersScreen extends Screen {
 	private static final long serialVersionUID = 8791422727411899812L;

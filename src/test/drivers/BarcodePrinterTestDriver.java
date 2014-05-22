@@ -2,7 +2,9 @@ package test.drivers;
 
 import interfaces.hardware.BarcodePrinter;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  * This class simulates a bar code printer. 

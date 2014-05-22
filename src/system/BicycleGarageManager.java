@@ -32,7 +32,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	private int monthlyFee;
 	private int bicycleFee;
 	
-	private int unlockDuration = 5; // Duration door remains unlocked
+	private int unlockDuration = 10; // Duration door remains unlocked
 	private int garageSize = 0; // Limit max amount of checked in bicycles, value set at installation.
 	
 	private transient IBicycle exitingBicycle = null;
@@ -49,6 +49,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	
 	private char[] entryBuffer = new char[8];
 	private char[] exitBuffer = new char[8];
+	private char[] operatorBuffer = new char[10];
 	
 	private State entryState = State.AWAITING_OP;
 	private State exitState = State.AWAITING_OP;
@@ -89,6 +90,12 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			led().NF3(entryTerm);
 			return;
 		}
+		
+		if(b.getOwner().isDisabled()) {
+			led().NF6(entryTerm);
+			return;
+		}
+		
 		b.setCheckedIn(true);
 		
 		entryLock.open(this.getUnlockDuration());
@@ -105,6 +112,12 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			return;
 		
 		IBicycle b = mm.getBicycle(bicycleId);
+		
+		if(b == null) {
+			led().NF3(exitTerm);
+			return;
+		}
+		
 		if(!b.isCheckedIn()) {
 			led().NF4(exitTerm);
 			return;
@@ -127,6 +140,14 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			checkOpCode();
 			break;
 		case AWAITING_OPERATOR:
+			bufferInput(c, operatorBuffer);
+			if(checkOPPIN()) {
+				entryLock.open(this.getUnlockDuration());
+				led().NF2(entryTerm);
+			} else {
+				clearOperatorBuffer();
+				led().NF3(entryTerm);
+			}
 			break;
 		case AWAITING_PIN:
 			checkPIN();
@@ -135,7 +156,6 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			break;
 		default:
 			break;
-//			throw new InvalidActivityException("Invalid state of entry terminal, please investigate.");
 		}
 	}
 	
@@ -155,6 +175,22 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		}
 		
 		exitResetTime = System.currentTimeMillis() + 5000;
+	}
+	
+	private boolean checkOPPIN() {
+		if(operatorBuffer[0] == '#')
+			clearOperatorBuffer();
+		
+		if(!bufferIsFull(operatorBuffer))
+			return false;
+		
+		StringBuilder pin = new StringBuilder();
+		
+		for(int i = operatorBuffer.length; i > 0; i--) {
+			pin.append(operatorBuffer[i-1]);
+		}
+		
+		return getOperatorPIN().equals(pin.toString());
 	}
 	
 	private void checkPIN() {
@@ -239,6 +275,10 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		exitBuffer = new char[exitBuffer.length];
 	}
 	
+	private void clearOperatorBuffer() {
+		operatorBuffer = new char[operatorBuffer.length];
+	}
+	
 	private void bufferInput(char c, char[] buffer) {
 		for(int i = buffer.length-1; i > 0; i--) {
 			char t = buffer[i];
@@ -253,7 +293,25 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	public void exitCharacter(char c) {
 		checkExitResetTime();
 		
-		// TODO Check for OP Code 9* (operator wants to leave the building)
+		bufferInput(c, exitBuffer);
+		
+		if(exitState == State.AWAITING_OPERATOR) {
+			bufferInput(c, operatorBuffer);
+			
+			if(checkOPPIN()) {
+				openExit();
+			} else {
+				clearOperatorBuffer();
+				led().NF3(exitTerm);
+			}
+		} else {
+			if(exitBuffer[0] == '*') {
+				if(exitBuffer[1] == '9') {
+					exitState = State.AWAITING_OPERATOR;
+					led().NF5(exitTerm);
+				}
+			}
+		}
 		
 		if(exitState != State.AWAITING_PIN) // TODO Perhaps a LED NF3 or something
 			return;
@@ -276,9 +334,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		if(m.getPIN().equals(pin.toString())) {
 			exitingBicycle.setCheckedIn(false);
-			exitLock.open(this.getUnlockDuration());
-			led().NF2(exitTerm);
-			exitState = State.AWAITING_SCAN;
+			openExit();
 			return;
 		}
 		
@@ -286,7 +342,13 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		led().NF4(exitTerm);
 		exitState = State.AWAITING_SCAN;
 	}
-
+	
+	private void openExit() {
+		exitLock.open(this.getUnlockDuration());
+		led().NF2(exitTerm);
+		exitState = State.AWAITING_SCAN;
+	}
+	
 	@Override
 	public void printBarcode(IBicycle bicycle) {
 		printer.printBarcode(bicycle.getBarcode());

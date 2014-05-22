@@ -1,7 +1,9 @@
 package gui.screen.installation;
 
+import gui.InstallationGUI;
+import gui.base.Screen;
+
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,10 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gui.InstallationGUI;
-import gui.base.Screen;
-
 public class WelcomeScreen extends Screen {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5807177214221954390L;
 
 	@Override
 	public void create() {

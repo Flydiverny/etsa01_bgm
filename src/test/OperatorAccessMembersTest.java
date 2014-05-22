@@ -1,22 +1,21 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import interfaces.IBicycleGarageManager;
-import interfaces.IMemberManager;
-import system.BicycleGarageManager;
-import system.MemberManager;
 
 import org.junit.Test;
+
+import system.BicycleGarageManager;
 
 
 public class OperatorAccessMembersTest {
 
 	
 	@Test
-	public void noreg(){
+	public void operatorAccessMembersTest(){
 		
 		IBicycleGarageManager garage = new BicycleGarageManager();
-		IMemberManager mm = garage.getMemberManager();
+		
 		
 		garage.setOperatorPassword("", "operatorpass567", "operatorpass567");
 		assertTrue("operator logged in" ,garage.loginOperator("operatorpass567"));
