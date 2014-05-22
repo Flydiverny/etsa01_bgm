@@ -140,13 +140,15 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			break;
 		case AWAITING_OPERATOR:
 			bufferInput(c, operatorBuffer);
-			//TODO här resetas op-pin alltid efter första siffran (OPPIN returnerar false pga ofärdig pin och else:en tar bort allt man skrivit in. GG
+			
 			if(checkOPPIN()) {
 				entryLock.open(this.getUnlockDuration());
 				led().NF2(entryTerm);
 			} else {
-				clearOperatorBuffer();
-				led().NF3(entryTerm);
+				if(bufferIsFull(operatorBuffer)) {
+					clearOperatorBuffer();
+					led().NF3(entryTerm);
+				}
 			}
 			break;
 		case AWAITING_PIN:
@@ -297,12 +299,13 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		
 		if(exitState == State.AWAITING_OPERATOR) {
 			bufferInput(c, operatorBuffer);
-			//TODO här resetas op-pin alltid efter första siffran (OPPIN returnerar false pga ofärdig pin och else:en tar bort allt man skrivit in. GG
 			if(checkOPPIN()) {
 				openExit();
 			} else {
-				clearOperatorBuffer();
-				led().NF3(exitTerm);
+				if(bufferIsFull(operatorBuffer)) {
+					clearOperatorBuffer();
+					led().NF3(exitTerm);
+				}
 			}
 		} else {
 			if(exitBuffer[0] == '*') {
