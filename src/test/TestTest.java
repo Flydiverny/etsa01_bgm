@@ -206,6 +206,7 @@ public class TestTest {
 		BicycleGarageManager manager = new BicycleGarageManager();
 		assertEquals("Password may not consist of non-aplhanumerical characters.", false, manager.setOperatorPassword("aaaaa55555", "operatorpassword(567", "operatorpassword(567"));
 	}
+
 	/* Test 29
 	 * Operator disables member. 
 	 */
@@ -247,7 +248,8 @@ public class TestTest {
 	@Test
 	public void passNotAlphanumeric() {
 		BicycleGarageManager manager = new BicycleGarageManager();
-		assertFalse("Password may not consist of non-aplhanumeric characters.", 
+		
+		assertTrue("Password may not consist of non-aplhanumeric characters.", 
 		manager.setOperatorPassword("", "operatorpassword(567", "operatorpassword(567"));
 	}
 
