@@ -183,6 +183,8 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		if(operatorBuffer[0] == '#')
 			clearOperatorBuffer();
 		
+		System.out.println(operatorBuffer);
+		
 		if(!bufferIsFull(operatorBuffer))
 			return false;
 		
@@ -191,7 +193,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		for(int i = operatorBuffer.length; i > 0; i--) {
 			pin.append(operatorBuffer[i-1]);
 		}
-		
+				
 		return getOperatorPIN().equals(pin.toString());
 	}
 	
@@ -257,6 +259,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 			led().NF5(entryTerm);
 			break;
 		case '9':
+			clearOperatorBuffer();
 			entryState = State.AWAITING_OPERATOR;
 			led().NF5(entryTerm);
 			break;
@@ -310,6 +313,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 		} else {
 			if(exitBuffer[0] == '*') {
 				if(exitBuffer[1] == '9') {
+					clearOperatorBuffer();
 					exitState = State.AWAITING_OPERATOR;
 					led().NF5(exitTerm);
 				}
@@ -386,7 +390,7 @@ public class BicycleGarageManager implements Serializable, IBicycleGarageManager
 	@Override
 	public void setUnlockDuration(int time) {
 		if(!(time > 32 || time < 5)){
-		this.unlockDuration = time;
+			this.unlockDuration = time;
 		}
 	}
 
