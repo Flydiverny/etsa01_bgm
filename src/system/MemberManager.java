@@ -88,7 +88,10 @@ public class MemberManager implements Serializable, IMemberManager {
 
 	@Override
 	public String createNewPIN(IMember member) {
-		return this.createNewPIN(member.getSSN());
+		String pin = this.createNewPIN(member.getSSN());
+		member.setPIN(pin);
+		
+		return pin;
 	}
 	
 	private String createNewPIN(String ssn) {
@@ -99,7 +102,7 @@ public class MemberManager implements Serializable, IMemberManager {
 		for(int i = 0; i < 4; i++) {
 			sb.append(rng.nextInt(10));
 		}		
-		
+			
 		return sb.toString();
 	}
 
